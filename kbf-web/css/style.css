@@ -1,0 +1,12 @@
+.hidden {
+    display: none !important;
+}
+
+.left-spacing {
+    padding-left: 1em;
+}
+
+p {
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 18px;
+}

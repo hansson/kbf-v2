@@ -19,9 +19,5 @@ dependencies {
 }
 
 war {
-	from fileTree(dir: '../kbf-web', includes: ['js/', 'semantic/','*.html'])
-	// from "../kbf-web/js"
-	// from "../kbf-web/semantic"
-	// from "../kbf-web/index.html"
-	
+	from fileTree(dir: '../kbf-web', includes: ['js/', 'semantic/','*.html', 'css/', 'img/', 'admin/'])
 }
