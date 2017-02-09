@@ -1,0 +1,9 @@
+<?php 
+return array(
+    'mysql_username' => "usr",
+    'mysql_password' => "pwd",
+    'mysql_database' => "db",
+    'mysql_address' => "127.0.0.1",
+    'environment' => "dev"
+);
+?>

@@ -8,5 +8,62 @@
 
 p {
     font-family: 'Arial Narrow', Arial, sans-serif;
+}
+
+#info-text {
+     font-size: 18px;
+}
+
+.item-choice {
+    margin-top: 0.5em;
+}
+
+.logo {
+    width: 64px;
+    margin-right: 10px;
+}
+
+.contained {
+    border: 1px solid #D4D4D5 ;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.contained > * {
+    padding: 15px;
+}
+
+.contained > .heading {
+    border-bottom: 1px solid #D4D4D5;
+}
+
+.big-icon {
+    font-size: 4em !important;
+}
+
+.green {
+    color: green
+}
+
+.red {
+    color: red
+}
+
+.yellow {
+    color: darkorange
+}
+
+.card {
+    margin-bottom: 5px;
+}
+
+.head-img {
+    margin-bottom: 5px !important;
+}
+
+.top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
     font-size: 18px;
 }
