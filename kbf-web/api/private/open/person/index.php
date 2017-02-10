@@ -93,8 +93,7 @@
                     $open_person_result .= "\"items\":[" . getItems($row[0], $mysqli) . "]";
                     $open_person_result .= "},";
                 }
-
-                $open_person_result = substr($open_person_result, 0, strlen($open_person_result) - 1);
+                $open_person_result = endJsonList($open_person_result, 1);
                 echo $open_person_result . "]";
             } else {
                 echo "[]";
@@ -165,7 +164,7 @@
             $person_item_result .= "},";
         }
 
-        $person_item_result = substr($person_item_result, 0, strlen($person_item_result) - 1);
+        $person_item_result = endJsonList($person_item_result, 0);
 
         return $person_item_result;
     }

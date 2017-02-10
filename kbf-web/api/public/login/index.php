@@ -22,7 +22,7 @@
                 $pnr = $row[1];
                 $active = $row[2];
                 $responsible = $row[3];
-                if($active == 0) {
+                if($active == 0 || $active == 2) {
                     error("Not active");
                 } else {
                     $options = array('cost' => 10);

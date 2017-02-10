@@ -78,6 +78,7 @@ function checkResponsible() {
 		error("Not authorized");
 		exit();
 	}
+	return true;
 }
 
 function redirectNotResponsible() {
@@ -95,5 +96,13 @@ function getStringcolumn($row, $index) {
 function invalidateSession($error) {
 	unset($_SESSION['pnr']);
 	error($error);
+}
+
+function endJsonList($json, $initialCharacters) {
+	if(strlen($json) > $initialCharacters) {
+		return substr($json, 0, strlen($json) - 1);
+	} else {
+		return $json;
+	}
 }
 ?>

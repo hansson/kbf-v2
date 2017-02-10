@@ -50,7 +50,7 @@
                 <div>
                     <h5 id="member-id" class="heading">Ditt medlemsnummer: </h5>
                     <div>
-                        <p>För tillfället kan du som medlem inte se se mer information än ditt medlemsnummer</p>
+                        <p><span id="name"></span>, för tillfället kan du som medlem inte se se mer information än ditt medlemsnummer</p>
                     </div>
                 </div>
             </div>
@@ -136,6 +136,12 @@
         var loggedInUser = $.cookie("user");
         
         $("#member-id").html("Ditt medlemsnummer: " + loggedInUser);
+
+        $.get( "../api/private/search/person?pnr=" + loggedInUser, function(response) {
+            $("#name").html(response[0].name);
+        }, "json").fail(function(response) {
+            show($("unexpected_error"));
+        });
     </script>
 </body>
 

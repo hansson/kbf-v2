@@ -369,12 +369,12 @@
             var prePaidNumber = $("#prePaidNumber").val();
             var request;
             if(checkPersonalNumber(prePaidNumber)) {
-                $.get( "../api/private/info/lite?pnr=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
+                $.get( "../api/private/search/person/lite?pnr=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
                     $("#prePaidNumber").val("");
                     alert(response.responseText);
                 });
             } else {
-                $.get( "../api/private/info/lite?card=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
+                $.get( "../api/private/search/card?card=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
                     $("#prePaidNumber").val("");
                     alert(response.responseText);
                 });

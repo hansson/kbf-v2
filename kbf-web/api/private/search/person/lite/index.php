@@ -1,8 +1,8 @@
 <?php
-    include '../../../db.php';
-    include '../../../../helpers.php';
+    include '../../../../db.php';
+    include '../../../../../helpers.php';
 
-    $config = require "../../../../kbf.config.php";
+    $config = require "../../../../../kbf.config.php";
     session_start();
     forceHttps($config);
     checkSessionApi($config);
@@ -10,17 +10,16 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error("Not implemented");
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if(isset($_GET['pnr']) || isset($_GET['card'])) {
-            $mysqli = getDBConnection($config);
-            if(isset($_GET['pnr'])) {
-                $pnr = cleanField($_GET['pnr'], $mysqli);
+        if(isset($_GET['pnr'])) {
+            $pnr = $_GET['pnr'];
+            if($pnr == $_SESSION['pnr'] || checkResponsible()) {
                 try {
                     $pnr = handlePersonalNumber($pnr);
                 } catch ( Exception $e ) {
                     error("Bad personal number");
-                    $mysqli->close();
                     return;
                 }
+                $mysqli = getDBConnection($config);
                 $sql = "SELECT `left`, card FROM `ten_card` WHERE `pnr` = '$pnr' AND `left` > 0";
                 $result = $mysqli->query($sql);
                 $left = "-";
@@ -61,22 +60,8 @@
                 $json_result .= "\"left\":\"$left\"";
                 $json_result .= "}";
                 echo $json_result;
-            } else if(isset($_GET['card'])) {
-                $card = cleanField($_GET['card'], $mysqli);
-                $sql = "SELECT `left` FROM `ten_card` WHERE `card` = '$card'";
-                $result = $mysqli->query($sql);    
-                if($result && $result->num_rows === 1) {
-                    $row = $result->fetch_row();
-                    $json_result = "{";
-                    $json_result .= "\"left\":\"$row[0]\"";
-                    $json_result .= "}";
-                    echo $json_result;
-                } else {
-                    error("Failed to find card");
-                }
-
-            }
-            $mysqli->close();            
+                $mysqli->close();   
+            }         
         } else {
            error("Missing parameter pnr or card");
         }
