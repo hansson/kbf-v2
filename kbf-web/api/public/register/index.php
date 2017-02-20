@@ -5,8 +5,6 @@
     $config = require "../../../kbf.config.php";
     forceHttps($config);
 
-    session_start();
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, TRUE); //convert JSON into array

@@ -3,7 +3,10 @@
     include '../../../../helpers.php';
 
     $config = require "../../../../kbf.config.php";
-    session_start();
+    session_start([
+        'cookie_lifetime' => 86400,
+        'read_and_close'  => true,
+    ]);
     forceHttps($config);
     checkSessionApi($config);
     checkResponsible();
@@ -43,14 +46,7 @@
                     return;
                 }
             } else {
-                $pnr = cleanField($input['pnr'], $mysqli);
-                try {
-                    $pnr = handlePersonalNumber($pnr);
-                } catch ( Exception $e ) {
-                    error("Bad personal number");
-                    $mysqli->close();
-                    return;
-                }
+                $pnr = getPnr($input['pnr'], $mysqli);
             }
             $open_id = cleanField($input['openId'], $mysqli);
             $sql = "";
@@ -115,14 +111,7 @@
             if(isset($input['name'])) {
                 $name = cleanField($input['name'], $mysqli);
             } else {
-                $pnr = cleanField($input['pnr'], $mysqli);
-                try {
-                    $pnr = handlePersonalNumber($pnr);
-                } catch ( Exception $e ) {
-                    error("Bad personal number");
-                    $mysqli->close();
-                    return;
-                }
+                $pnr = getPnr($input['pnr'], $mysqli);
             }
             $person_id = cleanField($input['id'], $mysqli);
             $sql = "";
@@ -150,6 +139,8 @@
             $result  = $mysqli->real_query($sql);
             handleResults($result, $item_result, $mysqli);
         }
+    } else {
+        error("Not implemented");
     }
 
     function getItems($id, $mysqli) {

@@ -3,13 +3,14 @@
     include '../../../../helpers.php';
 
     $config = require "../../../../kbf.config.php";
-    session_start();
+    session_start([
+        'cookie_lifetime' => 86400,
+        'read_and_close'  => true,
+    ]);
     forceHttps($config);
     checkSessionApi($config);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        error("Not implemented");
-    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if(isset($_GET['pnr'])) {
             try {
                 $pnr = handlePersonalNumber($_GET['pnr']);
@@ -19,14 +20,21 @@
             }
             if($pnr == $_SESSION["pnr"] || checkResponsible()) {
                 $mysqli = getDBConnection($config);
-                $sql = "SELECT pnr, name, email FROM person WHERE pnr LIKE '$pnr%'";
+                $wildcard = "%";
+                if($_GET['exact']) {
+                    $wildcard = "";
+                }
+                $sql = "SELECT pnr, name, email FROM person WHERE pnr LIKE '$pnr$wildcard'";
                 $result = $mysqli->query($sql);
                 $json_result = "[";
                 while($row = $result->fetch_row()) {
+                    $pnr = getStringcolumn($row, 0);
+                    $name = getStringcolumn($row, 1);
+                    $email = getStringcolumn($row, 2);
                     $json_result .= "{";
-                    $json_result .= "\"pnr\":\"$row[0]\",";
-                    $json_result .= "\"name\":\"$row[1]\",";
-                    $json_result .= "\"email\":\"$row[2]\"";
+                    $json_result .= "\"pnr\":\"$pnr\",";
+                    $json_result .= "\"name\":\"$name\",";
+                    $json_result .= "\"email\":\"$email\"";
                     $json_result .= "},";
                 }
                 $json_result = endJsonList($json_result, 1);
@@ -36,7 +44,7 @@
         } else {
            error("Missing parameter pnr");
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    } else {
         error("Not implemented");
     }
 ?>

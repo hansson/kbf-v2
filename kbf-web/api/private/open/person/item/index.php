@@ -58,6 +58,8 @@
             $result  = $mysqli->real_query($sql);
             handleResult($result, $mysqli);
         }
+    } else {
+        error("Not implemented");
     }
 ?>
 

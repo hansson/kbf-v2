@@ -11,6 +11,29 @@
     checkSessionApi($config);
     checkResponsible();
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, TRUE); //convert JSON into array
+        if(!isset($input['signed'])) {
+            error("Missing parameter signed");
+        } else if (!isset($input['items'])){
+            error("Missing parameter items");
+        } else {
+            $signed = $input["signed"];
+            if($signed == $_SESSION["pnr"]) {
+                if(isset($input["pnr"])) {
+                    handleForPnr($config, $input);
+                } else {
+                    handleNoPnr($config,  $input);
+                }
+            } else {
+                error("Signed does not match logged in user");
+            }
+        }
+    }  else {
+     error("Not implemented");
+    }
+
     function addFee($item, $pnr, $member, $tmp_pnr, $mysqli) {
         $name = cleanField($item["name"], $mysqli);
         $price = cleanField($item["price"], $mysqli);
@@ -18,36 +41,36 @@
         $sql = "SELECT price, member_price, type, `table` FROM prices WHERE name = '$name' AND is_fee = 1";
         $result = $mysqli->query($sql);
         if($result && $result->num_rows === 1) {
-            $paymentDate = date('Y-m-d H:i:s');
             $row = $result->fetch_row();
             if($price == $row[0] || ($price == $row[1] && $member)) {
                 $type = $row[2];
                 $table = $row[3];
                 if($table == "ten_card") {
                     $card = rand (1000000, 9999999);
-                    $sql = "INSERT INTO `$table`  (pnr, card, signed) VALUES ('$pnr', '$card', '$signed')";
+                    $sql = "INSERT INTO `$table` (pnr, card, signed) VALUES ('$pnr', '$card', '$signed')";
+                } else if($table == "membership") {
+                    if(!$tmp_pnr) {
+                        error("Missing parameter tmp_pnr");
+                        return false;
+                    }
+                    $sql = "INSERT INTO `$table` (pnr, `type`, signed, tmpPnr) VALUES ('$pnr', '$type', '$signed', '$tmp_pnr')";
                 } else {
-                    $sql = "INSERT INTO `$table` (pnr, paymentDate, `type` ,signed) VALUES ('$pnr', '$paymentDate', $type ,'$signed')";
+                    $sql = "INSERT INTO `$table` (pnr, `type`, signed) VALUES ('$pnr', $type ,'$signed')";
                 }
-                //Create into right table
+                //Create into correct table
                 $result = $mysqli->real_query($sql);
                 if($result) {
-                    $sql = "INSERT INTO item  (name, price, paymentDate, signed) VALUES ('$name', '$price', '$paymentDate', '$signed')";
+                    $sql = "INSERT INTO item  (name, price, signed) VALUES ('$name', '$price', '$signed')";
                     //Create item
                     $result = $mysqli->real_query($sql);
                     if($result) {
-                        //If table was membership, make sure tmp_pnr exist
-                        if($table == "membership" && $tmp_pnr) {
-                            $sql = "UPDATE `person` SET `tmp_pnr`='$tmp_pnr' WHERE `pnr`='$pnr'";
-                            $result = $mysqli->real_query($sql);
-                            if($result) {
-                                return true;
-                            }
-                        } else if($table != "membership") {
-                            return true;
-                        }
+                        return true;
                     }
                 }
+            }
+            else {
+                error("Not a member");
+                return false;
             }
         }
         error("Failed create fee $name");
@@ -83,8 +106,7 @@
                     $sql = "INSERT INTO ten_card  (card, signed) VALUES ('$card', '$signed')";
                     $result = $mysqli->real_query($sql);
                     if($result) {
-                        $paymentDate = date('Y-m-d H:i:s');
-                        $sql = "INSERT INTO item  (name, price, paymentDate, signed) VALUES ('$name($card)', '$price', '$paymentDate', '$signed')";
+                        $sql = "INSERT INTO item  (name, price, signed) VALUES ('$name($card)', '$price', '$signed')";
                         $result = $mysqli->real_query($sql);
                         if($result) {
                             echo "{\"reference\":\"$card\"}";
@@ -142,29 +164,6 @@
             $mysqli->rollback();
         }
         $mysqli->close();
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $inputJSON = file_get_contents('php://input');
-        $input = json_decode($inputJSON, TRUE); //convert JSON into array
-        if(!isset($input['signed'])) {
-            error("Missing parameter signed");
-        } else if (!isset($input['items'])){
-            error("Missing parameter items");
-        } else {
-            $signed = $input["signed"];
-            if($signed == $_SESSION["pnr"]) {
-                if(isset($input["pnr"])) {
-                    handleForPnr($config, $input);
-                } else {
-                    handleNoPnr($config,  $input);
-                }
-            } else {
-                error("Signed does not match logged in user");
-            }
-        }
-    }  else {
-     error("Not implemented");
     }
 
    

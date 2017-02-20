@@ -13,6 +13,28 @@ function handlePersonalNumber($pnr) {
 
 }
 
+function getPnr($pnr, $mysqli) {
+	$pnr = cleanField($pnr, $mysqli);
+	try {
+		$pnr = handlePersonalNumber($pnr);
+	} catch ( Exception $e ) {
+		error("Bad personal number");
+		$mysqli->close();
+		exit();
+	}
+	return $pnr;
+}
+
+function checkPnr($pnr) {
+	try {
+		$pnr = handlePersonalNumber($pnr);
+	} catch ( Exception $e ) {
+		error("Bad personal number");
+		exit();
+	}
+	return $pnr;
+}
+
 function cleanField($field, $mysqli) {
 	$field = stripslashes($field);
 	$field = $mysqli->escape_string($field);
@@ -70,7 +92,11 @@ function checkSessionApi($config) {
 }
 
 function isResponsible() {
-	return isset($_SESSION["responsible"]) && $_SESSION["responsible"] == 1;
+	return isset($_SESSION["responsible"]) && $_SESSION["responsible"] >= 1;
+}
+
+function isAdmin() {
+	return isset($_SESSION["responsible"]) && $_SESSION["responsible"] == 2;
 }
 
 function checkResponsible() {
@@ -81,9 +107,24 @@ function checkResponsible() {
 	return true;
 }
 
+function checkAdmin() {
+	if(!isAdmin())  {
+		error("Not authorized");
+		exit();
+	}
+	return true;
+}
+
 function redirectNotResponsible() {
 	if(!isResponsible()) {
 		header("location:my_info.php");
+		exit();
+	}
+}
+
+function redirectNotAdmin() {
+	if(!isAdmin()) {
+		header("location:index.php");
 		exit();
 	}
 }

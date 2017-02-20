@@ -3,14 +3,15 @@
     include '../../../../helpers.php';
 
     $config = require "../../../../kbf.config.php";
-    session_start();
+    session_start([
+        'cookie_lifetime' => 86400,
+        'read_and_close'  => true,
+    ]);
     forceHttps($config);
     checkSessionApi($config);
     checkResponsible();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        error("Not implemented");
-    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if(isset($_GET['card'])) {
             $mysqli = getDBConnection($config);
             $card = cleanField($_GET['card'], $mysqli);
@@ -29,7 +30,7 @@
         } else {
            error("Missing parameter card");
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    } else {
         error("Not implemented");
     }
 ?>

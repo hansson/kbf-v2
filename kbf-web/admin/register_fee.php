@@ -143,6 +143,12 @@
                         <div id="payError" class="alert alert-danger hidden" role="alert">
                             <strong>Något gick fel, kontrollera uppgifterna och försök igen!</strong>
                         </div>
+                        <div id="memberError" class="alert alert-danger hidden" role="alert">
+                            <strong>Ej medlem!</strong>
+                        </div>
+                        <div id="pnrError" class="alert alert-danger hidden" role="alert">
+                            <strong>Personnummer saknas!</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -240,6 +246,8 @@
         handlePaymentItems();
         
         $("#pay").click(function() {
+            hide($("#memberError"));
+            hide($("#pnrError"));
             hide($("#payError"));
             hide($("#paySuccess"));
             var request = {
@@ -284,8 +292,15 @@
                 }
                 $("#total").html("Totalt: 0 kr");
                 $("#item_pnr").val("");
-            }, "json").fail(function() {
-                show($("#payError"));
+                $("#item_tmp_pnr").val("");
+            }, "json").fail(function(response) {
+                if(response.responseText.indexOf("Not a member") != -1) {
+                    show($("#memberError"));
+                } else if(response.responseText.indexOf("Missing parameter tmp_pnr") != -1) {
+                    show($("#pnrError"));
+                } else {
+                    show($("#payError"));
+                }
             });
         });
 

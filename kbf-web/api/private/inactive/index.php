@@ -3,14 +3,15 @@
     include '../../../helpers.php';
 
     $config = require "../../../kbf.config.php";
-    session_start();
+    session_start([
+        'cookie_lifetime' => 86400,
+        'read_and_close'  => true,
+    ]);
     forceHttps($config);
     checkSessionApi($config);
-    checkResponsible();
+    checkAdmin();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        error("Not implemented");
-    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $mysqli = getDBConnection($config);
         $sql = "SELECT pnr, name FROM `person` WHERE `active` = 0";
         $result = $mysqli->query($sql);
@@ -33,19 +34,14 @@
             error("Missing parameter active");
         } else {
             $mysqli = getDBConnection($config);
-            $pnr = cleanField($input['pnr'], $mysqli);
-            try {
-                $pnr = handlePersonalNumber($pnr);
-            } catch ( Exception $e ) {
-                error("Bad personal number");
-                $mysqli->close();
-                return;
-            }
+            $pnr = getPnr($input['pnr'], $mysqli);
             $active = cleanField($input['active'], $mysqli);
             $sql="UPDATE `person` SET `active`=$active WHERE `pnr` = '$pnr'";
             handleResult($mysqli->real_query($sql));
             $mysqli->close();            
         }
+    } else {
+        error("Not implemented");
     }
 ?>
 

@@ -1,7 +1,10 @@
 <?php
     include '../helpers.php';
     $config = require '../kbf.config.php';
-    session_start();
+    session_start([
+        'cookie_lifetime' => 86400,
+        'read_and_close'  => true,
+    ]);
     forceHttps($config);
     checkSession();
     redirectNotResponsible();
@@ -29,25 +32,32 @@
 <body>
 
     <div class="container">
+        <div class="row content hidden-md-up">
+            <div class="col-lg-12">
+                <a href="../index.php"><h3 class="text-muted">Karlskrona Bergsportsförening</h3></a>
+            </div>
+        </div>
         <div class="header clearfix">
+            <a href="../index.php"><h3 class="text-muted hidden-sm-down head-img"><img class="logo" src="../img/logo.png">Karlskrona Bergsportsförening</h3></a>
             <nav>
-                <ul class="nav nav-pills float-right">
+                <ul class="nav nav-pills flex-column flex-sm-row">
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Öppna <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="administer.php">Registrera</a>
+                        <a class="nav-link" href="register_fee.php">Registrera</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Kontrollera</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="administer.php">Admin</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="my_info.php">Min info</a>
                     </li>
                 </ul>
             </nav>
-
-            <a href="../index.php"><h3 class="text-muted"><img class="logo" src="../img/logo.png">Karlskrona Bergsportsförening</h3></a>
         </div>
         <div id="unexpected_error" class="alert alert-danger hidden" role="alert">
             <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
@@ -55,6 +65,9 @@
         <div id="closed" class="row content hidden">
             <div class="col-lg-12 contained">
                 <div>
+                    <div id="successfullyClosed" class="alert alert-success hidden" role="alert">
+                        <strong>Kassabladet är nu stängt!</strong>
+                    </div>
                     <h5 class="heading">Hittade inget öppet kassablad!</h5>
                     <div>
                         <button id="open_btn" type="button" class="btn btn-primary">Öppna</button>
@@ -68,9 +81,9 @@
                 <div class="contained">
                     <h5 class="heading">Lägg till engångsavgifter</h5>
                     <div>
-                        <p>Använd födelsedatum om det är en medlem som betalar, annars skriv namn.</p>
+                        <p>Använd medlemsnummer om det är en medlem som betalar, annars skriv namn.</p>
                         <div class="form-group">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Namn eller födelsedatum">
+                            <input id="item_pnr" class="form-control" type="text" placeholder="Namn eller medlemsnummer">
                         </div>
                         <div class="form-group">
                             <input id="item_1" class="form-control" type="number" placeholder="Antal Skor">
@@ -110,6 +123,9 @@
                             <input id="prePaidNumber" class="form-control" type="text" placeholder="Medlemsnummer / kortnummer">
                         </div>
                         <button id="addPrePaid" type="button" class="btn btn-primary form-control">Lägg till</button>
+                    </div>
+                    <div id="prePaidError" class="alert alert-danger hidden" role="alert">
+                        <strong>Misslyckades att lägga till förbetald!</strong>
                     </div>
                     <div id="personInfo" class="card-deck">
                         <div id="member" class="card text-center hidden">
@@ -165,9 +181,8 @@
                         <thead>
                             <tr>
                                 <th>Namn</th>
-                                <th>Skor</th>
-                                <th>Klättringsavgift</th>
-                                <th>Kritboll</th>
+                                <th>Totalt</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="openTable">
@@ -176,7 +191,7 @@
                     <div>
                         <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#signModal">Signera</button>
                         <!-- Modal -->
-                        <div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="signModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="signModal" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -188,6 +203,23 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Nej</button>
                                         <button id="sign" type="button" class="btn btn-primary" data-dismiss="modal">Ja</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span id="deleteId" class="hidden"></span>
+                                        <h5 class="modal-title">Är du säker på att du vill ta bort <span id="deleteName"></span></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nej</button>
+                                        <button id="delete" type="button" class="btn btn-primary" data-dismiss="modal">Ja</button>
                                     </div>
                                 </div>
                             </div>
@@ -212,6 +244,9 @@
     <script src="../js/bootstrap/ie10-viewport-bug-workaround.js"></script>
     <script src="../js/moment.js"></script>
     <script src="../js/helpers.js"></script>
+    <script src="../js/open/attendees.js"></script>
+    <script src="../js/prePaid.js"></script>
+    <script src="../js/paymentItems.js"></script>
     
 
     <script>
@@ -220,20 +255,20 @@
                 "id": 1,
                 "name": "Skor",
                 "price": 20,
-                "type": "amount"
+                "item_type": "amount"
             },
             {
                 "id": 2,
                 "name": "Klättringsavgift",
                 "price": 50,
                 "price_member": 40,
-                "type": "checkbox"
+                "item_type": "checkbox"
             },
             {
                 "id": 3,
                 "name": "Kritboll",
                 "price": 50,
-                "type": "checkbox"
+                "item_type": "checkbox"
             }
         ];
 
@@ -248,38 +283,12 @@
             openDate = date;
             populateOpenTable();
         });
+        var successfullyClosed = getUrlParameter("closed");
+        if(successfullyClosed === "true") {
+            show($("#successfullyClosed"));
+        }
 
-        $("input[id^='item_']").change(function() {
-            //Recalculate price
-            var total = 0;
-            var nameOrPersonalNumber = $("#item_pnr").val();
-            var member = false;
-            if(checkPersonalNumber(nameOrPersonalNumber)) {
-                member = true;
-            }
-            for(var i = 0 ; i < items.length ; i++) {
-                var item = items[i];
-                var html_item = $("#item_" + item.id);
-                if(item.type === "checkbox" && html_item.is(":checked")) {
-                    if(item.price_member && member) {
-                        total += item.price_member;
-                    } else {
-                        total += item.price;
-                    }
-                } else if(item.type === "amount" && html_item.val() > 0) {
-                    if(html_item.val() > 100) {
-                        html_item.val(0);
-                    } else {
-                        if(item.price_member && member) {
-                            total += item.price_member * html_item.val();
-                        } else {
-                            total += item.price * html_item.val();
-                        }
-                    }
-                }
-            }
-            $("#total").html("Totalt: " + total + " kr");
-        });
+        handlePaymentItems();
 
         $("#pay").click(function() {
             hide($("#payError"));
@@ -296,13 +305,13 @@
 
             for(var i = 0 ; i < items.length ; i++) {
                 var item = items[i];
-                if(item.type == "checkbox") {
-                    var requestItem = itemFromCheckbox($("#item_" + item.id), item, request);
+                if(item.item_type == "checkbox") {
+                    var requestItem = itemFromCheckbox($("#item_" + item.id), item, request, getRequestItem);
                     if(requestItem) {
                         request.items.push(requestItem);
                     }
-                } else if(item.type == "amount") {
-                    request.items = request.items.concat(itemsFromAmount($("#item_" + item.id), item, request));
+                } else if(item.item_type == "amount") {
+                    request.items = request.items.concat(itemsFromAmount($("#item_" + item.id), item, request, getRequestItem));
                 }
             }
 
@@ -311,27 +320,19 @@
                 var attendee = {
                     id: response.id,
                     nameOrPnr: nameOrPnr,
-                    shoes: 0,
-                    climbingFee: "",
-                    chalk: ""
+                    total: 0
                 };
                 for(var i = 0 ; i < request.items.length  ; i++ ) {
-                    if(request.items[i].name === "Skor") {
-                        attendee.shoes = attendee.shoes + 1;
-                    } else if(request.items[i].name === "Klättringsavgift") {
-                        attendee.climbingFee = "X"
-                    } else if(request.items[i].name === "Kritboll") {
-                        attendee.chalk = "X"
-                    }
+                    attendee.total += request.items[i].price;
                 }
                 
                 addAttendee(attendee);
                 for(var i = 0 ; i < items.length ; i++) {
                     var item = items[i];
                     var html_item = $("#item_" + item.id);
-                    if(item.type === "checkbox" && html_item.is(":checked")) {
+                    if(item.item_type === "checkbox" && html_item.is(":checked")) {
                         html_item.prop('checked', false);
-                    } else if(item.type === "amount" && html_item.val() > 0) {
+                    } else if(item.item_type === "amount" && html_item.val() > 0) {
                         html_item.val("0");
                     }
                 }
@@ -348,7 +349,7 @@
                 responsible: loggedInUser
             };
             $.post( "../api/private/open/sign/", JSON.stringify(request), function() {
-                window.location = "";
+                window.location = "?closed=true";
             }, "json").fail(function(response){
                 alert(response.responseText);
             });
@@ -366,6 +367,7 @@
         });
 
         $("#addPrePaid").click(function() {
+            hide($("#prePaidError"));
             var prePaidNumber = $("#prePaidNumber").val();
             var request;
             if(checkPersonalNumber(prePaidNumber)) {
@@ -381,16 +383,32 @@
             }
         });
 
+        $("#delete").click(function() {
+            request =  {
+                id: $("#deleteId").html()
+            };
+            $.ajax({
+                url: '../api/private/open/person/',
+                type: 'DELETE',
+                data: JSON.stringify(request),
+                success: function(response) {
+                    populateOpenTable();;
+                },
+                error: function(response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+
         function populateOpenTable() {
             $.get( "../api/private/open/person?openId=" + openId, function(response) {
+                $("#openTable").html("");
                 attendees = response;
                 for(var i = 0 ; i < response.length ; i++) {
                     var attendee = {
                         id: -1,
                         nameOrPnr: "",
-                        shoes: 0,
-                        climbingFee: "",
-                        chalk: ""
+                        total: 0
                     };
                     attendee.id = response[i].id;
                     if(response[i].name && response[i].name != "") {
@@ -401,13 +419,7 @@
 
                     var items = response[i].items;
                     for(var j = 0 ; j < items.length ; j++) {
-                        if(items[j].name === "Skor") {
-                            attendee.shoes++;
-                        } else if(items[j].name === "Klättringsavgift") {
-                            attendee.climbingFee = "X"
-                        } else if(items[j].name === "Kritboll") {
-                            attendee.chalk = "X"
-                        }
+                        attendee.total += items[j].price;
                     }
 
                     addAttendee(attendee);
@@ -415,117 +427,6 @@
             }, "json").fail(function(response) {
                 alert(response);
             });
-        }
-
-        function addAttendee(attendee) {
-            var row = "<tr id=\"attendee_" + attendee.id + "\">";
-            row += "<td>" + attendee.nameOrPnr + "</td>";
-            row += "<td>" + attendee.shoes + "</td>";
-            row += "<td>" + attendee.climbingFee + "</td>";
-            row += "<td>" + attendee.chalk + "</td>";
-            row += "</tr>";
-            $("#openTable").append(row);
-        }
-
-        function handlePrePaid(response) {
-            resetPersonInfo();
-            var triggerNextStep = false;
-            if(response.feeValid && response.feeValid != "-") {
-                show($("#climb"));
-                if(runningOutDate(response.feeValid)) {
-                    show($("#personInfoAttentionClimb"));
-                } else {
-                    show($("#personInfoClimb"));
-                }
-                triggerNextStep = true;
-                $("#personInfoClimbUntil").html(response.feeValid);
-            } else if(response.left && response.left != "-") {
-                show($("#ten"));
-                if(response.left == 0) {
-                    show($("#personInfoNoTen"));
-                    $("#personInfoTenUntil").html(0);
-                } else if(runningOutCard(response.left)) {
-                    show($("#personInfoAttentionTen"));
-                    $("#personInfoTenUntil").html(response.left - 1);
-                    triggerNextStep = true;
-                } else {
-                    show($("#personInfoTen"));
-                    $("#personInfoTenUntil").html(response.left - 1);
-                    triggerNextStep = true;
-                }
-            } else {
-                show($("#climb"));
-                show($("#personInfoNoClimb"));
-                $("#personInfoClimbUntil").html("Ingen giltig betalning");
-            }
-
-            if(response.memberValid) {
-                show($("#member"));
-                if(response.memberValid == "-") {
-                    show($("#personInfoNoMember"));
-                } else if(runningOutDate(response.memberValid)) {
-                    show($("#personInfoAttentionMember"));
-                } else {
-                    show($("#personInfoMember"));
-                }
-                $("#personInfoMemberUntil").html(response.memberValid);
-            }
-
-            if(triggerNextStep) {
-                var prePaidNumber = $("#prePaidNumber").val();
-                var request = {
-                    identification: prePaidNumber,
-                    openId: openId
-                };
-                $.post( "../api/private/open/pre/", JSON.stringify(request), function(response) {
-                    var attendee = {
-                        id: response.id,
-                        nameOrPnr: prePaidNumber,
-                        shoes: 0,
-                        climbingFee: "",
-                        chalk: ""
-                    };                    
-                    addAttendee(attendee);
-                }, "json").fail(function(response){
-                    alert(response.responseText);
-                }); 
-            }
-
-            $("#prePaidNumber").val("");
-        }
-
-        function resetPersonInfo() {
-            //Ten
-            hide($("#ten"));
-            hide($("#personInfoNoTen"));
-            hide($("#personInfoAttentionTen"));
-            hide($("#personInfoTen"));
-            //Climb
-            hide($("#climb"));
-            hide($("#personInfoNoClimb"));
-            hide($("#personInfoAttentionClimb"));
-            hide($("#personInfoClimb"));
-            //Member
-            hide($("#member"));
-            hide($("#personInfoNoMember"));
-            hide($("#personInfoAttentionMember"));
-            hide($("#personInfoMember"));
-        }
-
-        function itemFromCheckbox(checkbox, item, request) {
-            var requestItem = undefined;
-            if(checkbox.is(":checked")) {
-                requestItem = getRequestItem(item,request);
-            }
-            return requestItem;
-        }
-
-        function itemsFromAmount(amount, item, request) {
-            var items = [];
-            for(var i = 0 ; i < amount.val() ; i++) {
-                items.push(getRequestItem(item,request));
-            }
-            return items;
         }
 
         function getRequestItem(item, request) {
@@ -559,6 +460,28 @@
                 }
             });
         }
+
+        function doAfterShowInfo() {
+            var prePaidNumber = $("#prePaidNumber").val();
+            var request = {
+                identification: prePaidNumber,
+                openId: openId
+            };
+            $.post( "../api/private/open/pre/", JSON.stringify(request), function(response) {
+                var attendee = {
+                    id: response.id,
+                    nameOrPnr: prePaidNumber,
+                    total: 0
+                };                    
+                addAttendee(attendee);
+            }, "json").fail(function(response){
+                show($("#prePaidError"));
+            }); 
+        }
+
+        function cardValue(value){
+            return value - 1;
+        };
     </script>
 </body>
 

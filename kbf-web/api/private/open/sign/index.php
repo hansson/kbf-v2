@@ -3,7 +3,10 @@
     include '../../../../helpers.php';
 
     $config = require "../../../../kbf.config.php";
-    session_start();
+    session_start([
+        'cookie_lifetime' => 86400,
+        'read_and_close'  => true,
+    ]);
     forceHttps($config);
     checkSessionApi($config);
     checkResponsible();
@@ -18,14 +21,7 @@
             error("No openId set");
         } else {
             $mysqli = getDBConnection($config);
-            $responsible = cleanField($input['responsible'], $mysqli);
-            try {
-                $responsible = handlePersonalNumber($responsible);
-            } catch ( Exception $e ) {
-                error("Bad personal number");
-                $mysqli->close();
-                return;
-            }
+            $responsible = getPnr($input['responsible'], $mysqli);
             if(isset($_SESSION["pnr"]) && $responsible === $_SESSION["pnr"]) {
                 $open_id = cleanField($input['openId'], $mysqli);
                 $sql = "UPDATE `open` SET `signed`='$responsible' WHERE `id`=$open_id";
@@ -35,9 +31,7 @@
             }
             $mysqli->close();
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        error("Not implemented");
-    } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    } else {
         error("Not implemented");
     }
 
