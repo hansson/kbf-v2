@@ -252,20 +252,20 @@
     <script>
         var items = [
             {
-                "id": 1,
+                "id": 6,
                 "name": "Skor",
                 "price": 20,
                 "item_type": "amount"
             },
             {
-                "id": 2,
+                "id": 7,
                 "name": "Klättringsavgift",
                 "price": 50,
                 "price_member": 40,
                 "item_type": "checkbox"
             },
             {
-                "id": 3,
+                "id": 8,
                 "name": "Kritboll",
                 "price": 50,
                 "item_type": "checkbox"

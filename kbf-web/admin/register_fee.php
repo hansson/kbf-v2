@@ -328,12 +328,12 @@
             var requestItem;
             if(request.pnr) {
                 requestItem = {
-                    name: item.name,
+                    id: item.id,
                     price: item.price_member ? item.price_member : item.price
                 };
             } else {
                 requestItem = {
-                    name: item.name,
+                    id: item.id,
                     price: item.price
                 };
             }

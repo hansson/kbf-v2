@@ -66,15 +66,19 @@
                     if($result) {
                         return true;
                     }
-                }
+                } 
+                error("Failed create fee $name");
+                return false;
             }
             else {
                 error("Not a member");
                 return false;
             }
+        } else {
+            error("Could not find fee $name");
+            return false;
         }
-        error("Failed create fee $name");
-        return false;
+
     }
 
     function checkMember($pnr, $mysqli) {
@@ -94,7 +98,8 @@
         if(sizeof($items) == 1) {
             $mysqli = getDBConnection($config);
             $mysqli->autocommit(FALSE);
-            $name = cleanField($items[0]["name"], $mysqli);
+            $items = getNameForItems($items, $mysqli);
+            $name = $items[0]["name"];
             $price = cleanField($items[0]["price"], $mysqli);
             $signed = $_SESSION["pnr"];
             $sql = "SELECT price, `table` FROM prices WHERE name = '$name'";
@@ -126,7 +131,7 @@
     function handleForPnr($config, $input) {
         $mysqli = getDBConnection($config);
         $mysqli->autocommit(FALSE);
-        $items = $input["items"];
+        $items = getNameForItems($input["items"], $mysqli);
         $pnr = getPnr($input['pnr'], $mysqli);
         $tmp_pnr = NULL;
         if(isset($input["tmp"])) {
@@ -164,6 +169,19 @@
             $mysqli->rollback();
         }
         $mysqli->close();
+    }
+
+    function getNameForItems($items, $mysqli) {
+        for ($i = 0; $i < sizeof($items); $i++) {
+            $item = $items[$i];
+            $id = cleanField($item['id'], $mysqli);
+            $sql = "SELECT name FROM prices WHERE id=$id";
+            $result = $mysqli->query($sql);
+            while($row = $result->fetch_row()) {
+                $items[$i]["name"] = $row[0];
+            }
+        }
+        return $items;
     }
 
    
