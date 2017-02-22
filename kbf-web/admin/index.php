@@ -86,12 +86,12 @@
                             <input id="item_pnr" class="form-control" type="text" placeholder="Namn eller medlemsnummer">
                         </div>
                         <div class="form-group">
-                            <input id="item_1" class="form-control" type="number" placeholder="Antal Skor">
+                            <input id="item_6" class="form-control" type="number" placeholder="Antal Skor">
                         </div>
                         <div class="form-group">
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox">
-                                    <input id="item_2" type="checkbox" class="custom-control-input">
+                                    <input id="item_7" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Klättringsavgift</span>
                                 </label>
@@ -99,7 +99,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox">
-                                    <input id="item_3" type="checkbox" class="custom-control-input">
+                                    <input id="item_8" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Kritboll</span>
                                 </label>
@@ -260,7 +260,7 @@
             {
                 "id": 7,
                 "name": "Klättringsavgift",
-                "price": 50,
+                "price": 505,
                 "price_member": 40,
                 "item_type": "checkbox"
             },
@@ -433,12 +433,12 @@
             var requestItem;
             if(request.pnr) {
                 requestItem = {
-                    name: item.name,
+                    id: item.id,
                     price: item.price_member ? item.price_member : item.price
                 };
             } else {
                 requestItem = {
-                    name: item.name,
+                    id: item.id,
                     price: item.price
                 };
             }

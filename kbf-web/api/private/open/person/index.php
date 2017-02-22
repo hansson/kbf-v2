@@ -98,33 +98,7 @@
         } else {
            error("Missing parameter open_id");
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-     // update
-        $inputJSON = file_get_contents('php://input');
-        $input = json_decode($inputJSON, TRUE); //convert JSON into array
-        if(!isset($input['id'])) {
-            error("Missing id parameter");
-        } else if(isset($input['name']) || isset($input['pnr'])) {
-            $mysqli = getDBConnection($config);
-            $name = "";
-            $pnr = NULL;
-            if(isset($input['name'])) {
-                $name = cleanField($input['name'], $mysqli);
-            } else {
-                $pnr = getPnr($input['pnr'], $mysqli);
-            }
-            $person_id = cleanField($input['id'], $mysqli);
-            $sql = "";
-            if($pnr) {
-                $sql="UPDATE `open_person` SET `pnr`='$pnr', `name`='$name' WHERE `id` = $person_id";
-            }  else {
-                $sql="UPDATE `open_person` SET `pnr`=NULL, `name`='$name' WHERE `id` = $person_id";
-            }
-            handleResult($mysqli->real_query($sql));
-        } else {
-            error("Missing name or pnr parameter");
-        }
-    }  else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    } else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['id'])) {
@@ -163,14 +137,26 @@
     function insertItems($input, $open_person, $mysqli) {
         if(isset($input['items'])) {
             $items = $input['items'];
+            $items = getNameForItems($items, $mysqli);
             foreach($items as $item) {
                 if(isset($item['name']) && isset($item['price'])) {
-                    $name = cleanField($item['name'], $mysqli);
-                    $price = cleanField($item['price'], $mysqli);
-                    $sql = "INSERT INTO `open_item` (`open_person`, `name`, `price`) VALUES ('$open_person','$name','$price')";
-                    $result = $mysqli->real_query($sql);
-                    if(!$result) {
-                        return $result;
+                    $name = $item['name'];
+                    $sql = "SELECT price FROM prices WHERE name = '$name'";
+                    $result = $mysqli->query($sql);
+                    if($result) {
+                        $row = $result->fetch_row();
+                        $price = cleanField($item['price'], $mysqli);
+                        if($row &&  $price == $row[0]) {
+                            $sql = "INSERT INTO `open_item` (`open_person`, `name`, `price`) VALUES ('$open_person','$name','$price')";
+                            $result = $mysqli->real_query($sql);
+                            if(!$result) {
+                                return $result;
+                            }
+                         } else {
+                             return false;
+                         }
+                    } else {
+                        return false;
                     }
                 } else {
                     return false;

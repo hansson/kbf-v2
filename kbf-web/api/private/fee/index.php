@@ -169,20 +169,5 @@
             $mysqli->rollback();
         }
         $mysqli->close();
-    }
-
-    function getNameForItems($items, $mysqli) {
-        for ($i = 0; $i < sizeof($items); $i++) {
-            $item = $items[$i];
-            $id = cleanField($item['id'], $mysqli);
-            $sql = "SELECT name FROM prices WHERE id=$id";
-            $result = $mysqli->query($sql);
-            while($row = $result->fetch_row()) {
-                $items[$i]["name"] = $row[0];
-            }
-        }
-        return $items;
-    }
-
-   
+    }   
 ?> 
