@@ -159,4 +159,49 @@ function getNameForItems($items, $mysqli) {
 	}
 	return $items;
 }
+
+function getHeader($active) {
+	if(isResponsible()) {
+		echo '<li class="nav-item">';
+		if($active == "index") {
+			echo '<a class="nav-link active" href="#">Öppna</a>';
+		} else {
+			echo '<a class="nav-link" href="index.php">Öppna</a>';
+		}
+		echo '</li>';    
+
+		echo '<li class="nav-item">';
+		if($active == "register_fee") {
+			echo '<a class="nav-link active" href="#">Registrera</a>';
+		} else {
+			echo '<a class="nav-link" href="register_fee.php">Registrera</a>';
+		}
+		echo '</li>';
+
+		echo '<li class="nav-item">';
+		if($active == "check") {
+			echo '<a class="nav-link active" href="#">Kontrollera</a>';
+		} else {
+			echo '<a class="nav-link" href="check.php">Kontrollera</a>';
+		}
+		echo '</li>';
+	}
+	if(isAdmin()) {
+		echo '<li class="nav-item">';
+		if($active == "administer") {
+			echo '<a class="nav-link active" href="#">Admin</a>';
+		} else {
+			echo '<a class="nav-link" href="administer.php">Admin</a>';
+		}
+		echo '</li>';
+	}
+
+	echo '<li class="nav-item">';
+	if($active == "my_info") {
+		echo '<a class="nav-link active" href="my_info.php">Min info</a>';
+	} else {
+		echo '<a class="nav-link" href="my_info.php">Min info</a>';
+	}
+	echo '</li>'; 
+}
 ?>

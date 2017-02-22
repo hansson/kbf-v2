@@ -41,21 +41,9 @@
             <a href="../index.php"><h3 class="text-muted hidden-sm-down head-img"><img class="logo" src="../img/logo.png">Karlskrona Bergsportsförening</h3></a>
             <nav>
                 <ul class="nav nav-pills flex-column flex-sm-row">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Öppna</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register_fee.php">Registrera</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kontrollera</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Admin<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="my_info.php">Min info</a>
-                    </li>
+                    <?php
+                        getHeader("administer");
+                    ?>
                 </ul>
             </nav>
         </div>

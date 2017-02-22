@@ -31,21 +31,20 @@
 <body>
 
     <div class="container">
+        <div class="row content hidden-md-up">
+            <div class="col-lg-12">
+                <a href="../index.php"><h3 class="text-muted">Karlskrona Bergsportsförening</h3></a>
+            </div>
+        </div>
         <div class="header clearfix">
+            <a href="../index.php"><h3 class="text-muted hidden-sm-down head-img"><img class="logo" src="../img/logo.png">Karlskrona Bergsportsförening</h3></a>
             <nav>
-                <ul class="nav nav-pills float-right">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Min info <span class="sr-only">(current)</span></a>
-                    </li>
-                    <!--<li class="nav-item">
-                        <a class="nav-link" href="#">Mina Uppgifter</a>
-                    </li>-->
+                <ul class="nav nav-pills flex-column flex-sm-row">
+                <?php
+                    getHeader("my_info");
+                ?>
                 </ul>
             </nav>
-
-            <a href="../index.php">
-                <h3 class="text-muted"><img class="logo" src="../img/logo.png">Karlskrona Bergsportsförening</h3>
-            </a>
         </div>
         <div id="unexpected_error" class="alert alert-danger hidden" role="alert">
             <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
