@@ -57,9 +57,9 @@
             }
             $result  = $mysqli->real_query($sql);
             if($pnr) {
-                $sql = "SELECT * FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' AND pnr = '$pnr'";
+                $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' AND pnr = '$pnr'";
             } else {
-                $sql = "SELECT * FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' AND pnr IS NULL";
+                $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' AND pnr IS NULL";
             }
             $result_person  = $mysqli->query($sql);
             $open_person = NULL;
@@ -67,7 +67,13 @@
                 $open_person = $row[0];
             }
             $item_result = insertItems($input, $open_person, $mysqli);
-            handleResults($result, $item_result, $mysqli);
+            if($result && $item_result) {
+                echo "{\"id\":\"$open_person\"}";
+                $mysqli->commit();
+            } else {
+                error("Failed to insert row");
+                $mysqli->rollback();
+            }
         } else {
             error("Missing name or pnr parameter");
         }

@@ -25,9 +25,12 @@
                 $open = new CurrentOpen();
                 $result = $open->add($input['identification']);
                 if($result) {
-                    echo "{\"status\":\"ok\"}";
+                    echo "{\"id\":\"$result\"}";
                 }
+            } else {
+                error("Logged in user does not match identification or not responsible");
             }
+
         } else {
             error("Missing identification parameter");
         }

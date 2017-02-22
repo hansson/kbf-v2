@@ -49,7 +49,18 @@
                                 error("Failed to insert row");
                                 return false;
                             }
-                            return true;
+
+                            $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `pnr` = $pnr";
+                            if($result = parent::getMysql()->query($sql)) {
+                                if($result->num_rows > 0) {
+                                    $row = $result->fetch_row();
+                                    parent::commit();
+                                    return $row[0];
+                                }
+                            } 
+                            error("Could not find person");
+                            return false;
+
                         } else {
                             return $this->addCard($climbInfo->card, $climbInfo->left);
                         }
@@ -58,7 +69,7 @@
                         return false;
                     }
                 } else {
-                    $sql = "SELECT `left`, card FROM `ten_card` WHERE `id` = $card AND `left` > 0";
+                    $sql = "SELECT `left`, card FROM `ten_card` WHERE `card` = $card AND `left` > 0";
                     $result = parent::getMysql()->query($sql);
                     $left = NULL;
                     if($result->num_rows === 1) {
@@ -91,8 +102,16 @@
                     $sql = "UPDATE `ten_card` SET `left`='$left' WHERE `card`=$card";
                     $second_result  = parent::getMysql()->real_query($sql);
                     if($result && $second_result) {
-                        parent::commit();
-                        return true;
+                        $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `name` = $card";
+                        if($result = parent::getMysql()->query($sql)) {
+                            if($result->num_rows > 0) {
+                                $row = $result->fetch_row();
+                                parent::commit();
+                                return $row[0];
+                            }
+                        } 
+                        error("Could not find card");
+                        return false;
                     } else {
                         error("Failed to insert row");
                         parent::rollback();
