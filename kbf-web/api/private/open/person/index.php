@@ -51,22 +51,18 @@
             $open_id = cleanField($input['openId'], $mysqli);
             $sql = "";
             if($pnr) {
-                $sql="INSERT INTO `open_person` (`open_id`, `pnr`, `name`) VALUES ($open_id,'$pnr','$name')";
-            } else {
-                $sql="INSERT INTO `open_person` (`open_id`, `pnr`, `name`) VALUES ($open_id,NULL,'$name')";
+                $name = $pnr;
+                $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$pnr')";
             }
+            $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$name')";
             $result  = $mysqli->real_query($sql);
-            if($pnr) {
-                $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' AND pnr = '$pnr'";
-            } else {
-                $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' AND pnr IS NULL";
-            }
+            $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' ORDER BY id DESC LIMIT 1";
             $result_person  = $mysqli->query($sql);
             $open_person = NULL;
             while($row = $result_person->fetch_row()) {
                 $open_person = $row[0];
             }
-            $item_result = insertItems($input, $open_person, $mysqli);
+            $item_result = insertItems($input, $open_person, $pnr, $mysqli);
             if($result && $item_result) {
                 echo "{\"id\":\"$open_person\"}";
                 $mysqli->commit();
@@ -140,19 +136,19 @@
         return $person_item_result;
     }
 
-    function insertItems($input, $open_person, $mysqli) {
+    function insertItems($input, $open_person, $pnr, $mysqli) {
         if(isset($input['items'])) {
             $items = $input['items'];
             $items = getNameForItems($items, $mysqli);
             foreach($items as $item) {
                 if(isset($item['name']) && isset($item['price'])) {
                     $name = $item['name'];
-                    $sql = "SELECT price FROM prices WHERE name = '$name'";
+                    $sql = "SELECT price, member_price FROM prices WHERE name = '$name'";
                     $result = $mysqli->query($sql);
                     if($result) {
                         $row = $result->fetch_row();
                         $price = cleanField($item['price'], $mysqli);
-                        if($row &&  $price == $row[0]) {
+                        if($row &&  ($price == $row[0] || ($price == $row[1] && $pnr)) ) {
                             $sql = "INSERT INTO `open_item` (`open_person`, `name`, `price`) VALUES ('$open_person','$name','$price')";
                             $result = $mysqli->real_query($sql);
                             if(!$result) {

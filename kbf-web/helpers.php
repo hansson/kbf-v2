@@ -177,14 +177,6 @@ function getHeader($active) {
 			echo '<a class="nav-link" href="register_fee.php">Registrera</a>';
 		}
 		echo '</li>';
-
-		echo '<li class="nav-item">';
-		if($active == "check") {
-			echo '<a class="nav-link active" href="#">Kontrollera</a>';
-		} else {
-			echo '<a class="nav-link" href="check.php">Kontrollera</a>';
-		}
-		echo '</li>';
 	}
 	if(isAdmin()) {
 		echo '<li class="nav-item">';
@@ -192,6 +184,14 @@ function getHeader($active) {
 			echo '<a class="nav-link active" href="#">Admin</a>';
 		} else {
 			echo '<a class="nav-link" href="administer.php">Admin</a>';
+		}
+		echo '</li>';
+
+		echo '<li class="nav-item">';
+		if($active == "reports") {
+			echo '<a class="nav-link active" href="#">Rapporter</a>';
+		} else {
+			echo '<a class="nav-link" href="reports.php">Rapporter</a>';
 		}
 		echo '</li>';
 	}

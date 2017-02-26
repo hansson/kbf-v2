@@ -248,7 +248,7 @@
             {
                 "id": 7,
                 "name": "Klättringsavgift",
-                "price": 505,
+                "price": 50,
                 "price_member": 40,
                 "item_type": "checkbox"
             },
