@@ -21,7 +21,7 @@
             if($pnr == $_SESSION["pnr"] || checkResponsible()) {
                 $mysqli = getDBConnection($config);
                 $wildcard = "%";
-                if($_GET['exact']) {
+                if(isset($_GET['exact'])) {
                     $wildcard = "";
                 }
                 $sql = "SELECT pnr, name, email FROM person WHERE pnr LIKE '$pnr$wildcard'";

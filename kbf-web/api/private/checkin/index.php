@@ -19,7 +19,7 @@
             $pnr = checkPnr($input['pnr']);
             if($pnr == $_SESSION["pnr"]) {
                 $open = new CurrentOpen();
-                $result = $open->add($input['identification']);
+                $result = $open->add($input['pnr']);
                 if($result) {
                     echo "{\"status\":\"ok\"}";
                 }
