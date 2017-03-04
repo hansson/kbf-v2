@@ -14,6 +14,7 @@
     require_once dirname(__FILE__) . '/../../../classes/PHPExcel.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/report/ - " . http_build_query($_GET));
         $mysqli = getDBConnection($config);
         $year = cleanField($_GET["year"], $mysqli);
         $month = cleanField($_GET["month"], $mysqli);

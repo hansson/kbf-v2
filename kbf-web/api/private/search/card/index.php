@@ -12,6 +12,7 @@
     checkResponsible();
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/search/card/ - " . http_build_query($_GET));
         if(isset($_GET['card'])) {
             $mysqli = getDBConnection($config);
             $card = cleanField($_GET['card'], $mysqli);

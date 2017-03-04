@@ -13,6 +13,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/inactive/register/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['tmp_pnr'])) {
             error("Missing tmpPnr parameter");
@@ -24,8 +25,8 @@
             $mysqli->close();
         }
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/inactive/register/ - " . http_build_query($_GET));
         $mysqli = getDBConnection($config);
-        
         $sql = "SELECT tmpPnr FROM `membership` WHERE `registered` = 0";
         $result = $mysqli->query($sql);
         if($result && $result->num_rows > 0) {

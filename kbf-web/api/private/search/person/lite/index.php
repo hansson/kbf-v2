@@ -11,6 +11,7 @@
     checkSessionApi($config);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/person/lite/ - " . http_build_query($_GET));
         if(isset($_GET['pnr'])) {
             $pnr = $_GET['pnr'];
             if($pnr == $_SESSION['pnr'] || checkResponsible()) {

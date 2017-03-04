@@ -12,6 +12,7 @@
     checkAdmin();
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/inactive/ - " . http_build_query($_GET));
         $mysqli = getDBConnection($config);
         $sql = "SELECT pnr, name FROM `person` WHERE `active` = 0";
         $result = $mysqli->query($sql);
@@ -27,6 +28,7 @@
         $mysqli->close();            
     } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/inactive/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['pnr'])) {
             error("Missing parameter pnr");

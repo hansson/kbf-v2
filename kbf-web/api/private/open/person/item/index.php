@@ -10,6 +10,7 @@
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/item/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['open_person'])) {
             error("Missing open_person parameter");
@@ -26,10 +27,9 @@
             $sql = "INSERT INTO `open_item` (`open_person`, `name`, `price`) VALUES ('$open_person','$name','$price')";
             handleResult($mysqli->real_query($sql));
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        error("Not implemented, use GET person");
     } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/item/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['id'])) {
             error("Missing id parameter");
@@ -48,6 +48,7 @@
         }
     }  else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/item/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['id'])) {
             error("Missing id parameter");

@@ -11,25 +11,11 @@
     checkSessionApi($config);
     checkResponsible();
 
-    function respond($pnr,$name, $open_id) {
-        $sql = "";
-        if($pnr) {
-            $sql="SELECT id FROM `open_person` WHERE `pnr`='$pnr' AND `open_id`=$open_id AND `name`=NULL";
-        } else {
-            $sql="SELECT id FROM `open_person` WHERE `pnr`=NULL AND `open_id`=$open_id AND `name`='$name'";
-        }
-        $result = $mysqli->query($sql);
-        if($result &&  $result->num_rows === 1) {
-            $row = $result->fetch_row();
-            echo "{\"id\":\"$row[0]\"}";
-        } else {
-            error("Failed to get person");
-        }
-    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //create open person
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['openId'])) {
             error("Missing openId parameter");
@@ -74,20 +60,21 @@
             error("Missing name or pnr parameter");
         }
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - " . http_build_query($_GET));
         if(isset($_GET['openId'])) {
             //get persons for open-id
             $mysqli = getDBConnection($config);
             $open_id = cleanField($_GET['openId'], $mysqli);
             
-            $sql = "SELECT * FROM `open_person` WHERE `open_id` = $open_id";
+            $sql = "SELECT op.id, op.pnr, op.name FROM `open_person` as op WHERE `open_id` = $open_id";
             $result = $mysqli->query($sql);
             if($result && $result->num_rows > 0) {
                 $open_person_result = "[";
                 while($row = $result->fetch_row()) {
                     $open_person_result .= "{";
                     $open_person_result .= "\"id\":$row[0],";
-                    $open_person_result .= "\"pnr\":\"$row[2]\",";
-                    $open_person_result .= "\"name\":\"" . getStringcolumn($row, 3) . "\",";
+                    $open_person_result .= "\"pnr\":\"$row[1]\",";
+                    $open_person_result .= "\"name\":\"" . getStringcolumn($row, 2) . "\",";
                     $open_person_result .= "\"items\":[" . getItems($row[0], $mysqli) . "]";
                     $open_person_result .= "},";
                 }
@@ -102,6 +89,7 @@
         }
     } else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['id'])) {
             error("Missing id parameter");
@@ -166,6 +154,22 @@
             }
         }
         return true;
+    }
+
+    function respond($pnr,$name, $open_id) {
+        $sql = "";
+        if($pnr) {
+            $sql="SELECT id FROM `open_person` WHERE `pnr`='$pnr' AND `open_id`=$open_id AND `name`=NULL";
+        } else {
+            $sql="SELECT id FROM `open_person` WHERE `pnr`=NULL AND `open_id`=$open_id AND `name`='$name'";
+        }
+        $result = $mysqli->query($sql);
+        if($result &&  $result->num_rows === 1) {
+            $row = $result->fetch_row();
+            echo "{\"id\":\"$row[0]\"}";
+        } else {
+            error("Failed to get person");
+        }
     }
 ?>
 

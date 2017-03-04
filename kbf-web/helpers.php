@@ -46,6 +46,7 @@ function handleResult($result) {
 		echo '{"status":"ok"}';
 	} else {
 		error("Failed to insert row");
+		access_log($_SESSION["pnr"] . " - ? - ? - ERROR: Bad db result");
 	}
 }
 
@@ -55,6 +56,7 @@ function handleResults($result, $second_result, $mysqli) {
 		$mysqli->commit();
 	} else {
 		error("Failed to insert row");
+		access_log($_SESSION["pnr"] . " - ? - ? - ERROR: Bad db result");
 		$mysqli->rollback();
 	}
 	$mysqli->close();
@@ -63,6 +65,7 @@ function handleResults($result, $second_result, $mysqli) {
 function error($error) {
 	http_response_code(400);
 	echo "{\"status\":\"error\", \"error\":\"$error\"}";
+	access_log($_SESSION["pnr"] . " - GET - /api/private/open/ - ERROR: $error");
 }
 
 function forceHttps($config) {
@@ -203,5 +206,22 @@ function getHeader($active) {
 		echo '<a class="nav-link" href="my_info.php">Min info</a>';
 	}
 	echo '</li>'; 
+}
+
+function access_log($text) {
+	$filename = __DIR__ . "/logs/access.log";
+	if (!file_exists($filename)) { touch($filename); chmod($filename, 0666); }
+	if (filesize($filename) > 2*1024*1024) {
+		$filename2 = "$filename.old";
+		if (file_exists($filename2)) unlink($filename2);
+		rename($filename, $filename2);
+		touch($filename); chmod($filename,0666);
+	}
+	$date = date("Y-m-d H:i");
+	$text = "$date: $text\n";
+	if (!is_writable($filename)) die("<p>\nCannot open log file ($filename)");
+	if (!$handle = fopen($filename, 'a')) die("<p>\nCannot open file ($filename)");
+	if (fwrite($handle, $text) === FALSE) die("<p>\nCannot write to file ($filename)");
+	fclose($handle);
 }
 ?>

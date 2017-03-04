@@ -12,8 +12,8 @@
     checkResponsible();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //TODO Check logged in PNR=RESPONSIBLE
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(isset($input['responsible'])) {
             //create open
@@ -31,26 +31,23 @@
             error("Missing parameter responsible");
         }
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if(isset($_GET['since'])) {
-            //list since
-        } else {
-            //current open
-            $mysqli = getDBConnection($config);
-		    $open = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
-            $result = $mysqli->query($open);
-            while($row = $result->fetch_row()) {
-                echo "{";
-                echo "\"id\":$row[0],";
-                echo "\"responsible\":\"$row[1]\",";
-                echo "\"date\":\"$row[2]\",";
-                echo "\"responsible_name\":\"" . getStringcolumn($row, 3) . "\"";
-                echo "}";
-            }
-            if($result->num_rows === 0) {
-                error("No open");
-            }
-            $mysqli->close();
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/ - " . http_build_query($_GET));
+        //current open
+        $mysqli = getDBConnection($config);
+        $open = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
+        $result = $mysqli->query($open);
+        while($row = $result->fetch_row()) {
+            echo "{";
+            echo "\"id\":$row[0],";
+            echo "\"responsible\":\"$row[1]\",";
+            echo "\"date\":\"$row[2]\",";
+            echo "\"responsible_name\":\"" . getStringcolumn($row, 3) . "\"";
+            echo "}";
         }
+        if($result->num_rows === 0) {
+            error("No open");
+        }
+        $mysqli->close();
     } else  {
         error("Not implemented");
     }

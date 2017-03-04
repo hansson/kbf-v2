@@ -14,6 +14,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //add pre paid
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/pre/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(isset($input['identification'])) {
             try {

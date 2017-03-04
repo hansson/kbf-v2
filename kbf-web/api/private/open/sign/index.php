@@ -12,8 +12,8 @@
     checkResponsible();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //TODO Check logged in PNR=RESPONSIBLE
         $inputJSON = file_get_contents('php://input');
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/sign/ - $inputJSON");
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
         if(!isset($input['responsible'])) {
             error("No responsible set");

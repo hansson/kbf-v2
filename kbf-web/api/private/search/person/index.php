@@ -11,6 +11,7 @@
     checkSessionApi($config);
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/search/person/ - " . http_build_query($_GET));
         if(isset($_GET['pnr'])) {
             try {
                 $pnr = handlePersonalNumber($_GET['pnr']);
