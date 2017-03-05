@@ -9,8 +9,11 @@ import se.karlskronabergsport.test.AddMemberAttendeeTest;
 import se.karlskronabergsport.test.AddMultipleAttendeesTest;
 import se.karlskronabergsport.test.AddSingleAttendeeTest;
 import se.karlskronabergsport.test.BaseTest;
+import se.karlskronabergsport.test.BuyAllFeesTest;
 import se.karlskronabergsport.test.BuyAndAddTenCardTest;
 import se.karlskronabergsport.test.BuyTenCardAsMemberTest;
+import se.karlskronabergsport.test.SelfCheckInNotMemberTest;
+import se.karlskronabergsport.test.SelfCheckInTest;
 import se.karlskronabergsport.util.TestFailureException;
 
 public class SeleniumLauncher {
@@ -29,6 +32,9 @@ public class SeleniumLauncher {
 		testList.add(new BuyAndAddTenCardTest(driver, LOGIN_URL));
 		testList.add(new BuyTenCardAsMemberTest(driver, LOGIN_URL));
 		testList.add(new AddMemberAttendeeTest(driver, LOGIN_URL));
+		testList.add(new BuyAllFeesTest(driver, LOGIN_URL));
+		testList.add(new SelfCheckInTest(driver, LOGIN_URL));
+		testList.add(new SelfCheckInNotMemberTest(driver, LOGIN_URL));
 		
 		for(BaseTest test : testList) {
 			driver.get(RESET_URL);

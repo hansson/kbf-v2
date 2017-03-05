@@ -66,7 +66,8 @@
                         <p>För att hålla koll på dina betalningar och för att ge dig en bättre upplevelse hos oss behöver vi spara dina användaruppgifter.
                             Dina uppgifter sparas i en lösenordsskyddad databas hos one.com som levererar databastjänsten, all data som inhämtas skickas krypterat
                             över https. Dina information kommer aldrig att lämnas ut till någon annan tredjepart än Svenska Klätterförbundet som behöver information
-                            om dig när vi registrerar dig som medlem.
+                            om dig när vi registrerar dig som medlem. När du betalar medlemsavgift så sparar vi tillfälligt ditt personnummer till du har blivit
+                            registrerad hos Svenska Klätterförbundet.
                         </p>
                     </div>
                 </div>

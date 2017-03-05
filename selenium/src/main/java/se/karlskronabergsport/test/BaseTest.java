@@ -32,11 +32,19 @@ public abstract class BaseTest {
 	}
 
 	public void execute() throws TestFailureException {
+		login();
+	}
+
+	protected void login() throws TestFailureException {
+		login(email, password);
+	}
+	
+	protected void login(String e, String p) throws TestFailureException {
 		driver.get(loginUrl);
 		WebElement email = driver.findElementById("inputEmail");
-		email.sendKeys(this.email);
+		email.sendKeys(e);
 		WebElement password = driver.findElementById("inputPassword");
-		password.sendKeys(this.password);
+		password.sendKeys(p);
 		password.submit();
 		validateThat(waitUntilPageChange("login.php"), "Login failed");
 	}

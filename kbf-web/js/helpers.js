@@ -26,8 +26,8 @@ function getUrlParameter(sParam) {
 };
 
 function checkPersonalNumber(pnr) {
-    var pnrIncludesDash = pnr.includes("-")
-    if ((pnrIncludesDash && pnr.length > 8) || (!pnrIncludesDash && pnr.length > 6)) {
+    var pnrIncludesDash = pnr.indexOf("-")
+    if ((pnrIncludesDash > -1 && pnr.length > 8) || (!pnrIncludesDash > -1 && pnr.length > 6)) {
         pnr = pnr.substring(2, pnr.length);
     }
 

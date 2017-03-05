@@ -66,14 +66,22 @@
             $mysqli = getDBConnection($config);
             $open_id = cleanField($_GET['openId'], $mysqli);
             
-            $sql = "SELECT op.id, op.pnr, op.name FROM `open_person` as op WHERE `open_id` = $open_id";
+            $sql = "SELECT op.id, op.pnr, op.name, p.name
+	                    FROM `open_person` as op 
+	                    LEFT JOIN `person` as p on p.pnr = op.pnr
+	                    WHERE `open_id` = $open_id";
+                        
             $result = $mysqli->query($sql);
             if($result && $result->num_rows > 0) {
                 $open_person_result = "[";
                 while($row = $result->fetch_row()) {
                     $open_person_result .= "{";
                     $open_person_result .= "\"id\":$row[0],";
-                    $open_person_result .= "\"pnr\":\"$row[1]\",";
+                    $pnr_row = "";
+                    if($row[1]) {
+                        $pnr_row = "$row[1]($row[3])";
+                    }
+                    $open_person_result .= "\"pnr\":\"$pnr_row\",";
                     $open_person_result .= "\"name\":\"" . getStringcolumn($row, 2) . "\",";
                     $open_person_result .= "\"items\":[" . getItems($row[0], $mysqli) . "]";
                     $open_person_result .= "},";

@@ -65,7 +65,11 @@ function handleResults($result, $second_result, $mysqli) {
 function error($error) {
 	http_response_code(400);
 	echo "{\"status\":\"error\", \"error\":\"$error\"}";
-	access_log($_SESSION["pnr"] . " - GET - /api/private/open/ - ERROR: $error");
+	if(isset($_SESSION["pnr"])) {
+		access_log($_SESSION["pnr"] . " - GET - /api/private/open/ - ERROR: $error");
+	} else {
+		access_log("No session - Unknown - Unknown - ERROR: $error");
+	}
 }
 
 function forceHttps($config) {

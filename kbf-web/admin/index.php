@@ -115,6 +115,9 @@
                     <div id="prePaidError" class="alert alert-danger hidden" role="alert">
                         <strong>Misslyckades att lägga till förbetald!</strong>
                     </div>
+                    <div id="tenNotFound" class="alert alert-danger hidden" role="alert">
+                        <strong>Hittade inte 10-kort!</strong>
+                    </div>
                     <div id="personInfo" class="card-deck">
                         <div id="member" class="card text-center hidden">
                             <div class="card-header">
@@ -356,17 +359,17 @@
 
         $("#addPrePaid").click(function() {
             hide($("#prePaidError"));
+            hide($("#tenNotFound"));
             var prePaidNumber = $("#prePaidNumber").val();
             var request;
             if(checkPersonalNumber(prePaidNumber)) {
                 $.get( "../api/private/search/person/lite?pnr=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
                     $("#prePaidNumber").val("");
-                    alert(response.responseText);
                 });
             } else {
                 $.get( "../api/private/search/card?card=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
                     $("#prePaidNumber").val("");
-                    alert(response.responseText);
+                    show($("#tenNotFound"));
                 });
             }
         });
