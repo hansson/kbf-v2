@@ -43,12 +43,12 @@ public class BuyAllFeesTest extends AttendeeTest {
 		membershipFee.click();
 		climbYear.click();
 		total.click();
-		validateThat(total.getText().contains("1050"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("1050"), "Wrong price on member + year");
 		pay.click();
 		validateThat(waitUntilVisible("pnrError"), "Payment should have failed");
 		fullPnr.sendKeys("9011041111");
 		total.click();
-		validateThat(total.getText().contains("1050"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("1050"), "Wrong price on member + year");
 		pay.click();
 		validateThat(waitUntilVisible("paySuccess"), "Payment failed");
 		
@@ -57,12 +57,12 @@ public class BuyAllFeesTest extends AttendeeTest {
 		membershipFeeYouth.click();
 		climbYearYouth.click();
 		total.click();
-		validateThat(total.getText().contains("750"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("750"), "Wrong price on youth member + year youth");
 		pay.click();
 		validateThat(waitUntilVisible("pnrError"), "Payment should have failed");
 		fullPnr.sendKeys("9011051111");
 		total.click();
-		validateThat(total.getText().contains("750"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("750"), "Wrong price on youth member + year youth");
 		pay.click();
 		validateThat(waitUntilVisible("paySuccess"), "Payment failed");
 		
@@ -70,13 +70,13 @@ public class BuyAllFeesTest extends AttendeeTest {
 		pnr.sendKeys("901106");
 		climbSemester.click();
 		total.click();
-		validateThat(total.getText().contains("500"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("500"), "Wrong price on semester");
 		pay.click();
 		validateThat(waitUntilVisible("memberError"), "Payment should have failed");
 		membershipFee.click();
 		fullPnr.sendKeys("9011061111");
 		total.click();
-		validateThat(total.getText().contains("750"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("750"), "Wrong price on member + semester");
 		pay.click();
 		validateThat(waitUntilVisible("paySuccess"), "Payment failed");
 		
@@ -84,13 +84,13 @@ public class BuyAllFeesTest extends AttendeeTest {
 		pnr.sendKeys("901107");
 		climbSemesterYouth.click();
 		total.click();
-		validateThat(total.getText().contains("400"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("400"), "Wrong price on semester youth");
 		pay.click();
 		validateThat(waitUntilVisible("memberError"), "Payment should have failed");
 		membershipFeeYouth.click();
 		fullPnr.sendKeys("9011071111");
 		total.click();
-		validateThat(total.getText().contains("550"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("550"), "Wrong price on youth member + semester youth");
 		pay.click();
 		validateThat(waitUntilVisible("paySuccess"), "Payment failed");
 		
@@ -98,21 +98,21 @@ public class BuyAllFeesTest extends AttendeeTest {
 		pnr.sendKeys("901108");
 		climbSemester.click();
 		total.click();
-		validateThat(total.getText().contains("500"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("500"), "Wrong price on semester");
 		pay.click();
 		validateThat(waitUntilVisible("memberError"), "Payment should have failed");
 		membershipFee.click();
 		climbSemester.click();
 		fullPnr.sendKeys("9011081111");
 		total.click();
-		validateThat(total.getText().contains("250"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("250"), "Wrong price on member");
 		pay.click();
 		validateThat(waitUntilVisible("paySuccess"), "Payment failed");
 		pnr.sendKeys("901108");
 		climbSemester.click();
 		total.click();
 		pay.click();
-		validateThat(total.getText().contains("500"), "Wrong price on 10-card");
+		validateThat(total.getText().contains("500"), "Wrong price semester");
 		validateThat(waitUntilVisible("paySuccess"), "Payment failed");
 	}
 

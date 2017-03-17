@@ -67,3 +67,7 @@ p {
     right: 16px;
     font-size: 18px;
 }
+
+#resetBtn {
+    margin-top: 10px;
+}

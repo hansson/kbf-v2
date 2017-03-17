@@ -11,6 +11,7 @@ import se.karlskronabergsport.test.AddSingleAttendeeTest;
 import se.karlskronabergsport.test.BaseTest;
 import se.karlskronabergsport.test.BuyAllFeesTest;
 import se.karlskronabergsport.test.BuyAndAddTenCardTest;
+import se.karlskronabergsport.test.BuyMultipleFeesTest;
 import se.karlskronabergsport.test.BuyTenCardAsMemberTest;
 import se.karlskronabergsport.test.SelfCheckInNotMemberTest;
 import se.karlskronabergsport.test.SelfCheckInTest;
@@ -18,15 +19,15 @@ import se.karlskronabergsport.util.TestFailureException;
 
 public class SeleniumLauncher {
 
-	private static final String RESET_URL = "http://10.0.0.53:12345/kbf/kbf-web/api/private/testing/reset";
-	private static final String LOGIN_URL = "http://10.0.0.53:12345/kbf/kbf-web/admin/login.php";
+	private static final String RESET_URL = "http://192.168.1.127:12345/kbf/kbf-web/api/private/testing/reset";
+	private static final String LOGIN_URL = "http://192.168.1.127:12345/kbf/kbf-web/admin/login.php";
 
 	public static void main(String[] args) {
 		ChromeDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
-		//Reset data
 		List<BaseTest> testList = new LinkedList<BaseTest>();
+		testList.add(new BuyMultipleFeesTest(driver, LOGIN_URL));
 		testList.add(new AddSingleAttendeeTest(driver, LOGIN_URL));
 		testList.add(new AddMultipleAttendeesTest(driver, LOGIN_URL));
 		testList.add(new BuyAndAddTenCardTest(driver, LOGIN_URL));
@@ -37,11 +38,13 @@ public class SeleniumLauncher {
 		testList.add(new SelfCheckInNotMemberTest(driver, LOGIN_URL));
 		
 		for(BaseTest test : testList) {
+			//Reset data
 			driver.get(RESET_URL);
 			try {
 				test.execute();
 				System.out.println(test.getClass().getSimpleName() + " successful");
 			} catch (TestFailureException e) {
+				e.printStackTrace();
 				System.err.println(test.getClass().getSimpleName() + " " + e.getMessage());
 				driver.quit();
 				System.exit(0);

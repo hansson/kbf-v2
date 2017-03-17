@@ -34,7 +34,7 @@ public class SelfCheckInNotMemberTest extends AttendeeTest {
 		validateThat(driver.getCurrentUrl().endsWith("index.php"), "Not on index.php");
 		WebElement openButton = driver.findElementById("open_btn");
 		openButton.click();
-		validateThat(waitUntilVisible("pay"), "Failed to open");
+		validateThat(waitUntilLoaded("pay"), "Failed to open");
 		
 		WebElement admin = driver.findElementByLinkText("Admin");
 		admin.click();
@@ -55,18 +55,18 @@ public class SelfCheckInNotMemberTest extends AttendeeTest {
 		login("901104@test.com", "test");
 		validateThat(driver.getCurrentUrl().endsWith("my_info.php"), "Not on my_info.php");
 		
-		validateThat(waitUntilVisible("name"), "Name not visible");
+		validateThat(waitUntilLoaded("name"), "Name not visible");
 		WebElement name = driver.findElementById("name");
 		name.getText().equals("901104 901104");
-		validateThat(waitUntilVisible("number"), "Number not visible");
+		validateThat(waitUntilLoaded("number"), "Number not visible");
 		WebElement number = driver.findElementById("number");
 		number.getText().equals("901104");
-		validateThat(waitUntilVisible("personInfoMember"), "Person info member not visible");
-		validateThat(waitUntilVisible("personInfoClimb"), "Person info climb not visible");
+		validateThat(waitUntilLoaded("personInfoMember"), "Person info member not visible");
+		validateThat(waitUntilLoaded("personInfoClimb"), "Person info climb not visible");
 		
 		WebElement checkin = driver.findElementById("checkin");
 		checkin.click();
-		validateThat(waitUntilVisible("checkin_error"), "Check in should fail");
+		validateThat(waitUntilLoaded("checkin_error"), "Check in should fail");
 		
 		login();
 		WebElement openTable = driver.findElementById("openTable");

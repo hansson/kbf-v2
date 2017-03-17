@@ -69,7 +69,7 @@ public abstract class BaseTest {
 		register = driver.findElementById("registerBtn");
 		register.click();
 		validateThat(waitUntilPageChange("register.php"), "Failed to register");
-		validateThat(waitUntilVisible("registered"), "Register not successful");
+		validateThat(waitUntilLoaded("registered"), "Register not successful");
 	}
 
 	protected boolean waitUntilPageChange(final String currentPage) {
@@ -87,12 +87,29 @@ public abstract class BaseTest {
 		}
 	}
 	
+	protected boolean waitUntilLoaded(final String id) {
+		try {
+			new WebDriverWait(driver, 3).until(new Function<WebDriver, Boolean>() {
+				public Boolean apply(WebDriver d) {
+					return d.findElements(By.id(id)).size() > 0;
+				}
+			});
+			return true;
+		} catch (TimeoutException e) {
+			return false;
+		}
+	}
+	
 	protected boolean waitUntilVisible(final String id) {
 		try {
 			new WebDriverWait(driver, 3).until(new Function<WebDriver, Boolean>() {
 
 				public Boolean apply(WebDriver d) {
-					return d.findElements(By.id(id)).size() > 0;
+					List<WebElement> foundElements = d.findElements(By.id(id));
+					if (foundElements.size() > 0) {
+						return foundElements.get(0).isDisplayed();
+					}
+					return false;
 				}
 
 			});
@@ -101,6 +118,7 @@ public abstract class BaseTest {
 			return false;
 		}
 	}
+	
 	
 	protected void validateThat(boolean expr, String error) throws TestFailureException {
 		if(!expr) {

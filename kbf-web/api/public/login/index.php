@@ -35,6 +35,8 @@
                         $_SESSION["pnr"] = $pnr;
                         $_SESSION["responsible"] = $responsible;
                         echo "{\"status\":\"ok\",\"pnr\":\"$pnr\"}";
+                        $sql = "UPDATE `person` SET `forgotToken`=NULL  WHERE `email`='$email'";
+                        $result  = $mysqli->real_query($sql);
                     } else {
                         invalidateSession("Wrong Email or Password");
                     }

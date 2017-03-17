@@ -1,6 +1,7 @@
 <?php
-    include '../../db.php';
-    include '../../../helpers.php';
+    include_once '../../db.php';
+    include_once '../../../helpers.php';
+    include_once (__DIR__ . '/../../classes/ClimbInfo.php');
     
     $config = require "../../../kbf.config.php";
     session_start([
@@ -32,7 +33,7 @@
             }
         }
     }  else {
-     error("Not implemented");
+        error("Not implemented");
     }
 
     function addFee($item, $pnr, $member, $tmp_pnr, $mysqli) {
@@ -46,17 +47,27 @@
             if($price == $row[0] || ($price == $row[1] && $member)) {
                 $type = $row[2];
                 $table = $row[3];
+                $sql = "INSERT INTO `$table` (pnr, `type`, signed) VALUES ('$pnr', $type ,'$signed')"; //Default sql
                 if($table == "ten_card") {
                     $card = rand (1000000, 9999999);
                     $sql = "INSERT INTO `$table` (pnr, card, signed) VALUES ('$pnr', '$card', '$signed')";
                 } else if($table == "membership") {
+                    $climbInfo = new ClimbInfo($pnr);
+                    if($climbInfo->getMemberValid() != "-") {
+                        error("Duplicate fee");
+                        return false;
+                    }
                     if(!$tmp_pnr) {
                         error("Missing parameter tmp_pnr");
                         return false;
                     }
                     $sql = "INSERT INTO `$table` (pnr, `type`, signed, tmpPnr) VALUES ('$pnr', '$type', '$signed', '$tmp_pnr')";
-                } else {
-                    $sql = "INSERT INTO `$table` (pnr, `type`, signed) VALUES ('$pnr', $type ,'$signed')";
+                } else if($table == "climbing_fee") {
+                    $climbInfo = new ClimbInfo($pnr);
+                    if($climbInfo->getFeeValid() != "-") {
+                        error("Duplicate fee");
+                        return false;
+                    }
                 }
                 //Create into correct table
                 $result = $mysqli->real_query($sql);

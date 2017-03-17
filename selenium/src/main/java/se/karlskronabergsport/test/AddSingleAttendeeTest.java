@@ -20,7 +20,7 @@ public class AddSingleAttendeeTest extends AttendeeTest {
 		validateThat(driver.getCurrentUrl().endsWith("index.php"), "Not on index.php");
 		WebElement openButton = driver.findElementById("open_btn");
 		openButton.click();
-		validateThat(waitUntilVisible("pay"), "Failed to open");
+		validateThat(waitUntilLoaded("pay"), "Failed to open");
 		
 		addAttendee("Tobias Hansson", "1", true, false, "70");
 

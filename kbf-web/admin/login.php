@@ -46,6 +46,7 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" required>
             <button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">Logga in</button>
             <button id="registerBtn" class="btn btn-lg btn-primary btn-block">Registrera</button>
+            <a id="forgotBtn" href="#">Glömt lösenord</a>
         </form>
 
 
@@ -94,6 +95,15 @@
                 url += "?email=" + email;
             }
             window.location = "register.php" + url;
+        });
+
+        $("#forgotBtn").on("click", function() {
+            var email = $("#inputEmail").val();
+            var url = "";
+            if(email != "") {
+                url += "?email=" + email;
+            }
+            window.location = "forgot.php" + url;
         });
     </script>
   </body>

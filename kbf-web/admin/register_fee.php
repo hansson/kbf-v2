@@ -47,9 +47,6 @@
                 </ul>
             </nav>
         </div>
-        <div id="unexpected_error" class="alert alert-danger hidden" role="alert">
-            <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
-        </div>
 
         <div class="row content">
             <div class="col-lg-6">
@@ -136,6 +133,9 @@
                         </div>
                         <div id="pnrError" class="alert alert-danger hidden" role="alert">
                             <strong>Personnummer saknas!</strong>
+                        </div>
+                        <div id="duplicateFeeError" class="alert alert-danger hidden" role="alert">
+                            <strong>Medlemen har redan betalt denna avgift!</strong>
                         </div>
                     </div>
                 </div>
@@ -237,6 +237,7 @@
             hide($("#memberError"));
             hide($("#pnrError"));
             hide($("#payError"));
+            hide($("#duplicateFeeError"));
             hide($("#paySuccess"));
             var request = {
                 signed: loggedInUser,
@@ -286,6 +287,8 @@
                     show($("#memberError"));
                 } else if(response.responseText.indexOf("Missing parameter tmp_pnr") != -1) {
                     show($("#pnrError"));
+                } else if(response.responseText.indexOf("Duplicate fee") != -1) {
+                    show($("#duplicateFeeError"));
                 } else {
                     show($("#payError"));
                 }

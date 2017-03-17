@@ -41,7 +41,7 @@ public class BuyAndAddTenCardTest extends AttendeeTest {
 		
 		WebElement openButton = driver.findElementById("open_btn");
 		openButton.click();
-		validateThat(waitUntilVisible("pay"), "Failed to open");
+		validateThat(waitUntilLoaded("pay"), "Failed to open");
 		
 		WebElement prePaidNumber = driver.findElementById("prePaidNumber");
 		prePaidNumber.sendKeys(cardNumber);
@@ -53,8 +53,8 @@ public class BuyAndAddTenCardTest extends AttendeeTest {
 		validateThat(cardLeft.getText().equals("9"), "Wrong amount on card");
 		
 		prePaidNumber.sendKeys("1234567");
-		validateThat(waitUntilVisible("tenNotFound"), "No error from add bad card");
 		addPrePaid.click();
+		validateThat(waitUntilVisible("tenNotFound"), "No error from add bad card");
 		
 		WebElement table = driver.findElementById("openTable");
 		List<WebElement> attendees = table.findElements(By.tagName("tr"));
