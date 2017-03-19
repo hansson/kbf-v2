@@ -58,10 +58,10 @@
                             <strong>Köp genomfört för <span id="payReference"></span>!</strong>
                         </div>
                         <div class="form-group">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer">
+                            <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer">
+                            <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <div class="form-check">
@@ -145,7 +145,7 @@
                     <h5 class="heading">Sök användare</h5>
                     <div>
                         <div class="form-group">
-                            <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum">
+                            <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" autocomplete="off">
                         </div>
                         <button id="search" type="button" class="btn btn-primary form-control">Sök</button>
                     </div>

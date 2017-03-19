@@ -71,10 +71,10 @@
                     <div>
                         <p>Använd medlemsnummer om det är en medlem som betalar, annars skriv namn.</p>
                         <div class="form-group">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Namn eller medlemsnummer">
+                            <input id="item_pnr" class="form-control" type="text" placeholder="Namn eller medlemsnummer" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input id="item_6" class="form-control" type="number" placeholder="Antal Skor">
+                            <input id="item_6" class="form-control" type="number" placeholder="Antal Skor" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <div class="form-check">
@@ -108,7 +108,7 @@
                     <h5 class="heading">Lägg till förbetald</h5>
                     <div>
                         <div class="form-group">
-                            <input id="prePaidNumber" class="form-control" type="text" placeholder="Medlemsnummer / kortnummer">
+                            <input id="prePaidNumber" class="form-control" type="text" placeholder="Medlemsnummer / kortnummer" autocomplete="off">
                         </div>
                         <button id="addPrePaid" type="button" class="btn btn-primary form-control">Lägg till</button>
                     </div>

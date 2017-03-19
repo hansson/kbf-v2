@@ -62,7 +62,10 @@
                         </div>
                         <div class="contained">
                             <div>
-                                <button id="generate" type="button" class="btn btn-primary form-control">Generera</button>
+                                <button id="generate" type="button" class="btn btn-primary form-control">Kassablad</button>
+                            </div>
+                            <div>
+                                <button id="generate_fee" type="button" class="btn btn-primary form-control">Avgifter (helår)</button>
                             </div>
                         </div>
                     </div>
@@ -99,6 +102,10 @@
             year = $("#year").val();
             month = $("#month").val();
             window.location = "../api/private/open/report?month=" + month + "&year=" + year;    
+        });
+        $("#generate_fee").on("click", function() {
+            year = $("#year").val();
+            window.location = "../api/private/fee/report?year=" + year;    
         });
     </script>
 </body>
