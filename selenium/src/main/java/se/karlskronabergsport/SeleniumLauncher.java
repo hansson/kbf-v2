@@ -15,6 +15,7 @@ import se.karlskronabergsport.test.BuyMultipleFeesTest;
 import se.karlskronabergsport.test.BuyTenCardAsMemberTest;
 import se.karlskronabergsport.test.SelfCheckInNotMemberTest;
 import se.karlskronabergsport.test.SelfCheckInTest;
+import se.karlskronabergsport.test.WrongResponsibleTest;
 import se.karlskronabergsport.util.TestFailureException;
 
 public class SeleniumLauncher {
@@ -27,15 +28,20 @@ public class SeleniumLauncher {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
 		List<BaseTest> testList = new LinkedList<BaseTest>();
-//		testList.add(new BuyMultipleFeesTest(driver, LOGIN_URL));
-//		testList.add(new AddSingleAttendeeTest(driver, LOGIN_URL));
-//		testList.add(new AddMultipleAttendeesTest(driver, LOGIN_URL));
-//		testList.add(new BuyAndAddTenCardTest(driver, LOGIN_URL));
-//		testList.add(new BuyTenCardAsMemberTest(driver, LOGIN_URL));
-//		testList.add(new AddMemberAttendeeTest(driver, LOGIN_URL));
-		testList.add(new BuyAllFeesTest(driver, LOGIN_URL));
-//		testList.add(new SelfCheckInTest(driver, LOGIN_URL));
-//		testList.add(new SelfCheckInNotMemberTest(driver, LOGIN_URL));
+		if(args.length == 0) {
+			testList.add(new BuyMultipleFeesTest(driver, LOGIN_URL));
+			testList.add(new AddSingleAttendeeTest(driver, LOGIN_URL));
+			testList.add(new AddMultipleAttendeesTest(driver, LOGIN_URL));
+			testList.add(new BuyAndAddTenCardTest(driver, LOGIN_URL));
+			testList.add(new BuyTenCardAsMemberTest(driver, LOGIN_URL));
+			testList.add(new AddMemberAttendeeTest(driver, LOGIN_URL));
+			testList.add(new BuyAllFeesTest(driver, LOGIN_URL));
+			testList.add(new SelfCheckInTest(driver, LOGIN_URL));
+			testList.add(new SelfCheckInNotMemberTest(driver, LOGIN_URL));
+			testList.add(new WrongResponsibleTest(driver, LOGIN_URL));
+		}  else {
+			//Currently under development
+		}
 		
 		for(BaseTest test : testList) {
 			//Reset data

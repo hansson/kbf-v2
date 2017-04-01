@@ -5,10 +5,16 @@
 
     class CurrentOpen extends DatabaseConnector {
         var $open_id;
+        var $responsible;
+        var $date;
+        var $name;
 
         function __construct() {		
             parent::__construct();
             $this->open_id  = NULL;
+            $this->responsible  = NULL;
+            $this->date  = NULL;
+            $this->name  = NULL;
             $this->populateFields();
 		}
 
@@ -16,16 +22,29 @@
             return $this->open_id;
         }
 
+        function getResponsible() {
+            return $this->responsible;
+        }
+
         function populateFields() {
-            $sql = "SELECT id FROM `open` WHERE `signed` IS NULL LIMIT 1";
+            $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
             $result = parent::getMysql()->query($sql);
             while($row = $result->fetch_row()) {
                 $this->open_id  = $row[0];
-            }
-            if($result->num_rows === 0) {
-                $this->open_id  = NULL;
+                $this->responsible  = $row[1];
+                $this->date  = $row[2];
+                $this->name  = getStringcolumn($row, 3);
             }
             $result->close();
+        }
+
+        function print() {
+            echo "{";
+            echo "\"id\":$this->open_id,";
+            echo "\"responsible\":\"$this->responsible\",";
+            echo "\"date\":\"$this->date\",";
+            echo "\"responsible_name\":\"$this->name\"";
+            echo "}";
         }
 
         function add($identification) {

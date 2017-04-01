@@ -64,6 +64,14 @@
             </div>
         </div>
 
+        <div id="wrong_responsible" class="row content hidden">
+            <div class="col-lg-12 contained">
+                <div>
+                    <h5 class="heading">Det finns redan ett öppet kassablad för en annan ansvarig!</h5>
+                </div>
+            </div>
+        </div>
+
         <div id="open" class="row content hidden">
             <div class="col-lg-6">
                 <div class="contained">
@@ -440,11 +448,17 @@
             $.get( "../api/private/open/", function(response) {
                 show($("#open"));
                 hide($("#closed"));
+                hide($("#wrong_responsible"));
                 $("#responsible").html("Öppetansvarig: " + response.responsible_name);
                 callback(response.id, response.responsible, response.date);                
             }, "json").fail(function(response) {
                 if(response.responseText && JSON.parse(response.responseText).error === "No open") {
                     show($("#closed"));
+                    hide($("#open"));
+                    hide($("#wrong_responsible"));
+                } else if(response.responseText && JSON.parse(response.responseText).error === "Wrong responsible") {
+                    show($("#wrong_responsible"));
+                    hide($("#closed"));
                     hide($("#open"));
                 } else {
                     show($("#unexpected_error"));

@@ -24,9 +24,13 @@
             }
             if($identification == $_SESSION['pnr'] || isResponsible()) {
                 $open = new CurrentOpen();
-                $result = $open->add($input['identification']);
-                if($result) {
-                    echo "{\"id\":\"$result\"}";
+                if($open->getResponsible() != $_SESSION["pnr"]) {
+                    error("Wrong responsible");
+                } else {
+                    $result = $open->add($input['identification']);
+                    if($result) {
+                        echo "{\"id\":\"$result\"}";
+                    }
                 }
             } else {
                 error("Logged in user does not match identification or not responsible");

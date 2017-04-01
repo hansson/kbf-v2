@@ -1,6 +1,6 @@
 <?php
-    include '../../db.php';
-    include '../../../helpers.php';
+    include '../../classes/CurrentOpen.php';
+    include_once '../../../helpers.php';
     
     $config = require "../../../kbf.config.php";
     session_start([
@@ -25,29 +25,20 @@
             } else {
                 error("Session does not match responsible");
             }
-            
-            
         } else {
             error("Missing parameter responsible");
         }
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/ - " . http_build_query($_GET));
         //current open
-        $mysqli = getDBConnection($config);
-        $open = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
-        $result = $mysqli->query($open);
-        while($row = $result->fetch_row()) {
-            echo "{";
-            echo "\"id\":$row[0],";
-            echo "\"responsible\":\"$row[1]\",";
-            echo "\"date\":\"$row[2]\",";
-            echo "\"responsible_name\":\"" . getStringcolumn($row, 3) . "\"";
-            echo "}";
-        }
-        if($result->num_rows === 0) {
+        $open = new CurrentOpen();
+        if(!$open->getOpenId())  {
             error("No open");
+        } else if($open->getResponsible() != $_SESSION["pnr"]) {
+            error("Wrong responsible");
+        } else {
+            $open->print();
         }
-        $mysqli->close();
     } else  {
         error("Not implemented");
     }

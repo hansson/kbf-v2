@@ -1,6 +1,7 @@
 <?php
-    include '../../../db.php';
-    include '../../../../helpers.php';
+    include '../../../classes/CurrentOpen.php';
+    include_once '../../../db.php';
+    include_once '../../../../helpers.php';
 
     $config = require "../../../../kbf.config.php";
     session_start([
@@ -16,48 +17,53 @@
         //create open person
         $inputJSON = file_get_contents('php://input');
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - $inputJSON");
-        $input = json_decode($inputJSON, TRUE); //convert JSON into array
-        if(!isset($input['openId'])) {
-            error("Missing openId parameter");
-        } else if(isset($input['name']) || isset($input['pnr'])) {
-            $mysqli = getDBConnection($config);
-            $mysqli->autocommit(FALSE);
-            $name = "";
-            $pnr = NULL;
-            if(isset($input['name'])) {
-                $name = cleanField($input['name'], $mysqli);
-                if($name === "") {
-                    error("Name empty!");
-                    $mysqli->close();
-                    return;
+        $open = new CurrentOpen();
+        if($open->getResponsible() != $_SESSION["pnr"]) {
+            error("Wrong responsible");
+        } else {
+            $input = json_decode($inputJSON, TRUE); //convert JSON into array
+            if(!isset($input['openId'])) {
+                error("Missing openId parameter");
+            } else if(isset($input['name']) || isset($input['pnr'])) {
+                $mysqli = getDBConnection($config);
+                $mysqli->autocommit(FALSE);
+                $name = "";
+                $pnr = NULL;
+                if(isset($input['name'])) {
+                    $name = cleanField($input['name'], $mysqli);
+                    if($name === "") {
+                        error("Name empty!");
+                        $mysqli->close();
+                        return;
+                    }
+                } else {
+                    $pnr = getPnr($input['pnr'], $mysqli);
+                }
+                $open_id = cleanField($input['openId'], $mysqli);
+                $sql = "";
+                if($pnr) {
+                    $name = $pnr;
+                    $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$pnr')";
+                }
+                $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$name')";
+                $result  = $mysqli->real_query($sql);
+                $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' ORDER BY id DESC LIMIT 1";
+                $result_person  = $mysqli->query($sql);
+                $open_person = NULL;
+                while($row = $result_person->fetch_row()) {
+                    $open_person = $row[0];
+                }
+                $item_result = insertItems($input, $open_person, $pnr, $mysqli);
+                if($result && $item_result) {
+                    echo "{\"id\":\"$open_person\"}";
+                    $mysqli->commit();
+                } else {
+                    error("Failed to insert row");
+                    $mysqli->rollback();
                 }
             } else {
-                $pnr = getPnr($input['pnr'], $mysqli);
+                error("Missing name or pnr parameter");
             }
-            $open_id = cleanField($input['openId'], $mysqli);
-            $sql = "";
-            if($pnr) {
-                $name = $pnr;
-                $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$pnr')";
-            }
-            $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$name')";
-            $result  = $mysqli->real_query($sql);
-            $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' ORDER BY id DESC LIMIT 1";
-            $result_person  = $mysqli->query($sql);
-            $open_person = NULL;
-            while($row = $result_person->fetch_row()) {
-                $open_person = $row[0];
-            }
-            $item_result = insertItems($input, $open_person, $pnr, $mysqli);
-            if($result && $item_result) {
-                echo "{\"id\":\"$open_person\"}";
-                $mysqli->commit();
-            } else {
-                error("Failed to insert row");
-                $mysqli->rollback();
-            }
-        } else {
-            error("Missing name or pnr parameter");
         }
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - " . http_build_query($_GET));
@@ -98,18 +104,23 @@
     } else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $inputJSON = file_get_contents('php://input');
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - $inputJSON");
-        $input = json_decode($inputJSON, TRUE); //convert JSON into array
-        if(!isset($input['id'])) {
-            error("Missing id parameter");
-        } else  {
-            $mysqli = getDBConnection($config);
-            $mysqli->autocommit(FALSE);
-            $person_id = cleanField($input['id'], $mysqli);
-            $sql = "DELETE FROM `open_item` WHERE `open_person` = $person_id";
-            $item_result  = $mysqli->real_query($sql);
-            $sql = "DELETE FROM `open_person` WHERE `id` = $person_id";
-            $result  = $mysqli->real_query($sql);
-            handleResults($result, $item_result, $mysqli);
+        $open = new CurrentOpen();
+        if($open->getResponsible() != $_SESSION["pnr"]) {
+            error("Wrong responsible");
+        } else {
+            $input = json_decode($inputJSON, TRUE); //convert JSON into array
+            if(!isset($input['id'])) {
+                error("Missing id parameter");
+            } else  {
+                $mysqli = getDBConnection($config);
+                $mysqli->autocommit(FALSE);
+                $person_id = cleanField($input['id'], $mysqli);
+                $sql = "DELETE FROM `open_item` WHERE `open_person` = $person_id";
+                $item_result  = $mysqli->real_query($sql);
+                $sql = "DELETE FROM `open_person` WHERE `id` = $person_id";
+                $result  = $mysqli->real_query($sql);
+                handleResults($result, $item_result, $mysqli);
+            }
         }
     } else {
         error("Not implemented");
