@@ -54,6 +54,10 @@
                         <a class="nav-link en hidden" href="contact.php">Contact</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link sv" href="faq.php">Vanliga frågor</a>
+                        <a class="nav-link en hidden" href="faq.php">FAQ</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link sv" href="admin/login.php">Logga in</a>
                         <a class="nav-link en hidden" href="admin/login.php">Login</a>
                     </li>
@@ -168,7 +172,7 @@
             <div class="col-lg-6 ">
                 <div class="contained">
                 <div>
-                    <h2 class="sv">Kurser och prova på</h2>
+                    <h2 class="sv">Kurser</h2>
                     <h2 class="en hidden">Courses </h2>
                 </div>
                 <div>
@@ -207,15 +211,15 @@
                     </table>
                 </div>
                 <div>
-                    <h3 class="sv">Prova på</h3>
+                    <h3 class="sv">Kurser</h3>
                     <p class="sv">
-                        Om ni vill prova på att klättra är ni välkomna på våra vanliga öppettider där det är drop-in som gäller. Skulle ni istället vilja ha er klättring instruktörsledd, inomhus eller utomhus, 
+                        Skulle ni vilja ha er klättring instruktörsledd, inomhus eller utomhus, 
                         så kan vi erbjuda klättring inomhus i vår hall, eller ute på någon av Blekinges fina klippor tillsammans
                         med våra instruktörer. Rekommenderad storlek på grupper är 5-10 men vi kan ofta lösa större grupper med. Kontakta kurser@karlskronabergsport.se för frågor och bokning.
                     </p>
                     <h3 class="en hidden">Courses</h3>
                     <p class="en hidden">
-                        If you just want to try out climbing then you are welcome at our ordinary opening hours. If you rather would like an instructor for with you while climbing then we can offer you instructor led climbing in our climbing hall or on one of Blekinges many
+                        If you would like an instructor with you while climbing then we can offer you instructor led climbing in our climbing hall or on one of Blekinges many
                         cliffs. Recommended size of groups are 5-10 persons, but we can often solve bigger groups as well. Please contact kurser@karlskronabergsport.se for questions and booking.
                     </p>
                     <table class="table">

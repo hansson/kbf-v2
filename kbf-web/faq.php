@@ -21,26 +21,6 @@
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8fbKKpONMk_o65XT8pG-kSnEVRFyzVSY"></script>
-
-    <script type="text/javascript">
-        function initialize() {
-            var kbfPos = new google.maps.LatLng(56.181358,15.593282);
-            var mapOptions = {
-                center: kbfPos,
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.SATELLITE
-            };
-            var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
-            var marker = new google.maps.Marker({
-                position: kbfPos,
-                map: map,
-                title: 'Karlskrona Bergsportsf&ouml;rening'
-            });
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
 </head>
 
 <body>
@@ -71,12 +51,12 @@
                         <a class="nav-link en hidden" href="member.php">Member</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active sv" href="#">Kontakt<span class="sr-only">(Aktiv)</span></a>
-                        <a class="nav-link active en hidden" href="#">Contact</a>
+                        <a class="nav-link sv" href="contact.php">Kontakt</span></a>
+                        <a class="nav-link en hidden" href="contact.php">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link sv" href="faq.php">Vanliga frågor</a>
-                        <a class="nav-link en hidden" href="faq.php">FAQ</a>
+                        <a class="nav-link active sv" href="#">Vanliga frågor<span class="sr-only">(Aktiv)</span></a>
+                        <a class="nav-link active en hidden" href="#">FAQ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link sv" href="admin/login.php">Logga in</a>
@@ -86,21 +66,24 @@
             </nav>
         </div>
         <div class="row content">
-            <div class="col-lg-6">
-                <h4 class="sv">Hitta hit</h4>
-                <p class="sv">Ni hittar oss på andra våningen i idrottshallen vid BTH. Ingång på kortsidan.</p>
-                <h4 class="en hidden">How to get here</h4>
-                <p class="en hidden">You can find us on the second floor of the gym next to BTH. Entrance on the short side of the house.</p>
-                <div id="map-canvas" style="height: 300px;"><span class="sr-only">Karta till klubben</span></div>
-            </div>
-
-            <div class="col-lg-6">
-                <h4 class="sv">Kontakt</h4>
-                <p class="sv">Det lättaste sättet att komma i kontakt med oss är på vår <a href="https://www.facebook.com/karlskronabergsport">Facebook-sida</a>, skriv ett meddelande så svarar vi så fort vi kan.</p>
-                <p class="sv">Det går också att nå oss på <b>kontakt@karlskronabergsport.se</b> för generella frågor, och <b>kurser@karlskronabergsport.se</b> om du vill ha information om någon av våra barngrupper eller övriga kurser.</p>
-                <h4 class="en hidden">Contact</h4>
-                <p class="en hidden">The easiest way to get in contact with us is on our <a href="https://www.facebook.com/karlskronabergsport">Facebook page</a>, write us a message and we'll answer as soon as we can.</p>
-                <p class="en hidden">You can also reach us on <b>kontakt@karlskronabergsport.se</b> for general questions, and <b>kurser@karlskronabergsport.se</b> if you want to have information about our youth groups or other courses.</p>
+            <div class="col-lg-12">
+                <h4 class="sv">Vanliga frågor</h4>
+                <h4 class="en hidden">FAQ</h4>
+                 <ul class="sv">
+                    <li><b>Hur gör jag om jag aldrig har klättrat tidigare?</b> På vår klubb håller vi på med bouldering, som är klättring på låga väggar med mattor som skydd. Du behöver därför
+                    inga speciella kunskaper för att klättra hos oss. Om du vill testa på att klättra är du välkommen till våra drop-in tider (som du kan se i vår kalender som "Öppet"). På de flesta
+                    drop-in tider har vi en bra blandning av nybörjare och mer erfarna klättrare.</li>
+                    <li><b>Kan jag ha barnkalas hos er?</b> Det går alldeles utmärkt! För barnkalas (eller andra grupper) så kan ni skicka ett mail till kurser@karlskronabergsport.se för att boka!</li>
+                    <li><b>Har ni några åldersgräner?</b> På vår drop-in är det 10 år och uppåt som gäller, är man under 15 måste man ha en en vuxen med sig. Om man vill klättra med någon som är under 10
+                    så hänvisar vi er till familjeklättringen på söndagar klockan 14-16</li>
+                </ul>
+                 <ul class="en hidden">
+                    <li><b>I've never climbed before, what do I do?</b> In our club we aminly focus on bouldering. Bouldering is climbing on low walls with mattresses as protection. This means that you
+                    do not need to have any previous knowledge to be able to climb with us. If you want to try climbing then you are welcome to our drop-in, times can be found in the calendar as "Öppet".</li>
+                    <li><b>Do you do birthday parties?</b> Yes! To book a birthday party(or any other group) just email us at kurser@karlskronabergsport.se.</li>
+                    <li><b>Do you have any age restrictions?</b> On our drop-in you need to be 10 years or older to climb, if you are under 15 you need to be in company with an adult. If you want to climb with someone
+                    that is younger than 10 years old you are welcome at our "Familjeklättring" on sundays at 14-16.</li>
+                </ul>
             </div>
         
         </div>

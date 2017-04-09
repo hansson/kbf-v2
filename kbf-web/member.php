@@ -55,6 +55,10 @@
                         <a class="nav-link en hidden" href="contact.php">Contact</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link sv" href="faq.php">Vanliga frågor</a>
+                        <a class="nav-link en hidden" href="faq.php">FAQ</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link sv" href="admin/login.php">Logga in</a>
                         <a class="nav-link en hidden" href="admin/login.php">Login</a>
                     </li>
