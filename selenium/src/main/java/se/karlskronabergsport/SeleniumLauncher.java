@@ -41,6 +41,7 @@ public class SeleniumLauncher {
 			testList.add(new WrongResponsibleTest(driver, LOGIN_URL));
 		}  else {
 			//Currently under development
+			testList.add(new BuyAllFeesTest(driver, LOGIN_URL));
 		}
 		
 		for(BaseTest test : testList) {

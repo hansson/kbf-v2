@@ -11,7 +11,7 @@ import se.karlskronabergsport.util.TestFailureException;
 public class BuyAndAddTenCardTest extends AttendeeTest {
 
 	public BuyAndAddTenCardTest(ChromeDriver driver, String loginUrl) {
-		super(driver, loginUrl, "tobias@tobiashansson.nu", "test");
+		super(driver, loginUrl, "me@tobiashansson.nu", "test");
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class SelfCheckInTest extends AttendeeTest {
 	private String loginUrl;
 
 	public SelfCheckInTest(ChromeDriver driver, String loginUrl) {
-		super(driver, loginUrl, "tobias@tobiashansson.nu", "test");
+		super(driver, loginUrl, "me@tobiashansson.nu", "test");
 		this.loginUrl = loginUrl;
 	}
 	
