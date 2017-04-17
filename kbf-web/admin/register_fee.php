@@ -230,10 +230,16 @@
         ];
 
         var loggedInUser = $.cookie("user");
+        if(logoutIfNotSet(loggedInUser)) {
+            return;
+        }
 
         handlePaymentItems();
         
         $("#pay").click(function() {
+            if(logoutIfNotSet(loggedInUser)) {
+                return;
+            }
             hide($("#memberError"));
             hide($("#pnrError"));
             hide($("#payError"));

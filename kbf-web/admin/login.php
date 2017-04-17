@@ -31,6 +31,9 @@
         <div id="registered" class="alert alert-success hidden" role="alert">
             <strong>Du är nu registrerad. För att kunna använda din användare behöver den aktiveras. Detta sköts av våra administratörer och sker vanligtvis inom 24 timmar.</strong>
         </div>
+        <div id="sessionError" class="alert alert-danger hidden" role="alert">
+            <strong>Din session har gått ut, var vänlig logga in på nytt.</strong>
+        </div>
         <div id="notActive" class="alert alert-danger hidden" role="alert">
             <strong>Din användare är inte aktiverad. Detta tar vanligtvis en dag. Om du inte blivit aktiverad inom 24 timmar var vänlig kontakta oss.</strong>
         </div>
@@ -62,6 +65,10 @@
         var registered = getUrlParameter("registered")
         if(registered == 1) {
             show($("#registered"));
+        }
+        var error = getUrlParameter("error")
+        if(error == 1) {
+            show($("#sessionError"));
         }
         $("#loginForm").submit(function(e){
             e.preventDefault();

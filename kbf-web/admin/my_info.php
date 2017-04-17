@@ -146,6 +146,10 @@
 
         var loggedInUser = $.cookie("user");
 
+        if(logoutIfNotSet(loggedInUser)) {
+            return;
+        }
+
         $("#number").html(loggedInUser);
 
         $.get("../api/private/search/person?pnr=" + loggedInUser + "&exact=1", function (response) {
@@ -165,6 +169,9 @@
         });
 
         $("#checkin").click(function(){
+            if(logoutIfNotSet(loggedInUser)) {
+                return;
+            }
             hide($("#checked_in"));
             hide($("#checkin_error"));
             hide($("#unexpected_error"))

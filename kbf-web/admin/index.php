@@ -290,6 +290,10 @@
         handlePaymentItems();
 
         $("#pay").click(function() {
+            if(logoutIfNotSet(openId)) {
+                return;
+            }
+
             hide($("#payError"));
             var request = {
                 openId: openId,
@@ -343,6 +347,10 @@
         });
 
         $("#sign").click(function() {
+            if(logoutIfNotSet(openId) || logoutIfNotSet(loggedInUser)) {
+                return;
+            }
+
             var request = {
                 openId: openId,
                 responsible: loggedInUser
@@ -355,6 +363,10 @@
         });
 
         $("#open_btn").click(function() {
+            if(logoutIfNotSet(loggedInUser)) {
+                return;
+            }
+
             var request = {
                 responsible: loggedInUser
             };

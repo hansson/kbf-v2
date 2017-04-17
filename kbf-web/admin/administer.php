@@ -107,7 +107,6 @@
     
 
     <script>
-        var loggedInUser = $.cookie("user");
         populatePersonTable();
         populateRegisterTable();
 

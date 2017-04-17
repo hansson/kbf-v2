@@ -92,3 +92,11 @@ function switchToEn() {
         hide($("#switch-en"));
         show($("#switch-sv"));
 }
+
+function logoutIfNotSet(field) {
+    if(!field || field == null || field == -1) {
+        window.location = "login.php?error=1"
+        return true;
+    }
+    return false;
+}
