@@ -42,7 +42,7 @@
             <nav>
                 <ul class="nav nav-pills flex-column flex-sm-row">
                     <?php
-                        getHeader("register_fee");
+                        getHeader("search");
                     ?>
                 </ul>
             </nav>
@@ -51,93 +51,41 @@
         <div class="row content">
             <div class="col-lg-6">
                 <div class="contained">
-                    <h5 class="heading">Lägg till avgift</h5>
+                    <h5 class="heading">Sök användare</h5>
+                    <p>Om flera resultat visas kan du klicka på användaren för att få mer information.</p>
                     <div>
-                        <p>Personnummer behöver bara fyllas i om man köper medlemsavgift.</p>
-                        <div id="paySuccess" class="alert alert-success hidden" role="alert">
-                            <strong>Köp genomfört för <span id="payReference"></span>!</strong>
-                        </div>
                         <div class="form-group">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
+                            <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" autocomplete="off">
                         </div>
-                        <div class="form-group">
-                            <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_1" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Medlemsavgift</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_2" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Medlemsavgift(0-17 år)</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_3" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Årskort</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_4" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Terminskort</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_5" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">10-kort</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_9" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Årskort(barn)</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="custom-control custom-checkbox">
-                                    <input id="item_10" type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Terminskort(barn)</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="contained">
-                            <div>
-                                <h5 id="total">Totalt: 0 kr</h5>
-                                <button id="pay" type="button" class="btn btn-primary form-control">Betala</button>
-                            </div>
-                        </div>
-                        <div id="payError" class="alert alert-danger hidden" role="alert">
-                            <strong>Något gick fel, kontrollera uppgifterna och försök igen!</strong>
-                        </div>
-                        <div id="memberError" class="alert alert-danger hidden" role="alert">
-                            <strong>Ej medlem!</strong>
-                        </div>
-                        <div id="pnrError" class="alert alert-danger hidden" role="alert">
-                            <strong>Personnummer saknas!</strong>
-                        </div>
-                        <div id="duplicateFeeError" class="alert alert-danger hidden" role="alert">
-                            <strong>Medlemen har redan betalt denna avgift!</strong>
-                        </div>
+                        <button id="search" type="button" class="btn btn-primary form-control">Sök</button>
                     </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Medlemsnummer</th>
+                                <th>Namn</th>
+                                <th>E-post</th>
+                            </tr>
+                        </thead>
+                        <tbody id="searchTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="contained">
+                    <h5>Betalningar</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Betalning</th>
+                                <th>Datum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentTable">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -208,16 +156,10 @@
         ];
 
         var loggedInUser = $.cookie("user");
-        if(logoutIfNotSet(loggedInUser)) {
-            return;
-        }
 
         handlePaymentItems();
         
         $("#pay").click(function() {
-            if(logoutIfNotSet(loggedInUser)) {
-                return;
-            }
             hide($("#memberError"));
             hide($("#pnrError"));
             hide($("#payError"));

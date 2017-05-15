@@ -45,7 +45,7 @@
                         ->setCellValue('B5', 'Medlemsnummer')
                         ->setCellValue('C5', 'Total');
 
-            $sql = "SELECT o.date, o.total, r.name, s.name, op.pnr, p.name, op.name, COALESCE(SUM(oi.price),0) 
+            $sql = "SELECT o.date, r.name, s.name, op.pnr, p.name, op.name, COALESCE(SUM(oi.price),0) 
                         FROM `open` as o 
                         INNER JOIN person AS r ON r.pnr = o.responsible 
                         INNER JOIN person AS s ON s.pnr = o.`signed` 
@@ -57,14 +57,14 @@
             $result = $mysqli->query($sql);
             $counter = 6;
             while($row = $result->fetch_row()) {
-                $pnr = $row[4];
+                $pnr = $row[3];
                 $name = "";
                 if($pnr) {
-                    $name = $row[5];
+                    $name = $row[4];
                 } else {
-                    $name = $row[6];
+                    $name = $row[5];
                 }
-                $sum = $row[7];
+                $sum = $row[6];
                 $objPHPExcel->setActiveSheetIndex($i)
                         ->setCellValue("A$counter", $name)
                         ->setCellValue("B$counter", $pnr ? $pnr : "")
@@ -73,9 +73,8 @@
                     $time = strtotime($row[0]);
                     $formated_date = date("Y-m-d", $time);
                     $objPHPExcel->getActiveSheet()->setTitle("$formated_date");
-                    $total = $row[1];
-                    $responsible = $row[2];
-                    $signed = $row[3];
+                    $responsible = $row[1];
+                    $signed = $row[2];
                     $objPHPExcel->setActiveSheetIndex($i)
                         ->setCellValue("A1", "Öppetansvarig: ")
                         ->setCellValue("A2", "Signerad av: ")

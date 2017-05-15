@@ -20,8 +20,8 @@ import se.karlskronabergsport.util.TestFailureException;
 
 public class SeleniumLauncher {
 
-	private static final String RESET_URL = "http://192.168.1.127:12345/kbf/kbf-web/api/private/testing/reset";
-	private static final String LOGIN_URL = "http://192.168.1.127:12345/kbf/kbf-web/admin/login.php";
+	private static final String RESET_URL = "http://127.0.0.1:12345/kbf/kbf-web/api/private/testing/reset";
+	private static final String LOGIN_URL = "http://127.0.0.1:12345/kbf/kbf-web/admin/login.php";
 
 	public static void main(String[] args) {
 		ChromeDriver driver = new ChromeDriver();

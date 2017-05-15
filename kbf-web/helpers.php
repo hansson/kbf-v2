@@ -184,6 +184,14 @@ function getHeader($active) {
 			echo '<a class="nav-link" href="register_fee.php">Registrera</a>';
 		}
 		echo '</li>';
+
+		echo '<li class="nav-item">';
+		if($active == "search") {
+			echo '<a class="nav-link active" href="#">Sök</a>';
+		} else {
+			echo '<a class="nav-link" href="search.php">Sök</a>';
+		}
+		echo '</li>';
 	}
 	if(isAdmin()) {
 		echo '<li class="nav-item">';
