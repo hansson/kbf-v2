@@ -1,8 +1,10 @@
-bara en medlemsavgift & träningsavgift
-bara rätt öppetansvarig
-bort med autocomplete
-glömt lösenord
-rapport items
+logga ut vid klientsession saknas
+separat sök 
+permissions, binär, user/responsible/admin
+skapa öppetansvariga
+scrolla till fel och success
+sök user och visa alla betalningar
 visa info på min info
 telefonnummer
 dynamiska priser (hämtas via public api)
+skicka kvitton
