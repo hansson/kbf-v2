@@ -50,6 +50,12 @@
         <div id="unexpected_error" class="alert alert-danger hidden" role="alert">
             <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
         </div>
+        <div id="receiptError" class="alert alert-danger hidden" role="alert">
+            <strong>Det gick inte att skicka kvitto.</strong>
+        </div>
+        <div id="receiptSuccess" class="alert alert-success hidden" role="alert">
+            <strong>Kvitto skickat.</strong>
+        </div>
         <div id="closed" class="row content hidden">
             <div class="col-lg-12 contained">
                 <div>
@@ -182,6 +188,7 @@
                                 <th>Namn</th>
                                 <th>Totalt</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="openTable">
@@ -202,6 +209,28 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Nej</button>
                                         <button id="sign" type="button" class="btn btn-primary" data-dismiss="modal">Ja</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span id="receiptId" class="hidden"></span>
+                                        <span id="receiptToken" class="hidden"></span>
+                                        <h5 class="modal-title">Skicka kvitto till <span id="receiptName"></span></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="receipt" type="button" class="btn btn-primary" data-dismiss="modal">Skicka</button>
                                     </div>
                                 </div>
                             </div>
@@ -270,24 +299,29 @@
                 "item_type": "checkbox"
             }
         ];
+        var loggedInUser = undefined;
+        loggedInUser = $.cookie("user");
+        var openId = undefined;
 
-        var loggedInUser = $.cookie("user");
-        var openId = -1;
-        var attendees = [];
-        var responsible = -1;
-        var openDate = undefined;
-        checkOpen(function(id, responsibleId, date) {
-            openId = id;
-            responsible = responsibleId;
-            openDate = date;
-            populateOpenTable();
+        $( document ).ready(function() {
+            logoutIfNotSet(loggedInUser);
+            var attendees = [];
+            var responsible = -1;
+            var openDate = undefined;
+            openId = -1;
+            checkOpen(function(id, responsibleId, date) {
+                openId = id;
+                responsible = responsibleId;
+                openDate = date;
+                populateOpenTable();
+            });
+            var successfullyClosed = getUrlParameter("closed");
+            if(successfullyClosed === "true") {
+                show($("#successfullyClosed"));
+            }
+
+            handlePaymentItems();
         });
-        var successfullyClosed = getUrlParameter("closed");
-        if(successfullyClosed === "true") {
-            show($("#successfullyClosed"));
-        }
-
-        handlePaymentItems();
 
         $("#pay").click(function() {
             if(logoutIfNotSet(openId)) {
@@ -322,6 +356,7 @@
                 //TODO make dynamic
                 var attendee = {
                     id: response.id,
+                    receipt: response.receipt,
                     nameOrPnr: nameOrPnr,
                     total: 0
                 };
@@ -358,7 +393,7 @@
             $.post( "../api/private/open/sign/", JSON.stringify(request), function() {
                 window.location = "?closed=true";
             }, "json").fail(function(response){
-                alert(response.responseText);
+                alert("12" + response.responseText);
             });
         });
 
@@ -373,7 +408,7 @@
             $.post( "../api/private/open/", JSON.stringify(request), function() {
                 window.location = "";
             }, "json").fail(function(response){
-                alert(response.responseText);
+                alert("1" + response.responseText);
             });
         });
 
@@ -394,6 +429,26 @@
             }
         });
 
+        $("#receipt").click(function() {
+            request =  {
+                id: $("#receiptId").html(),
+                receipt: $("#receiptToken").html(),
+                email: $("#receiptEmail").val(),
+                type: "open"
+            };
+            if(request.receipt && request.id) {
+                $.post( "../api/private/open/receipt/", JSON.stringify(request), function(response) {
+                    show($("#receiptSuccess"));
+                    hide($("#receiptError"));
+                }, "json").fail(function(response){
+                    hide($("#receiptSuccess"));
+                    show($("#receiptError"));
+                });
+            } else {
+                show($("#receiptError"));
+            }
+        });
+
         $("#delete").click(function() {
             request =  {
                 id: $("#deleteId").html()
@@ -406,7 +461,7 @@
                     populateOpenTable();;
                 },
                 error: function(response) {
-                    alert(response.responseText);
+                    alert("13" + response.responseText);
                 }
             });
         });
@@ -418,10 +473,12 @@
                 for(var i = 0 ; i < response.length ; i++) {
                     var attendee = {
                         id: -1,
+                        receipt: "",
                         nameOrPnr: "",
                         total: 0
                     };
                     attendee.id = response[i].id;
+                    attendee.receipt = response[i].receipt;
                     if(response[i].name && response[i].name != "") {
                         attendee.nameOrPnr = response[i].name;
                     } else {
@@ -436,7 +493,7 @@
                     addAttendee(attendee);
                 }
             }, "json").fail(function(response) {
-                alert(response);
+                alert("14" + response);
             });
         }
 
@@ -487,6 +544,7 @@
             $.post( "../api/private/open/pre/", JSON.stringify(request), function(response) {
                 var attendee = {
                     id: response.id,
+                    receipt: "",
                     nameOrPnr: prePaidNumber,
                     total: 0
                 };                    

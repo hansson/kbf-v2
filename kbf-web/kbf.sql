@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS `open_person` (
   `open_id` int(11) NOT NULL,
   `pnr` varchar(15) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
+  `receipt` varchar(50) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `all_fields` (`pnr`,`open_id`,`name`),
   UNIQUE KEY `pnr` (`pnr`,`open_id`),

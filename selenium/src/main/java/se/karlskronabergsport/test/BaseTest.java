@@ -23,6 +23,9 @@ public abstract class BaseTest {
 	private final String loginUrl;
 	private final String email;
 	private final String password;
+	
+	protected final static String TYPE_ID = "ID";
+	protected final static String TYPE_CSS = "CSS";
 
 	public BaseTest(ChromeDriver driver, String loginUrl, String email, String password) {
 		this.driver = driver;
@@ -101,11 +104,27 @@ public abstract class BaseTest {
 	}
 	
 	protected boolean waitUntilVisible(final String id) {
+		return waitUntilVisible(id, TYPE_ID);
+	}
+	
+	protected boolean waitUntilVisible(final String selector, final String type) {
 		try {
 			new WebDriverWait(driver, 3).until(new Function<WebDriver, Boolean>() {
 
 				public Boolean apply(WebDriver d) {
-					List<WebElement> foundElements = d.findElements(By.id(id));
+					By by;
+					switch (type) {
+						case TYPE_ID:
+							by = By.id(selector);
+							break;
+						case TYPE_CSS:
+							by = By.cssSelector(selector);
+							break;
+						default:
+							by = By.id(selector);
+							break;
+					}
+					List<WebElement> foundElements = d.findElements(by);
 					if (foundElements.size() > 0) {
 						return foundElements.get(0).isDisplayed();
 					}

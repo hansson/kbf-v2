@@ -1,6 +1,7 @@
 <?php
     include '../../../db.php';
     include '../../../../helpers.php';
+    include '../../../classes/Person.php';
 
     $config = require "../../../../kbf.config.php";
     session_start([
@@ -25,18 +26,12 @@
                 if(isset($_GET['exact'])) {
                     $wildcard = "";
                 }
-                $sql = "SELECT pnr, name, email FROM person WHERE pnr LIKE '$pnr$wildcard'";
+                $sql = "SELECT pnr FROM person WHERE pnr LIKE '$pnr$wildcard'";
                 $result = $mysqli->query($sql);
                 $json_result = "[";
                 while($row = $result->fetch_row()) {
-                    $pnr = getStringcolumn($row, 0);
-                    $name = getStringcolumn($row, 1);
-                    $email = getStringcolumn($row, 2);
-                    $json_result .= "{";
-                    $json_result .= "\"pnr\":\"$pnr\",";
-                    $json_result .= "\"name\":\"$name\",";
-                    $json_result .= "\"email\":\"$email\"";
-                    $json_result .= "},";
+                    $person = new Person($pnr);
+                    $json_result .= $person->print() . ",";
                 }
                 $json_result = endJsonList($json_result, 1);
                 echo $json_result . "]";

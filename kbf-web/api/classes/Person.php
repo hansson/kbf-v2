@@ -12,7 +12,8 @@
         function __construct($pnr) {		
             parent::__construct();
 			$this->pnr = parent::cleanField($pnr);
-            $this->populateFields();		
+            $this->payments = array();
+            $this->populateFields();
 		}
 
         function getName() {
@@ -30,28 +31,74 @@
         function getPayments() {
             return $this->payments;
         }
+
         function populateFields() {
             //hämta rätt fält
             $sql = "SELECT name, email, address FROM person WHERE pnr = '$this->pnr'";
-            $sql = "SELECT paymentDate, type FROM climbing_fee WHERE pnr = '$this->pnr' ORDER BY paymentDate DESC";
-            $sql = "SELECT paymentDate, type, registered FROM membership WHERE pnr = '$this->pnr' ORDER BY paymentDate DESC";
-            $sql = "SELECT card FROM ten_card WHERE pnr = '$this->pnr' ORDER BY id DESC";
-            
-            $result = $mysqli->query($sql);
-            $json_result = "[";
+            $result = parent::getMysql()->query($sql);
             while($row = $result->fetch_row()) {
-                $pnr = getStringcolumn($row, 0);
-                $name = getStringcolumn($row, 1);
-                $email = getStringcolumn($row, 2);
-                $json_result .= "{";
-                $json_result .= "\"pnr\":\"$pnr\",";
-                $json_result .= "\"name\":\"$name\",";
-                $json_result .= "\"email\":\"$email\"";
-                $json_result .= "},";
+                $this->name = parent::getStringcolumn($row, 0);
+                $this->email = parent::getStringcolumn($row, 1);
+                $this->address = parent::getStringcolumn($row, 2);
             }
-            $json_result = endJsonList($json_result, 1);
-            echo $json_result . "]";
+            $result->close();
+            $sql = "SELECT i.name, cf.paymentDate
+	                    FROM climbing_fee AS cf
+	                    INNER JOIN item AS i on i.paymentDate = cf.paymentDate
+	                    INNER JOIN prices AS p ON p.name = i.name
+                    WHERE cf.pnr = '$this->pnr' AND p.`table` = 'climbing_fee' AND (i.pnr IS NULL OR i.pnr = '$this->pnr') ORDER BY cf.paymentDate DESC";
+            $result = parent::getMysql()->query($sql);
+            while($row = $result->fetch_row()) {
+                $this->payments[] = new Payment(parent::getStringcolumn($row, 0), parent::getStringcolumn($row, 1));
+            }
+            $result->close();
+
+            $sql = "SELECT i.name, m.paymentDate
+	                    FROM membership AS m
+	                    INNER JOIN item AS i on i.paymentDate = m.paymentDate
+	                    INNER JOIN prices AS p ON p.name = i.name
+                    WHERE m.pnr = '$this->pnr' AND p.`table` = 'membership' AND (i.pnr IS NULL OR i.pnr = '$this->pnr') ORDER BY m.paymentDate DESC";
+            $result = parent::getMysql()->query($sql);
+            while($row = $result->fetch_row()) {
+                $this->payments[] = new Payment(parent::getStringcolumn($row, 0), parent::getStringcolumn($row, 1));
+            }
+            $result->close();
+
+            //$sql = "SELECT card FROM ten_card WHERE pnr = '$this->pnr' ORDER BY id DESC";
+            
+        }
+
+        function print() {
+            $payments = "";
+            foreach ($this->payments as $payment) {
+                $payments .= $payment->print() . ",";
+            }
+            $payments = endJsonList($payments, 0);
+            return "{
+                \"pnr\":\"$this->pnr\",
+                \"name\":\"$this->name\",
+                \"email\":\"$this->email\",
+                \"payments\": [ $payments ]
+            }";
         }
     }
+
+    class Payment {
+        var $name;
+        var $paymentDate;
+
+        function __construct($name, $paymentDate) {		
+            $this->name = $name;
+            $this->paymentDate = $paymentDate;
+        }
+
+        function print() {
+            return "{
+                \"name\":\"$this->name\",
+                \"paymentDate\":\"$this->paymentDate\"
+            }";
+        }
+    }
+
 
 ?>

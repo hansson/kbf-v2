@@ -72,7 +72,7 @@
                 //Create into correct table
                 $result = $mysqli->real_query($sql);
                 if($result) {
-                    $sql = "INSERT INTO item  (name, price, signed) VALUES ('$name', '$price', '$signed')";
+                    $sql = "INSERT INTO item  (name, price, signed, pnr) VALUES ('$name', '$price', '$signed', '$pnr')";
                     //Create item
                     $result = $mysqli->real_query($sql);
                     if($result) {

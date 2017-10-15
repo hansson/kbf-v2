@@ -90,6 +90,8 @@
     <script src="../js/helpers.js"></script>
     
     <script>
+        var loggedInUser = $.cookie("user");
+        logoutIfNotSet(loggedInUser);
         var year = new Date().getFullYear();
         var month = new Date().getMonth();
         if(month == 0) {

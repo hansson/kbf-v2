@@ -34,6 +34,11 @@
             $field = $this->mysqli->escape_string($field);
             return $field;
         }
+
+        function getStringcolumn($row, $index) {
+            $value = $row[$index];
+            return str_replace('"', '\\"', $value);
+        }
     }
 
 ?>

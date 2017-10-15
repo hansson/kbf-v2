@@ -1,10 +1,15 @@
-logga ut vid klientsession saknas
-separat sök 
+ALTER TABLE `open_person`
+	ADD COLUMN `receipt` VARCHAR(50) NOT NULL DEFAULT '0' AFTER `name`;
+
+göra klart skicka kvitton
+felmeddelande vid registrering om inte medlem
+info till öppetansvariga
+kalendergrej
+kursbetalning
 permissions, binär, user/responsible/admin
+
 skapa öppetansvariga
 scrolla till fel och success
-sök user och visa alla betalningar
 visa info på min info
 telefonnummer
 dynamiska priser (hämtas via public api)
-skicka kvitton
