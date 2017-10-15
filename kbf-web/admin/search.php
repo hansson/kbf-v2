@@ -62,7 +62,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Medlemsnummer</th>
+                                <th>#</th>
                                 <th>Namn</th>
                                 <th>E-post</th>
                             </tr>
@@ -76,6 +76,7 @@
             <div class="col-lg-6">
                 <div class="contained">
                     <h5>Betalningar</h5>
+                    <p id="tmpHolder"></p>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -100,7 +101,7 @@
 
     <script src="../js/jquery-3.1.1.min.js"></script>
     <script src="../js/jquery.cookie.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="../js/tether.min.js"></script>
     <script src="../js/bootstrap/bootstrap.js"></script>
     <script src="../js/bootstrap/ie10-viewport-bug-workaround.js"></script>
     <script src="../js/moment.js"></script>
@@ -109,137 +110,42 @@
     
 
     <script>
-        var items = [
-            {
-                "id": 1,
-                "name": "Medlemsavgift",
-                "price": 250,
-                "item_type": "checkbox"
-            },
-            {
-                "id": 2,
-                "name": "Medlemsavgift(0-17 år)",
-                "price": 150,
-                "item_type": "checkbox"
-            },
-            {
-                "id": 3,
-                "name": "Årskort",
-                "price": 800,
-                "item_type": "checkbox"
-            },
-            {
-                "id": 4,
-                "name": "Terminskort",
-                "price": 500,
-                "item_type": "checkbox"
-            },
-            {
-                "id": 5,
-                "name": "10-kort",
-                "price": 400,
-                "price_member": 300,
-                "item_type": "checkbox"
-            },
-            {
-                "id": 9,
-                "name": "Årskort(barn)",
-                "price": 600,
-                "item_type": "checkbox"
-            },
-            {
-                "id": 10,
-                "name": "Terminskort(barn)",
-                "price": 400,
-                "item_type": "checkbox"
-            }
-        ];
-
         var loggedInUser = $.cookie("user");
-
-        handlePaymentItems();
-        
-        $("#pay").click(function() {
-            hide($("#memberError"));
-            hide($("#pnrError"));
-            hide($("#payError"));
-            hide($("#duplicateFeeError"));
-            hide($("#paySuccess"));
-            var request = {
-                signed: loggedInUser,
-                items: []
-            }
-            var nameOrPnr = $("#item_pnr").val();
-            if(checkPersonalNumber(nameOrPnr)) {
-                request.pnr = nameOrPnr;
-            }
-            var tmpPnr = $("#item_tmp_pnr").val();
-            if(tmpPnr != "") {
-                request.tmp = tmpPnr;
-            }
-
-            for(var i = 0 ; i < items.length ; i++) {
-                var item = items[i];
-                if(item.item_type == "checkbox") {
-                    var requestItem = itemFromCheckbox($("#item_" + item.id), item, request, getRequestItem);
-                    if(requestItem) {
-                        request.items.push(requestItem);
-                    }
-                } else if(item.item_type == "amount") {
-                    request.items = request.items.concat(itemsFromAmount($("#item_" + item.id), item, request, getRequestItem));
-                }
-            }
-
-            $.post( "../api/private/fee/", JSON.stringify(request), function(response) {
-                //TODO make dynamic
-                show($("#paySuccess"));
-                $("#payReference").html(response.reference);
-                
-
-                for(var i = 0 ; i < items.length ; i++) {
-                    var item = items[i];
-                    var html_item = $("#item_" + item.id);
-                    if(item.item_type === "checkbox" && html_item.is(":checked")) {
-                        html_item.prop('checked', false);
-                    } else if(item.item_type === "amount" && html_item.val() > 0) {
-                        html_item.val("0");
-                    }
-                }
-                $("#total").html("Totalt: 0 kr");
-                $("#item_pnr").val("");
-                $("#item_tmp_pnr").val("");
-            }, "json").fail(function(response) {
-                if(response.responseText.indexOf("Not a member") != -1) {
-                    show($("#memberError"));
-                } else if(response.responseText.indexOf("Missing parameter tmp_pnr") != -1) {
-                    show($("#pnrError"));
-                } else if(response.responseText.indexOf("Duplicate fee") != -1) {
-                    show($("#duplicateFeeError"));
-                } else {
-                    show($("#payError"));
-                }
-            });
-        });
+        logoutIfNotSet(loggedInUser);
 
         $("#search").click(function(){
+            $("#searchTable").html("");
             var pnr = $("#searchNumber").val();
-            $.get( "../api/private/search/person?pnr=" + pnr, function(response) {
-                for(var i = 0 ; i < response.length ; i++) {
-                    addSearchPerson(response[i]);
-                }
-            }, "json").fail(function(response) {
-                alert(response);
-            });
+            if(pnr && pnr.trim() != "") {
+                $.get( "../api/private/search/person?pnr=" + pnr, function(response) {
+                    for(var i = 0 ; i < response.length ; i++) {
+                        addSearchPerson(response[i]);
+                    }
+                }, "json").fail(function(response) {
+                    alert(response);
+                });
+            }
         });
 
         function addSearchPerson(person) {
-            var row = "<tr>";
+            var row = "<tr id=\"search-" + person.pnr + "\">";
             row += "<td>" + person.pnr + "</td>";
             row += "<td>" + person.name + "</td>";
             row += "<td>" + person.email + "</td>";
             row += "</tr>";
             $("#searchTable").append(row);
+            $("#search-" + person.pnr).click(function() {
+                populatePayments(person.payments);
+            });
         };
+
+        function populatePayments(payments) {
+            var paymentHtml = "";
+            for(var i = 0 ; i < payments.length ; i++) {
+                paymentHtml += "<tr><td>" + payments[i].name + "</td><td>" + payments[i].paymentDate +"</td></tr>"
+            }
+            $("#paymentTable").html(paymentHtml);
+        }
 
         function getRequestItem(item, request) {
             var requestItem;

@@ -145,11 +145,7 @@
         };
 
         var loggedInUser = $.cookie("user");
-
-        if(logoutIfNotSet(loggedInUser)) {
-            return;
-        }
-
+        logoutIfNotSet(loggedInUser);
         $("#number").html(loggedInUser);
 
         $.get("../api/private/search/person?pnr=" + loggedInUser + "&exact=1", function (response) {

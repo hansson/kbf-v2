@@ -43,9 +43,9 @@
                 $sql = "";
                 if($pnr) {
                     $name = $pnr;
-                    $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$pnr')";
                 }
-                $sql="INSERT INTO `open_person` (`open_id`, `name`) VALUES ($open_id,'$name')";
+                $token = bin2hex(random_bytes(25));
+                $sql="INSERT INTO `open_person` (`open_id`, `name`, `receipt`) VALUES ($open_id,'$name', '$token')";
                 $result  = $mysqli->real_query($sql);
                 $sql = "SELECT id FROM `open_person` WHERE `open_id` = $open_id AND name = '$name' ORDER BY id DESC LIMIT 1";
                 $result_person  = $mysqli->query($sql);
@@ -55,7 +55,7 @@
                 }
                 $item_result = insertItems($input, $open_person, $pnr, $mysqli);
                 if($result && $item_result) {
-                    echo "{\"id\":\"$open_person\"}";
+                    echo "{\"id\":\"$open_person\", \"receipt\":\"$token\"}";
                     $mysqli->commit();
                 } else {
                     error("Failed to insert row");
@@ -72,7 +72,7 @@
             $mysqli = getDBConnection($config);
             $open_id = cleanField($_GET['openId'], $mysqli);
             
-            $sql = "SELECT op.id, op.pnr, op.name, p.name
+            $sql = "SELECT op.id, op.pnr, op.name, p.name, op.receipt
 	                    FROM `open_person` as op 
 	                    LEFT JOIN `person` as p on p.pnr = op.pnr
 	                    WHERE `open_id` = $open_id";
@@ -83,6 +83,7 @@
                 while($row = $result->fetch_row()) {
                     $open_person_result .= "{";
                     $open_person_result .= "\"id\":$row[0],";
+                    $open_person_result .= "\"receipt\":\"" . getStringcolumn($row, 4) . "\",";
                     $pnr_row = "";
                     if($row[1]) {
                         $pnr_row = "$row[1]($row[3])";
