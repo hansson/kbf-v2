@@ -493,7 +493,7 @@
                     addAttendee(attendee);
                 }
             }, "json").fail(function(response) {
-                alert("14" + response);
+                alert("14" + JSON.stringify(response));
             });
         }
 

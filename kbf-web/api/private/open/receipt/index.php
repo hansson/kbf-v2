@@ -18,7 +18,7 @@
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/receipt/ - $inputJSON");
 
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
-        if(!isset($input['id'])) {
+        if(!isset($input['id'])) { //For fee the id should be the PNR
             error("Missing id parameter");
         } else if(!isset($input['email'])) {
             error("Missing email parameter");

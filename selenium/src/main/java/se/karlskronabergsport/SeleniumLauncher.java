@@ -1,9 +1,12 @@
 package se.karlskronabergsport;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
@@ -24,6 +27,7 @@ import se.karlskronabergsport.test.BuyTenCardAsMemberTest;
 import se.karlskronabergsport.test.SearchTest;
 import se.karlskronabergsport.test.SelfCheckInNotMemberTest;
 import se.karlskronabergsport.test.SelfCheckInTest;
+import se.karlskronabergsport.test.UseTenCardAndCashback;
 import se.karlskronabergsport.test.WrongResponsibleTest;
 import se.karlskronabergsport.util.TestFailureException;
 
@@ -53,29 +57,44 @@ public class SeleniumLauncher {
 			testList.add(new SelfCheckInNotMemberTest(driver, LOGIN_URL));
 			testList.add(new WrongResponsibleTest(driver, LOGIN_URL));
 			testList.add(new SearchTest(driver, LOGIN_URL));
+			testList.add(new UseTenCardAndCashback(driver, LOGIN_URL));
 		}  else {
 			//Currently under development
-			testList.add(new AddMultipleAttendeesTest(driver, LOGIN_URL));
+			testList.add(new BuyTenCardAsMemberTest(driver, LOGIN_URL));
 		}
 		
-		for(BaseTest test : testList) {
+		int maxRetries = testList.size();
+		int retries = 0;
+		
+		ListIterator<BaseTest> listIterator = testList.listIterator();
+		while(listIterator.hasNext()) {
+			BaseTest test = listIterator.next();
 			//Reset data
 			driver.get(RESET_URL);
 			try {
 				test.execute();
 				System.out.println(test.getClass().getSimpleName() + " successful");
-			} catch (TestFailureException e) {
-				e.printStackTrace();
-				System.err.println(test.getClass().getSimpleName() + " " + e.getMessage());
-				analyzeLog(driver);
-				driver.quit();
-				System.exit(0);
+			} catch (Exception e) {
+				if(retries > maxRetries) {
+					exit(e, test, driver);
+				}
+				System.out.println(test.getClass().getSimpleName() + " retrying");
+				listIterator.previous();
+				retries++;
 			}
 		}
 		System.out.println("All tests successfull");
 		driver.quit();
 	}
 	
+	private static void exit(Exception e, BaseTest test, ChromeDriver driver) {
+		e.printStackTrace();
+		System.err.println(test.getClass().getSimpleName() + " " + e.getMessage());
+		analyzeLog(driver);
+		driver.quit();
+		System.exit(0);
+	}
+
 	public static void analyzeLog(RemoteWebDriver driver) {
         LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
         for (LogEntry entry : logEntries) {

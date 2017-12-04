@@ -114,33 +114,27 @@
             $left = $left - 1;
             $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `name` = $card";
             if($result = parent::getMysql()->query($sql)) {
-                if($result->num_rows == 0) {
-                    parent::disableAutoCommit();
-                    $sql = "INSERT INTO `open_person` (`open_id`, `pnr`, `name`) VALUES ($this->open_id,NULL,'$card')";
-                    $result  = parent::getMysql()->real_query($sql);
-                    $sql = "UPDATE `ten_card` SET `left`='$left' WHERE `card`=$card";
-                    $second_result  = parent::getMysql()->real_query($sql);
-                    if($result && $second_result) {
-                        $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `name` = $card";
-                        if($result = parent::getMysql()->query($sql)) {
-                            if($result->num_rows > 0) {
-                                $row = $result->fetch_row();
-                                parent::commit();
-                                return $row[0];
-                            }
-                        } 
-                        error("Could not find card");
-                        return false;
-                    } else {
-                        error("Failed to insert row");
-                        parent::rollback();
-                        return false;
-                    }
+                parent::disableAutoCommit();
+                $sql = "INSERT INTO `open_person` (`open_id`, `pnr`, `name`) VALUES ($this->open_id,NULL,'$card+$result->num_rows')";
+                $result  = parent::getMysql()->real_query($sql);
+                $sql = "UPDATE `ten_card` SET `left`='$left' WHERE `card`=$card";
+                $second_result  = parent::getMysql()->real_query($sql);
+                if($result && $second_result) {
+                    $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `name` = $card";
+                    if($result = parent::getMysql()->query($sql)) {
+                        if($result->num_rows > 0) {
+                            $row = $result->fetch_row();
+                            parent::commit();
+                            return $row[0];
+                        }
+                    } 
+                    error("Could not find card");
+                    return false;
                 } else {
-                   error("Card already exist");
-                    return false; 
-                }
-                
+                    error("Failed to insert row");
+                    parent::rollback();
+                    return false;
+                }        
             } else {
                 error("Card already exist");
                 return false;

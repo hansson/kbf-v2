@@ -103,6 +103,24 @@ public abstract class BaseTest {
 		}
 	}
 	
+	protected boolean waitUntilLoadedMultiple(final String... ids) {
+		try {
+			new WebDriverWait(driver, 3).until(new Function<WebDriver, Boolean>() {
+				public Boolean apply(WebDriver d) {
+					for(String id : ids) {
+						if(d.findElements(By.id(id)).size() > 0) {
+							return true;
+						}
+					}
+					return false;
+				}
+			});
+			return true;
+		} catch (TimeoutException e) {
+			return false;
+		}
+	}
+	
 	protected boolean waitUntilVisible(final String id) {
 		return waitUntilVisible(id, TYPE_ID);
 	}
@@ -138,8 +156,35 @@ public abstract class BaseTest {
 		}
 	}
 	
+	protected boolean waitUntilVisibleMultiple(final String... selectors) {
+		try {
+			new WebDriverWait(driver, 3).until(new Function<WebDriver, Boolean>() {
+
+				public Boolean apply(WebDriver d) {
+					for(String selector : selectors) {
+						List<WebElement> foundElements = d.findElements(By.id(selector));
+						if (foundElements.size() > 0 && foundElements.get(0).isDisplayed()) {
+							return true;
+						}
+					}
+					return false;
+				}
+
+			});
+			return true;
+		} catch (TimeoutException e) {
+			return false;
+		}
+	}
+	
 	
 	protected void validateThat(boolean expr, String error) throws TestFailureException {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if(!expr) {
 			File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 			try {

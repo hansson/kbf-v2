@@ -116,6 +116,24 @@
                 $mysqli = getDBConnection($config);
                 $mysqli->autocommit(FALSE);
                 $person_id = cleanField($input['id'], $mysqli);
+                //Check if ten-card,  give back when removed
+                $sql = "SELECT name FROM `open_person` WHERE `id` = $person_id";
+                $open_preson_result = $mysqli->query($sql);
+                while($row = $open_preson_result->fetch_row()) {
+                    $plusPos = strpos($row[0], "+");
+                    if($plusPos) {
+                        $ten_card = substr($row[0], 0, $plusPos);
+                        $sql = "SELECT `id`, `left` FROM `ten_card` WHERE `card` = $ten_card";
+                        $ten_card_result = $mysqli->query($sql);
+                        while($row_ten_card = $ten_card_result->fetch_row()) {
+                            $id = $row_ten_card[0];
+                            $left = $row_ten_card[1] + 1;
+                            $update_ten_card_sql = "UPDATE `ten_card` SET `left`='$left' WHERE `id`=$id";
+                            $mysqli->real_query($update_ten_card_sql);
+                        }
+                    }
+                }
+
                 $sql = "DELETE FROM `open_item` WHERE `open_person` = $person_id";
                 $item_result  = $mysqli->real_query($sql);
                 $sql = "DELETE FROM `open_person` WHERE `id` = $person_id";

@@ -13,6 +13,12 @@ public class AttendeeTest extends BaseTest{
 	}
 	
 	protected Attendee addAttendee(String name, String shoes, boolean climb, boolean chalk, String total) throws TestFailureException {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			//I will sleep!
+		}
+		
 		WebElement nameField = driver.findElementById("item_pnr");
 		nameField.sendKeys(name);
 		WebElement shoesField = driver.findElementById("item_6");
