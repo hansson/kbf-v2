@@ -75,8 +75,8 @@ public class SelfCheckInTest extends AttendeeTest {
 		validateThat(waitUntilLoaded("number"), "Number not visible");
 		WebElement number = driver.findElementById("number");
 		number.getText().equals("901104");
-		validateThat(waitUntilLoaded("personInfoMember"), "Person info member not visible");
-		validateThat(waitUntilLoaded("personInfoClimb"), "Person info climb not visible");
+		validateThat(waitUntilLoadedMultiple("personInfoClimb", "personInfoAttentionClimb"), "Person info climb not visible");
+		validateThat(waitUntilLoadedMultiple("personInfoMember", "personInfoAttentionMember"), "Person info member not visible");
 		
 		WebElement checkin = driver.findElementById("checkin");
 		checkin.click();

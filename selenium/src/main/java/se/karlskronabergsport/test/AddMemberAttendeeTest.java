@@ -27,8 +27,8 @@ public class AddMemberAttendeeTest extends AttendeeTest {
 		WebElement addPrePaid = driver.findElementById("addPrePaid");
 		addPrePaid.click();
 		
-		validateThat(waitUntilVisible("personInfoClimb"), "Failed to add card");
-		validateThat(waitUntilVisible("personInfoMember"), "Failed to add card");
+		validateThat(waitUntilVisibleMultiple("personInfoClimb", "personInfoAttentionClimb"), "Failed to add card");
+		validateThat(waitUntilVisibleMultiple("personInfoMember", "personInfoAttentionMember"), "Failed to add card");
 		
 		WebElement table = driver.findElementById("openTable");
 		List<WebElement> attendees = table.findElements(By.tagName("tr"));
