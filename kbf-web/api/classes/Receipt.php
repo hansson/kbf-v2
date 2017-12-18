@@ -59,7 +59,32 @@
         }
 
         function populateFieldsFee() {
+            $sql = "SELECT p.name, cf.paymentDate, i.price, i.name FROM climbing_fee AS cf                    
+                        INNER JOIN item AS i ON i.paymentDate = cf.paymentDate OR i.pnr = cf.pnr               
+                        INNER JOIN person AS p on p.pnr =  cf.signed                                           
+                    WHERE cf.receipt = '$this->receipt' AND i.name IN (select name FROM prices WHERE `table` = 'climbing_fee')
+                                                                                                            
+                    UNION                                                                                     
+                                                                                                            
+                    SELECT p.name, m.paymentDate, i.price, i.name FROM membership AS m                        
+                        INNER JOIN item AS i ON i.paymentDate = m.paymentDate OR i.pnr = m.pnr                 
+                        INNER JOIN person AS p on p.pnr =  m.signed                                            
+                    WHERE m.receipt = '$this->receipt' AND i.name IN (SELECT name FROM prices WHERE `table` = 'membership')";
 
+            $result = parent::getMysql()->query($sql);
+            if($result && $result->num_rows > 0) {
+                $row = $result->fetch_row();
+                $this->responsible  = parent::getStringcolumn($row, 0);
+                $this->date  = $row[1];
+                $this->items[] = new Item(parent::getStringcolumn($row, 3), $row[2]);
+                $this->total = $row[2];
+                $result->close();
+            } else {
+                if($result) {
+                    $result->close();
+                }
+                //Check for 10-card
+            }
         }
 
         function populateFieldsOpen() {
