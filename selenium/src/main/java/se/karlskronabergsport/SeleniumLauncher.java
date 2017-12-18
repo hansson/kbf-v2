@@ -5,15 +5,13 @@ import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import se.karlskronabergsport.test.AddMemberAttendeeTest;
@@ -29,7 +27,6 @@ import se.karlskronabergsport.test.SelfCheckInNotMemberTest;
 import se.karlskronabergsport.test.SelfCheckInTest;
 import se.karlskronabergsport.test.UseTenCardAndCashback;
 import se.karlskronabergsport.test.WrongResponsibleTest;
-import se.karlskronabergsport.util.TestFailureException;
 
 public class SeleniumLauncher {
 
@@ -37,11 +34,11 @@ public class SeleniumLauncher {
 	private static final String LOGIN_URL = "http://127.0.0.1:12345/kbf/kbf-web/admin/login.php";
 
 	public static void main(String[] args) {
-		DesiredCapabilities caps = DesiredCapabilities.chrome();
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.BROWSER, Level.ALL);
-        caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-		ChromeDriver driver = new ChromeDriver(caps);
+        ChromeOptions options = new ChromeOptions();
+		options.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+		ChromeDriver driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
 		List<BaseTest> testList = new LinkedList<BaseTest>();
@@ -59,8 +56,8 @@ public class SeleniumLauncher {
 			testList.add(new SearchTest(driver, LOGIN_URL));
 			testList.add(new UseTenCardAndCashback(driver, LOGIN_URL));
 		}  else {
+			testList.add(new SearchTest(driver, LOGIN_URL));
 			//Currently under development
-			testList.add(new BuyTenCardAsMemberTest(driver, LOGIN_URL));
 		}
 		
 		int maxRetries = testList.size();

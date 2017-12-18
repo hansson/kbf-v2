@@ -48,11 +48,18 @@
             </nav>
         </div>
 
+        <div id="unexpectedError" class="alert alert-danger hidden" role="alert">
+            <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
+        </div>
+        <div id="receiptError" class="alert alert-danger hidden" role="alert">
+            <strong>Det gick inte att skicka kvitto.</strong>
+        </div>
+
         <div class="row content">
             <div class="col-lg-6">
                 <div class="contained">
                     <h5 class="heading">Sök användare</h5>
-                    <p>Om flera resultat visas kan du klicka på användaren för att få mer information.</p>
+                    <p>Om flera resultat visas kan du klicka på användaren för att få mer information. Klicka på en användare för att visa betalningar.</p>
                     <div>
                         <div class="form-group">
                             <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" autocomplete="off">
@@ -82,6 +89,7 @@
                             <tr>
                                 <th>Betalning</th>
                                 <th>Datum</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="paymentTable">
@@ -99,6 +107,29 @@
     </div>
     <!-- /container -->
 
+    <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="receiptPnr" class="hidden"></span>
+                    <span id="receiptToken" class="hidden"></span>
+                    <h5 class="modal-title">Skicka kvitto till <span id="receiptName"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="receipt" type="button" class="btn btn-primary" data-dismiss="modal">Skicka</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/jquery-3.1.1.min.js"></script>
     <script src="../js/jquery.cookie.js"></script>
     <script src="../js/tether.min.js"></script>
@@ -114,6 +145,7 @@
         logoutIfNotSet(loggedInUser);
 
         $("#search").click(function(){
+            hideAll();
             $("#searchTable").html("");
             var pnr = $("#searchNumber").val();
             if(pnr && pnr.trim() != "") {
@@ -122,29 +154,73 @@
                         addSearchPerson(response[i]);
                     }
                 }, "json").fail(function(response) {
-                    alert(response);
+                    $("#unexpectedError strong").html(response.responseJSON.error);
+                    show($("#unexpectedError"));
                 });
             }
         });
 
+        $("#receipt").click(function() {
+            hideAll();
+            request =  {
+                id: $("#receiptPnr").html(),
+                receipt: $("#receiptToken").html(),
+                email: $("#receiptEmail").val(),
+                type: "fee"
+            };
+            if(request.receipt && request.id) {
+                $.post( "../api/private/open/receipt/", JSON.stringify(request), function(response) {
+                    show($("#receiptSuccess"));
+                }, "json").fail(function(response){
+                    show($("#receiptError"));
+                });
+            } else {
+                show($("#receiptError"));
+            }
+        });
+
+        function hideAll() {
+            hide($("#receiptSuccess"));
+            hide($("#receiptError"));
+            hide($("#unexpectedError"));
+        }
+
         function addSearchPerson(person) {
             var row = "<tr id=\"search-" + person.pnr + "\">";
             row += "<td>" + person.pnr + "</td>";
-            row += "<td>" + person.name + "</td>";
-            row += "<td>" + person.email + "</td>";
+            row += "<td id=\"name_"+ person.pnr + "\">" + person.name + "</td>";
+            row += "<td id=\"email_"+ person.pnr + "\">" + person.email + "</td>";
             row += "</tr>";
             $("#searchTable").append(row);
             $("#search-" + person.pnr).click(function() {
-                populatePayments(person.payments);
+                populatePayments(person);
             });
         };
 
-        function populatePayments(payments) {
-            var paymentHtml = "";
-            for(var i = 0 ; i < payments.length ; i++) {
-                paymentHtml += "<tr><td>" + payments[i].name + "</td><td>" + payments[i].paymentDate +"</td></tr>"
+        function populatePayments(person) {
+            for(var i = 0 ; i < person.payments.length ; i++) {
+                var payment = person.payments[i];
+                var paymentHtml = "";
+                paymentHtml += "<tr><td>" + 
+                payment.name + "</td><td>" + 
+                payment.paymentDate +  "</td><td>" +
+                "<button id=\"receipt-row-" + person.pnr + 
+                "\" type=\"button\" class=\"btn btn-success form-control\" data-toggle=\"modal\" data-target=\"#receiptModal\" data-receipt=\"" +
+                payment.receipt + "\"><i class=\"fa fa-file-o\"></i></button></td>" +
+                "</td></tr>";
+
+                $("#paymentTable").append(paymentHtml);
+
+                $("#receipt-row-" + person.pnr).click(function(evt) {
+                    var pnr = evt.currentTarget.id.split("-")[2];
+                    var receipt = evt.currentTarget.getAttribute("data-receipt");
+                    $("#receiptName").html($("#name_" + pnr).html());
+                    $("#receiptPnr").html(pnr);
+                    $("#receiptToken").html(receipt);
+                    $("#receiptEmail").val($("#email_" + pnr).html());
+                });
             }
-            $("#paymentTable").html(paymentHtml);
+
         }
 
         function getRequestItem(item, request) {

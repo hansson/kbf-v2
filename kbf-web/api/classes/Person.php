@@ -42,30 +42,32 @@
                 $this->address = parent::getStringcolumn($row, 2);
             }
             $result->close();
-            $sql = "SELECT i.name, cf.paymentDate
+
+            //Populate payments
+            $sql = "SELECT i.name, cf.paymentDate, cf.receipt
 	                    FROM climbing_fee AS cf
 	                    INNER JOIN item AS i on i.paymentDate = cf.paymentDate
 	                    INNER JOIN prices AS p ON p.name = i.name
                     WHERE cf.pnr = '$this->pnr' AND p.`table` = 'climbing_fee' AND (i.pnr IS NULL OR i.pnr = '$this->pnr') ORDER BY cf.paymentDate DESC";
-            $result = parent::getMysql()->query($sql);
-            while($row = $result->fetch_row()) {
-                $this->payments[] = new Payment(parent::getStringcolumn($row, 0), parent::getStringcolumn($row, 1));
-            }
-            $result->close();
+            $this->populatePaymentsFromSql($sql);
 
-            $sql = "SELECT i.name, m.paymentDate
+            $sql = "SELECT i.name, m.paymentDate, m.receipt
 	                    FROM membership AS m
 	                    INNER JOIN item AS i on i.paymentDate = m.paymentDate
 	                    INNER JOIN prices AS p ON p.name = i.name
                     WHERE m.pnr = '$this->pnr' AND p.`table` = 'membership' AND (i.pnr IS NULL OR i.pnr = '$this->pnr') ORDER BY m.paymentDate DESC";
-            $result = parent::getMysql()->query($sql);
-            while($row = $result->fetch_row()) {
-                $this->payments[] = new Payment(parent::getStringcolumn($row, 0), parent::getStringcolumn($row, 1));
-            }
-            $result->close();
+            $this->populatePaymentsFromSql($sql);
 
             //$sql = "SELECT card FROM ten_card WHERE pnr = '$this->pnr' ORDER BY id DESC";
             
+        }
+
+        function populatePaymentsFromSql($sql) {
+            $result = parent::getMysql()->query($sql);
+            while($row = $result->fetch_row()) {
+                $this->payments[] = new Payment(parent::getStringcolumn($row, 0), parent::getStringcolumn($row, 1), parent::getStringcolumn($row, 2));
+            }
+            $result->close();
         }
 
         function print() {
@@ -86,16 +88,19 @@
     class Payment {
         var $name;
         var $paymentDate;
+        var $receipt;
 
-        function __construct($name, $paymentDate) {		
+        function __construct($name, $paymentDate, $receipt) {		
             $this->name = $name;
             $this->paymentDate = $paymentDate;
+            $this->receipt = $receipt;
         }
 
         function print() {
             return "{
                 \"name\":\"$this->name\",
-                \"paymentDate\":\"$this->paymentDate\"
+                \"paymentDate\":\"$this->paymentDate\",
+                \"receipt\":\"$this->receipt\"
             }";
         }
     }

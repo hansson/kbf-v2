@@ -47,10 +47,11 @@
             if($price == $row[0] || ($price == $row[1] && $member)) {
                 $type = $row[2];
                 $table = $row[3];
-                $sql = "INSERT INTO `$table` (pnr, `type`, signed) VALUES ('$pnr', $type ,'$signed')"; //Default sql
+                $sql = "";
+                $token = bin2hex(random_bytes(25));
                 if($table == "ten_card") {
                     $card = rand (1000000, 9999999);
-                    $sql = "INSERT INTO `$table` (pnr, card, signed) VALUES ('$pnr', '$card', '$signed')";
+                    $sql = "INSERT INTO `$table` (pnr, card, signed, receipt) VALUES ('$pnr', '$card', '$signed', '$token')";
                 } else if($table == "membership") {
                     $climbInfo = new ClimbInfo($pnr);
                     if($climbInfo->getMemberValid() != "-") {
@@ -61,13 +62,14 @@
                         error("Missing parameter tmp_pnr");
                         return false;
                     }
-                    $sql = "INSERT INTO `$table` (pnr, `type`, signed, tmpPnr) VALUES ('$pnr', '$type', '$signed', '$tmp_pnr')";
+                    $sql = "INSERT INTO `$table` (pnr, `type`, signed, tmpPnr, receipt) VALUES ('$pnr', '$type', '$signed', '$tmp_pnr', '$token')";
                 } else if($table == "climbing_fee") {
                     $climbInfo = new ClimbInfo($pnr);
                     if($climbInfo->getFeeValid() != "-") {
                         error("Duplicate fee");
                         return false;
                     }
+                    $sql = "INSERT INTO `$table` (pnr, `type`, signed, receipt) VALUES ('$pnr', $type ,'$signed', '$token')";
                 }
                 //Create into correct table
                 $result = $mysqli->real_query($sql);
@@ -79,7 +81,7 @@
                         return true;
                     }
                 } 
-                error("Failed create fee $name");
+                error("Failed to create fee $name");
                 return false;
             }
             else {
