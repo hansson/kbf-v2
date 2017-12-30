@@ -83,7 +83,7 @@
                 if($result) {
                     $result->close();
                 }
-                //Check for 10-card
+                //TODO Check for 10-card
             }
         }
 
@@ -142,6 +142,9 @@
             <tr height=\"30\"></tr>
             <tr>
               <td colspan=\"6\"><b>Totalt: $this->total kr</b></td>
+            </tr>
+            <tr>
+              <td colspan=\"6\"><b>Varav moms: 0 kr</b></td>
             </tr>
             <tr height=\"10\"></tr>
             <tr>
