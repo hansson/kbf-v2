@@ -80,8 +80,13 @@
                     if($result) {
                         return true;
                     }
-                } 
-                error("Failed to create fee $name");
+                }
+
+                if(strpos($mysqli->error, "member_person_fk")) {
+                    error("Could not find user with id: $pnr");
+                } else {
+                    error("Failed to create fee $name. " . $mysqli->error);
+                }
                 return false;
             }
             else {
@@ -151,8 +156,10 @@
         if(isset($input["tmp"])) {
             $tmp_pnr = cleanField($input["tmp"], $mysqli);
         }
+        //Person needs to be member to buy climbing fee
         $member = checkMember($pnr, $mysqli);
         if(!$member) {
+            //If person is not already a member, make sure membership  is in the items
             $sql = "SELECT name FROM prices WHERE `table` = 'membership'";
             $result = $mysqli->query($sql);
             $memberships = [];

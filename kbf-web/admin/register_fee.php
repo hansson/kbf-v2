@@ -137,6 +137,9 @@
                         <div id="duplicateFeeError" class="alert alert-danger hidden" role="alert">
                             <strong>Medlemen har redan betalt denna avgift!</strong>
                         </div>
+                        <div id="couldNotFindUser" class="alert alert-danger hidden" role="alert">
+                            <strong>Kunde inte hitta någon medlem med det angivna medlemsnumret.</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -219,6 +222,7 @@
             hide($("#pnrError"));
             hide($("#payError"));
             hide($("#duplicateFeeError"));
+            hide($("#couldNotFindUser"));
             hide($("#paySuccess"));
             var request = {
                 signed: loggedInUser,
@@ -270,31 +274,13 @@
                     show($("#pnrError"));
                 } else if(response.responseText.indexOf("Duplicate fee") != -1) {
                     show($("#duplicateFeeError"));
+                } else if(response.responseText.indexOf("Could not find user") != -1) {
+                    show($("#couldNotFindUser"));
                 } else {
                     show($("#payError"));
                 }
             });
         });
-
-        $("#search").click(function(){
-            var pnr = $("#searchNumber").val();
-            $.get( "../api/private/search/person?pnr=" + pnr, function(response) {
-                for(var i = 0 ; i < response.length ; i++) {
-                    addSearchPerson(response[i]);
-                }
-            }, "json").fail(function(response) {
-                alert(response);
-            });
-        });
-
-        function addSearchPerson(person) {
-            var row = "<tr>";
-            row += "<td>" + person.pnr + "</td>";
-            row += "<td>" + person.name + "</td>";
-            row += "<td>" + person.email + "</td>";
-            row += "</tr>";
-            $("#searchTable").append(row);
-        };
 
         function getRequestItem(item, request) {
             var requestItem;
