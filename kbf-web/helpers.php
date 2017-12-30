@@ -98,12 +98,17 @@ function checkSessionApi($config) {
 	}
 }
 
+// User = 0
+// Responsible = 1
+// Admin = 2
+// Responsible + Admin = 3
+
 function isResponsible() {
-	return isset($_SESSION["responsible"]) && $_SESSION["responsible"] >= 1;
+	return isset($_SESSION["responsible"]) && ($_SESSION["responsible"] == 1 || $_SESSION["responsible"] == 3);
 }
 
 function isAdmin() {
-	return isset($_SESSION["responsible"]) && $_SESSION["responsible"] == 2;
+	return isset($_SESSION["responsible"]) && ($_SESSION["responsible"] == 2  || $_SESSION["responsible"] == 3);
 }
 
 function checkResponsible() {

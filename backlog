@@ -1,14 +1,6 @@
-ALTER TABLE `open_person`
-	ADD COLUMN `receipt` VARCHAR(50) NOT NULL DEFAULT '0' AFTER `name`;
-
-alert("14" + response); kan bli fel
-
-göra klart skicka kvitton
-felmeddelande vid registrering om inte medlem
 info till öppetansvariga
 kalendergrej
 kursbetalning
-permissions, binär, user/responsible/admin
 
 skapa öppetansvariga
 scrolla till fel och success

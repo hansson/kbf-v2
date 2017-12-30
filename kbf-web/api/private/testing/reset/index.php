@@ -43,7 +43,7 @@
         $result = $mysqli->real_query($sql);
 
         $sql = "INSERT INTO `person` (`pnr`, `name`, `address`, `email`, `responsible`, `password`, `active`, `forgotToken`) VALUES
-                ('901102', 'Tobias Hansson', 'Vallgatan 20B', '901102', 2, '\$2y\$10\$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL)";
+                ('901102', 'Tobias Hansson', 'Vallgatan 20B', '901102', 3, '\$2y\$10\$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL)";
         $result = $mysqli->real_query($sql);
         
         $mysqli->close();            
