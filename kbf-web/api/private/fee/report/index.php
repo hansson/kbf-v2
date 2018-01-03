@@ -9,14 +9,14 @@
     ]);
     forceHttps($config);
     checkSessionApi($config);
-    checkResponsible();
+    checkAdmin();
 
     require_once dirname(__FILE__) . '/../../../classes/PHPExcel.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/fee/report/ - " . http_build_query($_GET));
         $mysqli = getDBConnection($config);
-        $year = "2017"; //cleanField($_GET["year"], $mysqli);
+        $year = cleanField($_GET["year"], $mysqli);
         
         $objPHPExcel = new PHPExcel();
         $objPHPExcel->getProperties()->setCreator("Karlskrona Bergsportsförening")
