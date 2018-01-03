@@ -1,5 +1,6 @@
 <?php
     include '../helpers.php';
+    include '../api/classes/MiscInfo.php';
     $config = require '../kbf.config.php';
     session_start([
         'cookie_lifetime' => 86400,
@@ -57,6 +58,17 @@
         </div>
         <div class="row content">
             <div class="col-lg-12 ">
+                <?php
+                    if(isResponsible() || isAdmin()) {
+                        echo '<div id="responsibleInfo" class="contained">';
+                        echo '<div>';
+                        echo '<h4 class="text-center">Information för öppetansvariga</h4>';
+                        $info = new MiscInfo(1);
+                        $info->print();
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                ?>
                 <div id="open" class="contained hidden">
                     <div>
                         <h4 class="text-center">Klubben är öppen</h4>
