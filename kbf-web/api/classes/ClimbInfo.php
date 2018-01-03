@@ -79,7 +79,7 @@
         }
 
         function isResponsible() {
-            $sql = "SELECT responsible FROM `person` WHERE `pnr` = '$this->pnr' AND responsible > 0";
+            $sql = "SELECT responsible FROM `person` WHERE `pnr` = '$this->pnr' AND (responsible = 1 OR responsible = 3)";
             $result = parent::getMysql()->query($sql);
             if($result && $result->num_rows === 1) {
                 $responsible = $result->fetch_row()[0] > 0;
