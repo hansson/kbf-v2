@@ -9,12 +9,12 @@
     ]);
     forceHttps($config);
     checkSessionApi($config);
-    checkResponsible();
+    checkAdmin();
 
     require_once dirname(__FILE__) . '/../../../classes/PHPExcel.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/report/ - " . http_build_query($_GET));
+        access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/report/ - " . http_build_query($_GET));
         $mysqli = getDBConnection($config);
         $year = cleanField($_GET["year"], $mysqli);
         $month = cleanField($_GET["month"], $mysqli);
@@ -27,8 +27,13 @@
         $open_reports = [];
         $from = "$year-$month-01 00:00:00";
         $month++;
+        if($month > 12) {
+            $month = "01";
+            $year++;
+        }
         $to = "$year-$month-01 00:00:00";
         $sql = "select id from `open` WHERE `date` > '$from' AND `date` < '$to'";
+        access_log($sql);
         $result = $mysqli->query($sql);
         while($row = $result->fetch_row()) {
             $open_reports[] = $row[0];
