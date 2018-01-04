@@ -8,6 +8,9 @@ function show(element) {
     if(element.hasClass('hidden')) {
         element.removeClass('hidden');
     }
+    $('html, body').animate({
+        scrollTop: element.offset().top
+    }, 10);
 };
 
 function getUrlParameter(sParam) {
