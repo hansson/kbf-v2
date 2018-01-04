@@ -222,7 +222,15 @@ function getHeader($active) {
 	} else {
 		echo '<a class="nav-link" href="my_info.php">Min info</a>';
 	}
-	echo '</li>'; 
+	echo '</li>';
+
+	echo '<li class="nav-item">';
+	if($active == "docs") {
+		echo '<a class="nav-link active" href="docs.php">Dokument</a>';
+	} else {
+		echo '<a class="nav-link" href="docs.php">Dokument</a>';
+	}
+	echo '</li>';
 }
 
 function access_log($text) {
