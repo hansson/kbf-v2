@@ -17,7 +17,7 @@
         }
 
         function populateFields() {
-            $sql = "SELECT `text` FROM misc";
+            $sql = "SELECT `text` FROM misc WHERE `type`= $this->type";
             $result = parent::getMysql()->query($sql);
             while($result && $row = $result->fetch_row()) {
                 $this->text  = parent::getStringcolumn($row, 0);
