@@ -139,6 +139,8 @@
                             return;
                         }
                     }
+                } else if($row[1] != "ten_card") {
+                    error("Not ten card. Missing member id");
                 } 
             }
             $mysqli->rollback();
