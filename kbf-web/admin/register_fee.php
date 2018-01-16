@@ -140,6 +140,9 @@
                         <div id="couldNotFindUser" class="alert alert-danger hidden" role="alert">
                             <strong>Kunde inte hitta någon medlem med det angivna medlemsnumret.</strong>
                         </div>
+                        <div id="missingMemberId" class="alert alert-danger hidden" role="alert">
+                            <strong>Du måste ange medlemsnummer.</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -223,6 +226,8 @@
             hide($("#payError"));
             hide($("#duplicateFeeError"));
             hide($("#couldNotFindUser"));
+            hide($("#missingMemberId"));
+            
             hide($("#paySuccess"));
             var request = {
                 signed: loggedInUser,
@@ -276,6 +281,8 @@
                     show($("#duplicateFeeError"));
                 } else if(response.responseText.indexOf("Could not find user") != -1) {
                     show($("#couldNotFindUser"));
+                } else if(response.responseText.indexOf("Missing member id") != -1) {
+                    show($("#missingMemberId"))
                 } else {
                     show($("#payError"));
                 }
