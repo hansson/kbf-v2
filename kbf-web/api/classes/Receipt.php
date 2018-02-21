@@ -9,9 +9,11 @@
         var $email;
         var $url;
         var $date;
+        var $created_date;
         var $total;
         var $responsible;
         var $items;
+        var $receiver;
 
         function __construct($receipt, $id, $type, $email) {		
             parent::__construct();
@@ -22,6 +24,7 @@
             $this->items = array();
             $this->total = 0;
             $this->url = "http://karlskronabergsport.se/api/public/receipt?id=$this->id&type=$this->type&receipt=$this->receipt";
+            $this->receiver = "";
             $this->populateFields();		
 		}
 
@@ -50,6 +53,7 @@
         }
 
         function populateFields() {
+            $this->populateCreatedDate();
             if ($this->type == "open") {
                 $this->populateFieldsOpen();
             } else if($this->type == "fee") {
@@ -58,17 +62,36 @@
 
         }
 
+        function populateCreatedDate() {
+            $sql = "SELECT `date` FROM receipt WHERE id='$this->receipt'";
+            $result = parent::getMysql()->query($sql);
+            if($result && $result->num_rows == 1) {
+                $row = $result->fetch_row();
+                $this->created_date = new DateTime($row[0]);
+            } else {
+                $insert_sql = "INSERT INTO receipt (id) VALUES ('$this->receipt')";
+                $insert_result = parent::getMysql()->real_query($insert_sql);
+                $this->created_date = new DateTime();
+            }
+            $this->created_date = $this->created_date->format('Y-m-d');
+            if($result) {
+                $result->close();
+            }
+        }
+
         function populateFieldsFee() {
-            $sql = "SELECT p.name, cf.paymentDate, i.price, i.name FROM climbing_fee AS cf                    
+            $sql = "SELECT p.name, cf.paymentDate, i.price, i.name, receiver.name FROM climbing_fee AS cf                    
                         INNER JOIN item AS i ON i.paymentDate = cf.paymentDate OR i.pnr = cf.pnr               
-                        INNER JOIN person AS p on p.pnr =  cf.signed                                           
+                        INNER JOIN person AS p ON p.pnr =  cf.signed
+                        INNER JOIN person AS receiver ON receiver.pnr = cf.pnr                                            
                     WHERE cf.receipt = '$this->receipt' AND i.name IN (select name FROM prices WHERE `table` = 'climbing_fee')
                                                                                                             
                     UNION                                                                                     
                                                                                                             
-                    SELECT p.name, m.paymentDate, i.price, i.name FROM membership AS m                        
+                    SELECT p.name, m.paymentDate, i.price, i.name, receiver.name FROM membership AS m                        
                         INNER JOIN item AS i ON i.paymentDate = m.paymentDate OR i.pnr = m.pnr                 
-                        INNER JOIN person AS p on p.pnr =  m.signed                                            
+                        INNER JOIN person AS p ON p.pnr =  m.signed
+                        INNER JOIN person AS receiver ON receiver.pnr = m.pnr                                        
                     WHERE m.receipt = '$this->receipt' AND i.name IN (SELECT name FROM prices WHERE `table` = 'membership')";
 
             $result = parent::getMysql()->query($sql);
@@ -78,6 +101,7 @@
                 $this->date  = $row[1];
                 $this->items[] = new Item(parent::getStringcolumn($row, 3), $row[2]);
                 $this->total = $row[2];
+                $this->receiver = parent::getStringcolumn($row, 4);
                 $result->close();
             } else {
                 if($result) {
@@ -112,6 +136,18 @@
             foreach ($this->items as $item) {
                 $items .= $item->print();
             }
+            $receiverHtml = "";
+            if($this->receiver != "") {
+                $receiverHtml = "
+                <tr>
+                    <td colspan=\"6\">
+                        <h4>
+                        Kvitto till: $this->receiver
+                        </h4>
+                    </td>
+                </tr>";
+            }
+            
             return "
             <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" height=\"100%\" width=\"500\" id=\"bodyTable\">
             <tr>
@@ -120,6 +156,7 @@
                 <h3>Karlskrona Bergsportsf&ouml;rening</h3>
               </td>
             </tr>
+            $receiverHtml
             <tr>
               <td colspan=\"6\">
                 <h4>
@@ -151,7 +188,7 @@
               <td colspan=\"6\">S&aring;lt av: $this->responsible</td>
             </tr>
             <tr>
-                <td colspan=\"6\">Org. nummer: 835000-9893</td>
+                <td colspan=\"6\">Kvitto skapat: $this->created_date</td>
             </tr>
             <tr height=\"60\"></tr>
             <tr>
