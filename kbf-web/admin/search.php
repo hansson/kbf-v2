@@ -198,20 +198,21 @@
         };
 
         function populatePayments(person) {
+            $("#paymentTable").html("");
             for(var i = 0 ; i < person.payments.length ; i++) {
                 var payment = person.payments[i];
                 var paymentHtml = "";
                 paymentHtml += "<tr><td>" + 
                 payment.name + "</td><td>" + 
                 payment.paymentDate +  "</td><td>" +
-                "<button id=\"receipt-row-" + person.pnr + 
+                "<button id=\"receipt-row-" + i + 
                 "\" type=\"button\" class=\"btn btn-success form-control\" data-toggle=\"modal\" data-target=\"#receiptModal\" data-receipt=\"" +
                 payment.receipt + "\"><i class=\"fa fa-file-o\"></i></button></td>" +
                 "</td></tr>";
 
                 $("#paymentTable").append(paymentHtml);
 
-                $("#receipt-row-" + person.pnr).click(function(evt) {
+                $("#receipt-row-" + i).click(function(evt) {
                     var pnr = evt.currentTarget.id.split("-")[2];
                     var receipt = evt.currentTarget.getAttribute("data-receipt");
                     $("#receiptName").html($("#name_" + pnr).html());
