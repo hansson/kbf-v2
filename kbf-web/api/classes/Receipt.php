@@ -190,10 +190,16 @@
             <tr>
                 <td colspan=\"6\">Kvitto skapat: $this->created_date</td>
             </tr>
+            <tr>
+                <td colspan=\"6\">Org nr: 835000-9893</td>
+            </tr>
+            <tr>
+                <td colspan=\"6\">Adress: Gr&auml;svikshallen, 371 41 Karlskrona</td>
+            </tr>
             <tr height=\"60\"></tr>
             <tr>
                 <td colspan=\"6\">
-                    <a href=\"$this->url\">Ser mailet konstigt ut? Klicka h&auml;r f&ouml;r att &ouml;ppna det i din webl&auml;sare</a>
+                    <a href=\"$this->url\">Ser mailet konstigt ut? Klicka h&auml;r f&ouml;r att &ouml;ppna det i din webbl&auml;sare</a>
                 </td>
             </tr>
             </table>
