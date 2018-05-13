@@ -177,9 +177,9 @@
                 </div>
                 <div>
                     <h3 class="sv">Barn- och ungdomsgrupper</h3>
-                    <p class="sv">Vi har flera grupper för barn och ungdomar upp till 15-års ålder. För frågor och anmälan kontakta kurser@karlskronabergsport.se.</p>
+                    <p class="sv">Vi har flera grupper för barn och ungdomar upp till 15-års ålder. För frågor och anmälan kontakta kontakt@karlskronabergsport.se.</p>
                     <h3 class="en hidden">Youth groups</h3>
-                    <p class="en hidden">We have several groups for children up to the age of 15. To sign up or if you have any questions, please contact kurser@karlskronabergsport.se.</p>
+                    <p class="en hidden">We have several groups for children up to the age of 15. To sign up or if you have any questions, please contact kontakt@karlskronabergsport.se.</p>
                     <table class="table">
                         <tbody>
                             <tr class="sv">
@@ -215,12 +215,12 @@
                     <p class="sv">
                         Skulle ni vilja ha er klättring instruktörsledd, inomhus eller utomhus, 
                         så kan vi erbjuda klättring inomhus i vår hall, eller ute på någon av Blekinges fina klippor tillsammans
-                        med våra instruktörer. Rekommenderad storlek på grupper är 5-10 men vi kan ofta lösa större grupper med. Kontakta kurser@karlskronabergsport.se för frågor och bokning.
+                        med våra instruktörer. Rekommenderad storlek på grupper är 5-10 men vi kan ofta lösa större grupper med. Kontakta kontakt@karlskronabergsport.se för frågor och bokning.
                     </p>
                     <h3 class="en hidden">Courses</h3>
                     <p class="en hidden">
                         If you would like an instructor with you while climbing then we can offer you instructor led climbing in our climbing hall or on one of Blekinges many
-                        cliffs. Recommended size of groups are 5-10 persons, but we can often solve bigger groups as well. Please contact kurser@karlskronabergsport.se for questions and booking.
+                        cliffs. Recommended size of groups are 5-10 persons, but we can often solve bigger groups as well. Please contact kontakt@karlskronabergsport.se for questions and booking.
                     </p>
                     <table class="table">
                         <tbody>
