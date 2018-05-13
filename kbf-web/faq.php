@@ -73,14 +73,14 @@
                     <li><b>Hur gör jag om jag aldrig har klättrat tidigare?</b> På vår klubb håller vi på med bouldering, som är klättring på låga väggar med mattor som skydd. Du behöver därför
                     inga speciella kunskaper för att klättra hos oss. Om du vill testa på att klättra är du välkommen till våra drop-in tider (som du kan se i vår kalender som "Öppet"). På de flesta
                     drop-in tider har vi en bra blandning av nybörjare och mer erfarna klättrare.</li>
-                    <li><b>Kan jag ha barnkalas hos er?</b> Det går alldeles utmärkt! För barnkalas (eller andra grupper) så kan ni skicka ett mail till kurser@karlskronabergsport.se för att boka!</li>
+                    <li><b>Kan jag ha barnkalas hos er?</b> Det går alldeles utmärkt! För barnkalas (eller andra grupper) så kan ni skicka ett mail till kontakt@karlskronabergsport.se för att boka!</li>
                     <li><b>Har ni några åldersgräner?</b> På vår drop-in är det 10 år och uppåt som gäller, är man under 15 måste man ha en en vuxen med sig. Om man vill klättra med någon som är under 10
                     så hänvisar vi er till familjeklättringen på söndagar klockan 14-16</li>
                 </ul>
                  <ul class="en hidden">
                     <li><b>I've never climbed before, what do I do?</b> In our club we aminly focus on bouldering. Bouldering is climbing on low walls with mattresses as protection. This means that you
                     do not need to have any previous knowledge to be able to climb with us. If you want to try climbing then you are welcome to our drop-in, times can be found in the calendar as "Öppet".</li>
-                    <li><b>Do you do birthday parties?</b> Yes! To book a birthday party(or any other group) just email us at kurser@karlskronabergsport.se.</li>
+                    <li><b>Do you do birthday parties?</b> Yes! To book a birthday party(or any other group) just email us at kontakt@karlskronabergsport.se.</li>
                     <li><b>Do you have any age restrictions?</b> On our drop-in you need to be 10 years or older to climb, if you are under 15 you need to be in company with an adult. If you want to climb with someone
                     that is younger than 10 years old you are welcome at our "Familjeklättring" on sundays at 14-16.</li>
                 </ul>
