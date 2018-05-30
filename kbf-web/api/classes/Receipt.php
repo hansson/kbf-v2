@@ -81,7 +81,7 @@
 
         function populateFieldsFee() {
             $sql = "SELECT p.name, cf.paymentDate, i.price, i.name, receiver.name FROM climbing_fee AS cf                    
-                        INNER JOIN item AS i ON i.paymentDate = cf.paymentDate OR i.pnr = cf.pnr               
+                        INNER JOIN item AS i ON i.paymentDate = cf.paymentDate AND i.pnr = cf.pnr               
                         INNER JOIN person AS p ON p.pnr =  cf.signed
                         INNER JOIN person AS receiver ON receiver.pnr = cf.pnr                                            
                     WHERE cf.receipt = '$this->receipt' AND i.name IN (select name FROM prices WHERE `table` = 'climbing_fee')
@@ -89,7 +89,7 @@
                     UNION                                                                                     
                                                                                                             
                     SELECT p.name, m.paymentDate, i.price, i.name, receiver.name FROM membership AS m                        
-                        INNER JOIN item AS i ON i.paymentDate = m.paymentDate OR i.pnr = m.pnr                 
+                        INNER JOIN item AS i ON i.paymentDate = m.paymentDate AND i.pnr = m.pnr                 
                         INNER JOIN person AS p ON p.pnr =  m.signed
                         INNER JOIN person AS receiver ON receiver.pnr = m.pnr                                        
                     WHERE m.receipt = '$this->receipt' AND i.name IN (SELECT name FROM prices WHERE `table` = 'membership')";
