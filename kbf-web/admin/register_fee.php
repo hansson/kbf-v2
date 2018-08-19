@@ -182,13 +182,13 @@
             },
             {
                 "id": 3,
-                "name": "Årskort",
+                "name": "Årskort klättring",
                 "price": 800,
                 "item_type": "checkbox"
             },
             {
                 "id": 4,
-                "name": "Terminskort",
+                "name": "Terminskort klättring",
                 "price": 500,
                 "item_type": "checkbox"
             },

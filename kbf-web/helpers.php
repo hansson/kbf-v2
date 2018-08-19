@@ -104,7 +104,7 @@ function checkSessionApi($config) {
 // Responsible + Admin = 3
 
 function isResponsible() {
-	return isset($_SESSION["responsible"]) && ($_SESSION["responsible"] == 1 || $_SESSION["responsible"] == 3);
+	return isset($_SESSION["responsible"]) && ($_SESSION["responsible"] > 0);
 }
 
 function isAdmin() {

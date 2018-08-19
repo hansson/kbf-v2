@@ -30,7 +30,7 @@ public class SelfCheckInNotMemberTest extends AttendeeTest {
 		password.submit();
 		validateThat(waitUntilVisible("notActive"), "Should not be active");
 		
-		super.execute();
+		login();
 		validateThat(driver.getCurrentUrl().endsWith("index.php"), "Not on index.php");
 		WebElement openButton = driver.findElementById("open_btn");
 		openButton.click();

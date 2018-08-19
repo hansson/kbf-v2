@@ -80,51 +80,6 @@
     <script src="../js/moment.js"></script>
     <script src="../js/helpers.js"></script>
     <script src="../js/prePaid.js"></script>
-
-
-    <script>
-        var doAfterShowInfo = undefined;
-        var cardValue = function(value){
-            return value;
-        };
-
-        var loggedInUser = $.cookie("user");
-        logoutIfNotSet(loggedInUser);
-        $("#number").html(loggedInUser);
-
-        $.get("../api/private/search/person?pnr=" + loggedInUser + "&exact=1", function (response) {
-            $("#name").html(response[0].name);
-        }, "json").fail(function (response) {
-            show($("#unexpected_error"));
-        });
-
-        $.get("../api/private/search/person/lite?pnr=" + loggedInUser, handlePrePaid, "json").fail(function (response) {
-            show($("#unexpected_error"));
-        });
-
-        $.get( "../api/private/checkin", function(response) {
-            show($("#open"));   
-        }, "json").fail(function(response) {
-            hide($("#open"));
-        });
-
-        $("#checkin").click(function(){
-            if(logoutIfNotSet(loggedInUser)) {
-                return;
-            }
-            hide($("#checked_in"));
-            hide($("#checkin_error"));
-            hide($("#unexpected_error"))
-            var request = {
-                pnr: loggedInUser
-            };
-            $.post( "../api/private/checkin/", JSON.stringify(request), function() {
-                show($("#checked_in"));
-            }, "json").fail(function(response) {
-                show($("#checkin_error"));
-            });
-        });
-    </script>
 </body>
 
 </html>

@@ -59,7 +59,7 @@
         <div class="row content">
             <div class="col-lg-12 ">
                 <?php
-                    if(isResponsible() || isAdmin()) {
+                    if(isResponsible()) {
                         echo '<div id="responsibleInfo" class="contained">';
                         echo '<div>';
                         echo '<h4 class="text-center">Information för öppetansvariga</h4>';

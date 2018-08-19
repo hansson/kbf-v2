@@ -14,12 +14,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/search/person/ - " . http_build_query($_GET));
         if(isset($_GET['pnr'])) {
-            try {
-                $pnr = handlePersonalNumber($_GET['pnr']);
-            } catch ( Exception $e ) {
-                error("Bad personal number");
-                return;
-            }
+            $pnr = checkPnr($_GET['pnr']);
             if($pnr == $_SESSION["pnr"] || checkResponsible()) {
                 $mysqli = getDBConnection($config);
                 $wildcard = "%";
