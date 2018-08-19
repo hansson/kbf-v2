@@ -7,7 +7,7 @@
     ]);
     forceHttps($config);
     checkSession();
-    redirectNotResponsible();
+    redirectNotAdmin();
 ?>
 
 <!DOCTYPE html>
@@ -42,24 +42,37 @@
             <nav>
                 <ul class="nav nav-pills flex-column flex-sm-row">
                     <?php
-                        getHeader("search");
+                        getHeader("administer");
                     ?>
                 </ul>
             </nav>
         </div>
-
-        <div id="unexpectedError" class="alert alert-danger hidden" role="alert">
+        <div id="unexpected_error" class="alert alert-danger hidden" role="alert">
             <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
         </div>
-        <div id="receiptError" class="alert alert-danger hidden" role="alert">
-            <strong>Det gick inte att skicka kvitto.</strong>
+        <div id="permissions_success" class="alert alert-success hidden" role="alert">
+            <strong>Behörigheter sparade.</strong>
         </div>
 
+        <div class="row content">
+            <div class="col-lg-12">
+                <nav>
+                    <ul class="nav nav-pills flex-column flex-sm-row">
+                        <li class="nav-item">
+                            <a class="nav-link" href="administer.php">Användare</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Behörigheter</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
         <div class="row content">
             <div class="col-lg-6">
                 <div class="contained">
                     <h5 class="heading">Sök användare</h5>
-                    <p>Klicka på en användare för att visa betalningar.</p>
+                    <p>Klicka på en användare för att hantera behörigheter.</p>
                     <div>
                         <div class="form-group">
                             <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" autocomplete="off">
@@ -82,22 +95,28 @@
 
             <div class="col-lg-6">
                 <div class="contained">
-                    <h5>Betalningar</h5>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Betalning</th>
-                                <th>Datum</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="paymentTable">
-                        </tbody>
-                    </table>
+                    <h5>Behörigheter</h5>
+                    <input id="pnr" type="hidden" />
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="custom-control custom-checkbox">
+                                <input id="responsible" type="checkbox" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Öppetansvarig</span>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="custom-control custom-checkbox">
+                                <input id="admin" type="checkbox" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Admin</span>
+                            </label>
+                        </div>
+                        <button id="save" type="button" class="btn btn-primary form-control">Spara</button>
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <footer class="footer">
             <p>&copy; Karlskrona Bergsportsförening 2017</p>
@@ -106,40 +125,16 @@
     </div>
     <!-- /container -->
 
-    <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span id="receiptPnr" class="hidden"></span>
-                    <span id="receiptToken" class="hidden"></span>
-                    <h5 class="modal-title">Skicka kvitto till <span id="receiptName"></span></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" autocomplete="off">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="receipt" type="button" class="btn btn-primary" data-dismiss="modal">Skicka</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="../js/jquery-3.1.1.min.js"></script>
     <script src="../js/jquery.cookie.js"></script>
-    <script src="../js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="../js/bootstrap/bootstrap.js"></script>
     <script src="../js/bootstrap/ie10-viewport-bug-workaround.js"></script>
     <script src="../js/moment.js"></script>
     <script src="../js/helpers.js"></script>
-    <script src="../js/paymentItems.js"></script>
     
 
-    <script>
+    <<script>
         var loggedInUser = $.cookie("user");
         logoutIfNotSet(loggedInUser);
 
@@ -159,29 +154,23 @@
             }
         });
 
-        $("#receipt").click(function() {
+        $("#save").click(function() {
             hideAll();
-            request =  {
-                id: $("#receiptPnr").html(),
-                receipt: $("#receiptToken").html(),
-                email: $("#receiptEmail").val(),
-                type: "fee"
-            };
-            if(request.receipt && request.id) {
-                $.post( "../api/private/open/receipt/", JSON.stringify(request), function(response) {
-                    show($("#receiptSuccess"));
-                }, "json").fail(function(response){
-                    show($("#receiptError"));
-                });
-            } else {
-                show($("#receiptError"));
+            var request = {
+                pnr: $("#pnr").val(),
+                permissions: getPermissions()    
             }
+            $.post( "../api/private/person/permissions/", JSON.stringify(request), function(response) {
+                show($("#permissions_success"));
+            }, "json").fail(function(response){
+                $("#unexpectedError strong").html(response.responseJSON.error);
+                show($("#unexpected_error"));
+            }); 
         });
 
         function hideAll() {
-            hide($("#receiptSuccess"));
-            hide($("#receiptError"));
             hide($("#unexpectedError"));
+            hide($("#permissions_success"));
         }
 
         function addSearchPerson(person) {
@@ -192,35 +181,40 @@
             row += "</tr>";
             $("#searchTable").append(row);
             $("#search-" + person.pnr).click(function() {
-                populatePayments(person);
+                populatePermissions(person);
             });
         };
 
-        function populatePayments(person) {
-            $("#paymentTable").html("");
-            for(var i = 0 ; i < person.payments.length ; i++) {
-                var payment = person.payments[i];
-                var paymentHtml = "";
-                paymentHtml += "<tr><td>" + 
-                payment.name + "</td><td>" + 
-                payment.paymentDate +  "</td><td>" +
-                "<button id=\"receipt-row-" + i + 
-                "\" type=\"button\" class=\"btn btn-success form-control\" data-toggle=\"modal\" data-target=\"#receiptModal\" data-receipt=\"" +
-                payment.receipt + "\"><i class=\"fa fa-file-o\"></i></button></td>" +
-                "</td></tr>";
+        function populatePermissions(person) {
+            $("#pnr").val(person.pnr);
+            var responsible = $("#responsible");
+            var admin = $("#admin");
+            var permissions = person.permissions;
 
-                $("#paymentTable").append(paymentHtml);
-
-                $("#receipt-row-" + i).click(function(evt) {
-                    var pnr = evt.currentTarget.id.split("-")[2];
-                    var receipt = evt.currentTarget.getAttribute("data-receipt");
-                    $("#receiptName").html($("#name_" + pnr).html());
-                    $("#receiptPnr").html(pnr);
-                    $("#receiptToken").html(receipt);
-                    $("#receiptEmail").val($("#email_" + pnr).html());
-                });
+            if(permissions ==  0) {
+                responsible.prop('checked', false);
+                admin.prop('checked', false);
+            } else if(permissions ==  1) {
+                responsible.prop('checked', true);
+                admin.prop('checked', false);
+            } else if(permissions ==  2) {
+                responsible.prop('checked', false);
+                admin.prop('checked', true);
+            } else if(permissions ==  3) {
+                responsible.prop('checked', true);
+                admin.prop('checked', true);
             }
+        }
 
+        function getPermissions() {
+            var value = 0;
+            if($("#responsible").is(":checked")) {
+                value++;
+            }
+            if($("#admin").is(":checked")) {
+                value += 2;
+            }
+            return value;
         }
     </script>
 </body>

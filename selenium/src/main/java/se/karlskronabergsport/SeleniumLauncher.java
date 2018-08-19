@@ -22,6 +22,7 @@ import se.karlskronabergsport.test.BuyAllFeesTest;
 import se.karlskronabergsport.test.BuyAndAddTenCardTest;
 import se.karlskronabergsport.test.BuyMultipleFeesTest;
 import se.karlskronabergsport.test.BuyTenCardAsMemberTest;
+import se.karlskronabergsport.test.PermissionTest;
 import se.karlskronabergsport.test.SearchTest;
 import se.karlskronabergsport.test.SelfCheckInNotMemberTest;
 import se.karlskronabergsport.test.SelfCheckInTest;
@@ -55,8 +56,9 @@ public class SeleniumLauncher {
 			testList.add(new WrongResponsibleTest(driver, LOGIN_URL));
 			testList.add(new SearchTest(driver, LOGIN_URL));
 			testList.add(new UseTenCardAndCashback(driver, LOGIN_URL));
+			testList.add(new PermissionTest(driver, LOGIN_URL));
 		}  else {
-			testList.add(new SearchTest(driver, LOGIN_URL));
+			testList.add(new PermissionTest(driver, LOGIN_URL));
 			//Currently under development
 		}
 		

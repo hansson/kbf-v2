@@ -51,7 +51,21 @@
             <strong>Ett oväntat fel inträffade! Var vänlig försök igen, om felet kvarstår, kontakta webbansvarig.</strong>
         </div>
 
-        <div id="open" class="row content">
+        <div class="row content">
+            <div class="col-lg-12">
+                <nav>
+                    <ul class="nav nav-pills flex-column flex-sm-row">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Användare</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="permissions.php">Behörigheter</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row content">
             <div class="col-lg-6">
                 <div class="contained">
                     <h5 class="heading">Aktivera användare</h5>

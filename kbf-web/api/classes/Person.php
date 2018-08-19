@@ -8,6 +8,7 @@
         var $address;
         var $email;
         var $payments;
+        var $permissions;
 
         function __construct($pnr) {		
             parent::__construct();
@@ -32,14 +33,31 @@
             return $this->payments;
         }
 
+        function getPermissions() {
+            return $this->permissions;
+        }
+
+            function setPermissions($permissions) {
+            $permissions = parent::cleanField($permissions);
+            $sql = "UPDATE person SET  `responsible` =  '$permissions' WHERE  `pnr` = '$this->pnr'";
+            $result  = parent::getMysql()->real_query($sql);
+            if($result) {
+                return true;
+            } else {
+                error("Could not update permissions");
+                return false;
+            }
+        }
+
         function populateFields() {
             //hämta rätt fält
-            $sql = "SELECT name, email, address FROM person WHERE pnr = '$this->pnr'";
+            $sql = "SELECT name, email, address, responsible FROM person WHERE pnr = '$this->pnr'";
             $result = parent::getMysql()->query($sql);
             while($row = $result->fetch_row()) {
                 $this->name = parent::getStringcolumn($row, 0);
                 $this->email = parent::getStringcolumn($row, 1);
                 $this->address = parent::getStringcolumn($row, 2);
+                $this->permissions = $row[3];
             }
             $result->close();
 
@@ -80,6 +98,7 @@
                 \"pnr\":\"$this->pnr\",
                 \"name\":\"$this->name\",
                 \"email\":\"$this->email\",
+                \"permissions\":$this->permissions,
                 \"payments\": [ $payments ]
             }";
         }
