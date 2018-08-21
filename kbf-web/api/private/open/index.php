@@ -35,7 +35,7 @@
         if(!$open->getOpenId())  {
             error("No open");
         } else if($open->getResponsible() != $_SESSION["pnr"]) {
-            error("Wrong responsible");
+            error("Wrong responsible, " . $open->getResponsible());
         } else {
             $open->print();
         }
