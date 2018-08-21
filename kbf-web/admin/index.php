@@ -74,6 +74,7 @@
             <div class="col-lg-12 contained">
                 <div>
                     <h5 class="heading">Det finns redan ett öppet kassablad för en annan ansvarig!</h5>
+                    <h5 class="heading">Öppnat av: <span id="wrong_responsible_name"></span></h5>
                 </div>
             </div>
         </div>
@@ -521,17 +522,28 @@
                 $("#responsible").html("Öppetansvarig: " + response.responsible_name);
                 callback(response.id, response.responsible, response.date);                
             }, "json").fail(function(response) {
-                if(response.responseText && JSON.parse(response.responseText).error === "No open") {
+                var error = JSON.parse(response.responseText).error;
+                if(response.responseText && error === "No open") {
                     show($("#closed"));
                     hide($("#open"));
                     hide($("#wrong_responsible"));
-                } else if(response.responseText && JSON.parse(response.responseText).error === "Wrong responsible") {
+                } else if(response.responseText && error.indexOf("Wrong responsible") > -1) {
                     show($("#wrong_responsible"));
                     hide($("#closed"));
                     hide($("#open"));
+                    populateResponsibleName(error);
                 } else {
                     show($("#unexpected_error"));
                 }
+            });
+        }
+
+        function populateResponsibleName(error) {
+            var pnr = error.substring(19, error.length);
+            $.get("../api/private/search/person?pnr=" + pnr + "&exact=1", function (response) {
+                $("#wrong_responsible_name").html(response[0].name);
+            }, "json").fail(function (response) {
+                show($("#unexpected_error"));
             });
         }
 
