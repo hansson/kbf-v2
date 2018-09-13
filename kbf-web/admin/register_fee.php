@@ -143,6 +143,10 @@
                         <div id="missingMemberId" class="alert alert-danger hidden" role="alert">
                             <strong>Du måste ange medlemsnummer.</strong>
                         </div>
+                        <div id="badTmpPnr" class="alert alert-danger hidden" role="alert">
+                            <strong>Personnummer har minst 10 siffror.</strong>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -227,6 +231,7 @@
             hide($("#duplicateFeeError"));
             hide($("#couldNotFindUser"));
             hide($("#missingMemberId"));
+            hide($("#badTmpPnr"));
             
             hide($("#paySuccess"));
             var request = {
@@ -283,7 +288,9 @@
                     show($("#couldNotFindUser"));
                 } else if(response.responseText.indexOf("Missing member id") != -1) {
                     show($("#missingMemberId"))
-                } else {
+                } else if(response.responseText.indexOf("Bad tmp_pnr") != -1){
+                    show($("#badTmpPnr"))
+                }else {
                     show($("#payError"));
                 }
             });

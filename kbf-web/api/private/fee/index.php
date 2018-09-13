@@ -157,6 +157,11 @@
         $tmp_pnr = NULL;
         if(isset($input["tmp"])) {
             $tmp_pnr = cleanField($input["tmp"], $mysqli);
+            if(strlen($tmp_pnr) < 10) {
+                error("Bad tmp_pnr");
+                $mysqli->close();
+                return;
+            }
         }
         //Person needs to be member to buy climbing fee
         $member = checkMember($pnr, $mysqli);
