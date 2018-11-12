@@ -98,11 +98,11 @@
                 <h4 class="sv">Kontakt</h4>
                 <p class="sv">Det lättaste sättet att komma i kontakt med oss är på vår <a href="https://www.facebook.com/karlskronabergsport">Facebook-sida</a>, skriv ett meddelande så svarar vi så fort vi kan.</p>
                 <p class="sv">Det går också att nå oss på <b>kontakt@karlskronabergsport.se</b> för frågor.</p>
-                <p class="sv"><b>Accessfrågor:</b><br />Ola Nordström, +46709753409, nordstromola@hotmail.com</p>
+                <p class="sv"><b>Accessfrågor:</b><br />Ola Nordström, nordstromola@hotmail.com</p>
                 <h4 class="en hidden">Contact</h4>
                 <p class="en hidden">The easiest way to get in contact with us is on our <a href="https://www.facebook.com/karlskronabergsport">Facebook page</a>, write us a message and we'll answer as soon as we can.</p>
                 <p class="en hidden">You can also reach us at <b>kontakt@karlskronabergsport.se</b>.</p>
-                <p class="en hidden"><b>Access:</b><br />Ola Nordström, +46709753409, nordstromola@hotmail.com</p>
+                <p class="en hidden"><b>Access:</b><br />Ola Nordström, nordstromola@hotmail.com</p>
             </div>
         
         </div>
