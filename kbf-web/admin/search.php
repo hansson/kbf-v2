@@ -58,6 +58,22 @@
         <div class="row content">
             <div class="col-lg-6">
                 <div class="contained">
+                    <h5 class="heading">Kvitto 10-kort</h5>
+                    <p>Klicka på en användare för att visa betalningar.</p>
+                    <div>
+                        <div class="form-group">
+                            <input id="card" class="form-control" type="text" placeholder="10-kort" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <input id="email" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                        </div>
+                        <button id="receiptTenCard" type="button" class="btn btn-primary form-control">Skicka kvitto</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="contained">
                     <h5 class="heading">Sök användare</h5>
                     <p>Klicka på en användare för att visa betalningar.</p>
                     <div>
@@ -80,6 +96,8 @@
                 </div>
             </div>
 
+            <div class="col-lg-6">
+            </div>
             <div class="col-lg-6">
                 <div class="contained">
                     <h5>Betalningar</h5>
@@ -143,6 +161,33 @@
         var loggedInUser = $.cookie("user");
         logoutIfNotSet(loggedInUser);
 
+        $("#receiptTenCard").click(function() {
+            hideAll();
+            var card = $("#card").val();
+            var email = $("#email").val();
+
+            $.get("../api/private/fee/card/receipt?card=" + card, function(response) {
+                if(response.length > 0) {
+                    var receipt = response[0].receipt;
+                    request =  {
+                        card: card,
+                        receipt: receipt,
+                        email: email,
+                    };
+                    $.post( "../api/private/fee/card/receipt/", JSON.stringify(request), function(response) {
+                        show($("#receiptSuccess"));
+                    }, "json").fail(function(response){
+                        show($("#receiptError"));
+                    });
+                } else {
+                    //Some error
+                }
+            }, "json").fail(function(response) {
+                $("#unexpectedError strong").html(response.responseJSON.error);
+                show($("#unexpectedError"));
+            });
+        });
+
         $("#search").click(function(){
             hideAll();
             $("#searchTable").html("");
@@ -158,6 +203,7 @@
                 });
             }
         });
+
 
         $("#receipt").click(function() {
             hideAll();

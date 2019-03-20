@@ -5,7 +5,7 @@
     class Receipt extends DatabaseConnector {
         var $type;
         var $receipt;
-        var $id;
+        var $id; //for fee id is PNR or CARDNR
         var $email;
         var $url;
         var $date;
@@ -107,7 +107,24 @@
                 if($result) {
                     $result->close();
                 }
-                //TODO Check for 10-card
+                
+                $sql = "SELECT p.name, i.paymentDate, i.name, i.price 
+                            FROM ten_card AS c
+                            INNER JOIN item AS i ON i.name LIKE '%$this->id%'
+                            INNER JOIN person AS p ON p.pnr =  c.signed
+                        WHERE c.receipt = '$this->receipt'";
+                $result = parent::getMysql()->query($sql);
+                if($result && $result->num_rows > 0) {
+                    $row = $result->fetch_row();
+                    $this->responsible  = parent::getStringcolumn($row, 0);
+                    $this->date  = $row[1];
+                    $this->items[] = new Item(parent::getStringcolumn($row, 2), $row[3]);
+                    $this->total = $row[3];
+                    $this->receiver = $this->email;
+                }
+                if($result) {
+                    $result->close();
+                }
             }
         }
 
