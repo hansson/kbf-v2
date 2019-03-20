@@ -49,6 +49,7 @@
                 $table = $row[3];
                 $sql = "";
                 $token = bin2hex(random_bytes(25));
+                $card = "";
                 if($table == "ten_card") {
                     $card = rand (1000000, 9999999);
                     $sql = "INSERT INTO `$table` (pnr, card, signed, receipt) VALUES ('$pnr', '$card', '$signed', '$token')";
@@ -74,7 +75,12 @@
                 //Create into correct table
                 $result = $mysqli->real_query($sql);
                 if($result) {
-                    $sql = "INSERT INTO item  (name, price, signed, pnr) VALUES ('$name', '$price', '$signed', '$pnr')";
+                    if($table == "ten_card") {
+                        $sql = "INSERT INTO item  (name, price, signed, pnr) VALUES ( '$name($card)', '$price', '$signed', '$pnr')";
+                    } else {
+                        $sql = "INSERT INTO item  (name, price, signed, pnr) VALUES ('$name', '$price', '$signed', '$pnr')";
+                    }
+                   
                     //Create item
                     $result = $mysqli->real_query($sql);
                     if($result) {
@@ -127,7 +133,8 @@
                 $row = $result->fetch_row();
                 if($row && $row[1] == "ten_card" && $price == $row[0]) {
                     $card = rand (1000000, 9999999);
-                    $sql = "INSERT INTO ten_card  (card, signed) VALUES ('$card', '$signed')";
+                    $token = bin2hex(random_bytes(25));
+                    $sql = "INSERT INTO ten_card  (card, signed, receipt) VALUES ('$card', '$signed', '$token')";
                     $result = $mysqli->real_query($sql);
                     if($result) {
                         $sql = "INSERT INTO item  (name, price, signed) VALUES ('$name($card)', '$price', '$signed')";
