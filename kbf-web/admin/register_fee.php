@@ -291,6 +291,8 @@
                 request.tmp = tmpPnr;
             }
 
+            request.name = $("#item_name").val();
+
             for(var i = 0 ; i < items.length ; i++) {
                 var item = items[i];
                 if(item.item_type == "checkbox") {
