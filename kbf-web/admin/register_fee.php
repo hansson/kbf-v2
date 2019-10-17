@@ -114,11 +114,11 @@
 
 
                         <div class="form-group">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
+                            <input id="item_mem_nr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
                         </div>
 
                         <div id="pnr_group" class="form-group hidden">
-                            <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
+                            <input id="item_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
                         </div>
 
                         <div id="name_group" class="form-group hidden">
@@ -250,8 +250,8 @@
                     hide($("#name_group"));
                 }
 
-                const nameOrPersonalNumber = $("#item_pnr").val();
-                const member = checkPersonalNumber(nameOrPersonalNumber);
+                const memberNumber = $("#item_mem_nr").val();
+                const member = checkPersonalNumber(memberNumber);
 
                 const totalPrice = items.reduce((sum, item) => {
                     const price = item.price_member && member
@@ -282,11 +282,11 @@
                 signed: loggedInUser,
                 items: []
             }
-            var nameOrPnr = $("#item_pnr").val();
-            if(checkPersonalNumber(nameOrPnr)) {
-                request.pnr = nameOrPnr;
+            const memberNumber = $("#item_mem_nr").val();
+            if(checkPersonalNumber(memberNumber)) {
+                request.pnr = memberNumber;
             }
-            var tmpPnr = $("#item_tmp_pnr").val();
+            var tmpPnr = $("#item_pnr").val();
             if(tmpPnr != "") {
                 request.tmp = tmpPnr;
             }
@@ -319,8 +319,8 @@
                     }
                 }
                 $("#total").html("Totalt: 0 kr");
+                $("#item_mem_nr").val("");
                 $("#item_pnr").val("");
-                $("#item_tmp_pnr").val("");
             }, "json").fail(function(response) {
                 if(response.responseText.indexOf("Not a member") != -1) {
                     show($("#memberError"));
