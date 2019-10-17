@@ -127,8 +127,8 @@ CREATE TABLE IF NOT EXISTS `misc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `person` (`pnr`, `name`, `address`, `email`, `responsible`, `password`, `active`, `forgotToken`) VALUES
-	('901102', 'Tobias Hansson', 'Vallgatan 20B', '901102', 3, '$2y$10$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL),
-	('901103', 'Tobias Hansson', 'Vallgatan 20B', 'me@tobiashansson.nu', 3, '$2y$10$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL),
+	('901102', 'Test Testsson 2', 'Street 20B', '901102', 3, '$2y$10$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL),
+	('901103', 'Test Testsson', 'Street 22B', 'admin@test.com', 3, '$2y$10$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL),
 	('901104', '901104 901104', NULL, '901104@test.com', 0, '$2y$10$g8NKsvba2UnR1k4bRWHuheb/TgKRgpyooHlQx4hCOyMQ3ChjSD8Ym', 1, NULL);
 
 INSERT INTO `climbing_fee` (`id`, `pnr`, `paymentDate`, `type`, `signed`, `receipt`) VALUES
