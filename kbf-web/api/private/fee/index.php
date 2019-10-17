@@ -134,7 +134,8 @@
                 if($row && $row[1] == "ten_card" && $price == $row[0]) {
                     $card = rand (1000000, 9999999);
                     $token = bin2hex(random_bytes(25));
-                    $sql = "INSERT INTO ten_card  (card, signed, receipt) VALUES ('$card', '$signed', '$token')";
+                    $customerName = $input["name"];
+                    $sql = "INSERT INTO ten_card  (card, signed, receipt, customer_name) VALUES ('$card', '$signed', '$token', '$customerName')";
                     $result = $mysqli->real_query($sql);
                     if($result) {
                         $sql = "INSERT INTO item  (name, price, signed) VALUES ('$name($card)', '$price', '$signed')";
