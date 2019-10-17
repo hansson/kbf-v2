@@ -125,6 +125,14 @@
                             </div>
                         </div>
 
+                        <div id="name_group" class="hidden">
+                            <p>Namn behöver bara fyllas i om man köper 10-kort.</p>
+
+                            <div class="form-group">
+                                <input id="item_name" class="form-control" type="text" placeholder="Namn" autocomplete="off">
+                            </div>
+                        </div>
+
                         <div class="contained">
                             <div>
                                 <h5 id="total">Totalt: 0 kr</h5>
@@ -209,7 +217,8 @@
                 "name": "10-kort",
                 "price": 400,
                 "price_member": 300,
-                "item_type": "checkbox"
+                "item_type": "checkbox",
+                show_name: true,
             },
             {
                 "id": 9,
@@ -238,6 +247,12 @@
                     show($("#pnr_group"));
                 } else {
                     hide($("#pnr_group"));
+                }
+
+                if (items.some(item => item.show_name && item.checked)) {
+                    show($("#name_group"));
+                } else {
+                    hide($("#name_group"));
                 }
             });
         });
