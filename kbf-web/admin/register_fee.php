@@ -76,7 +76,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input id="item_2" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Medlemsavgift(0-17 år)</span>
+                                    <span class="custom-control-description">Medlemsavgift (0-17 år)</span>
                                 </label>
                             </div>
 
@@ -106,7 +106,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input id="item_9" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Årskort(barn)</span>
+                                    <span class="custom-control-description">Årskort (barn)</span>
                                 </label>
                             </div>
 
@@ -114,7 +114,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input id="item_10" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Terminskort(barn)</span>
+                                    <span class="custom-control-description">Terminskort (barn)</span>
                                 </label>
                             </div>
                         </div>
@@ -180,7 +180,7 @@
             },
             {
                 "id": 2,
-                "name": "Medlemsavgift(0-17 år)",
+                "name": "Medlemsavgift (0-17 år)",
                 "price": 150,
                 "item_type": "checkbox"
             },
@@ -205,13 +205,13 @@
             },
             {
                 "id": 9,
-                "name": "Årskort(barn)",
+                "name": "Årskort (barn)",
                 "price": 600,
                 "item_type": "checkbox"
             },
             {
                 "id": 10,
-                "name": "Terminskort(barn)",
+                "name": "Terminskort (barn)",
                 "price": 400,
                 "item_type": "checkbox"
             }
