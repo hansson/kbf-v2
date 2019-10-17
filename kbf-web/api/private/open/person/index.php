@@ -17,7 +17,7 @@
         //create open person
         $inputJSON = file_get_contents('php://input');
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - $inputJSON");
-        $open = new CurrentOpen();
+        $open = new CurrentOpen($_SESSION["pnr"]);
         if($open->getResponsible() != $_SESSION["pnr"]) {
             error("Wrong responsible");
         } else {
@@ -105,7 +105,7 @@
     } else if($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         $inputJSON = file_get_contents('php://input');
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/person/ - $inputJSON");
-        $open = new CurrentOpen();
+        $open = new CurrentOpen($_SESSION["pnr"]);
         if($open->getResponsible() != $_SESSION["pnr"]) {
             error("Wrong responsible");
         } else {
