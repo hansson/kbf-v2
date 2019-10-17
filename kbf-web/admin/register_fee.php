@@ -309,20 +309,16 @@
                 //TODO make dynamic
                 show($("#paySuccess"));
                 $("#payReference").html(response.reference);
-                
 
-                for(var i = 0 ; i < items.length ; i++) {
-                    var item = items[i];
-                    var html_item = $("#item_" + item.id);
-                    if(item.item_type === "checkbox" && html_item.is(":checked")) {
-                        html_item.prop('checked', false);
-                    } else if(item.item_type === "amount" && html_item.val() > 0) {
-                        html_item.val("0");
-                    }
-                }
+                items.forEach(item => {
+                    $("#item_" + item.id).prop("checked", false);
+                    item.checked = false;
+                })
+
                 $("#total").html("Totalt: 0 kr");
                 $("#item_mem_nr").val("");
                 $("#item_pnr").val("");
+                $("#item_name").val("");
             }, "json").fail(function(response) {
                 if(response.responseText.indexOf("Not a member") != -1) {
                     show($("#memberError"));
