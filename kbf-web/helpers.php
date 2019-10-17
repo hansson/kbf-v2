@@ -234,6 +234,12 @@ function getHeader($active) {
 }
 
 function access_log($text) {
+	$logdir = __DIR__ . "/logs";
+	$filename = $logdir . "/access.log";
+	if (!file_exists($logdir)) {
+		mkdir($logdir, 0755, true);
+	}
+	if (!file_exists($filename)) { touch($filename); chmod($filename, 0666); }
 	$filename = __DIR__ . "/logs/access.log";
 	if (!file_exists($filename)) { touch($filename); chmod($filename, 0666); }
 	if (filesize($filename) > 2*1024*1024) {
