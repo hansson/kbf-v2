@@ -23,7 +23,7 @@
                 $identification = $input['identification'];
             }
             if($identification == $_SESSION['pnr'] || isResponsible()) {
-                $open = new CurrentOpen();
+                $open = new CurrentOpen($_SESSION['pnr']);
                 if($open->getResponsible() != $_SESSION["pnr"]) {
                     error("Wrong responsible");
                 } else {

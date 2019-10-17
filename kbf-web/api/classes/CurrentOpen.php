@@ -9,10 +9,10 @@
         var $date;
         var $name;
 
-        function __construct() {		
+        function __construct($responsible) {		
             parent::__construct();
             $this->open_id  = NULL;
-            $this->responsible  = NULL;
+            $this->responsible = parent::cleanField($responsible);
             $this->date  = NULL;
             $this->name  = NULL;
             $this->populateFields();
@@ -27,11 +27,16 @@
         }
 
         function populateFields() {
-            $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
+            $sql = "";
+            if($this->responsible == NULL) {
+                $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
+            } else {
+                $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL AND o.responsible = '$this->responsible' LIMIT 1";
+            }
             $result = parent::getMysql()->query($sql);
             while($row = $result->fetch_row()) {
                 $this->open_id  = $row[0];
-                $this->responsible  = $row[1];
+                $this->responsible = $row[1];
                 $this->date  = $row[2];
                 $this->name  = getStringcolumn($row, 3);
             }
