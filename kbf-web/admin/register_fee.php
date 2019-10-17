@@ -53,19 +53,12 @@
                 <div class="contained">
                     <h5 class="heading">Lägg till avgift</h5>
                     <div>
-                        <p>Personnummer behöver bara fyllas i om man köper medlemsavgift.</p>
                         <div id="paySuccess" class="alert alert-success hidden" role="alert">
                             <strong>Köp genomfört för <span id="payReference"></span>!</strong>
                         </div>
                         <div class="form-group">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
-                        </div>
-                        <div class="form-group">
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_1">
                                     <input id="item_1" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Medlemsavgift</span>
@@ -73,7 +66,7 @@
                             </div>
 
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_2">
                                     <input id="item_2" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Medlemsavgift (0-17 år)</span>
@@ -81,7 +74,7 @@
                             </div>
 
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_3">
                                     <input id="item_3" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Årskort</span>
@@ -89,21 +82,21 @@
                             </div>
 
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_4">
                                     <input id="item_4" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Terminskort</span>
                                 </label>
                             </div>
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_5">
                                     <input id="item_5" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">10-kort</span>
                                 </label>
                             </div>
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_9">
                                     <input id="item_9" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Årskort (barn)</span>
@@ -111,11 +104,24 @@
                             </div>
 
                             <div class="form-check">
-                                <label class="custom-control custom-checkbox">
+                                <label class="custom-control custom-checkbox" id="label_for_item_10">
                                     <input id="item_10" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Terminskort (barn)</span>
                                 </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
+                        </div>
+
+                        <div id="pnr_group" class="hidden">
+                            <p>Personnummer behöver bara fyllas i om man köper medlemsavgift.</p>
+
+                            <div class="form-group">
+                                <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
                             </div>
                         </div>
 
@@ -176,13 +182,15 @@
                 "id": 1,
                 "name": "Medlemsavgift",
                 "price": 250,
-                "item_type": "checkbox"
+                "item_type": "checkbox",
+                show_pnr: true,
             },
             {
                 "id": 2,
                 "name": "Medlemsavgift (0-17 år)",
                 "price": 150,
-                "item_type": "checkbox"
+                "item_type": "checkbox",
+                show_pnr: true,
             },
             {
                 "id": 3,
@@ -216,6 +224,23 @@
                 "item_type": "checkbox"
             }
         ];
+
+        items.forEach(item => {
+            $("#label_for_item_" + item.id).click(e => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                item.checked = !item.checked;
+
+                $("#item_" + item.id).prop("checked", item.checked);
+
+                if (items.some(item => item.show_pnr && item.checked)) {
+                    show($("#pnr_group"));
+                } else {
+                    hide($("#pnr_group"));
+                }
+            });
+        });
 
         var loggedInUser = $.cookie("user");
         logoutIfNotSet(loggedInUser);
