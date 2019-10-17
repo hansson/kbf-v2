@@ -177,6 +177,9 @@
     
 
     <script>
+        var loggedInUser = $.cookie("user");
+        logoutIfNotSet(loggedInUser);
+
         var items = [
             {
                 "id": 1,
@@ -246,13 +249,22 @@
                 } else {
                     hide($("#name_group"));
                 }
+
+                const nameOrPersonalNumber = $("#item_pnr").val();
+                const member = checkPersonalNumber(nameOrPersonalNumber);
+
+                const totalPrice = items.reduce((sum, item) => {
+                    const price = item.price_member && member
+                        ? item.price_member
+                        : item.price;
+
+                    return item.checked ? sum + price : sum;
+                }, 0);
+
+                $("#total").html("Totalt: " + totalPrice + " kr");
             });
         });
 
-        var loggedInUser = $.cookie("user");
-        logoutIfNotSet(loggedInUser);
-        handlePaymentItems();
-        
         $("#pay").click(function() {
             if(logoutIfNotSet(loggedInUser)) {
                 return;
