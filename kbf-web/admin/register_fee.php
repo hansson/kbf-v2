@@ -117,20 +117,12 @@
                             <input id="item_pnr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
                         </div>
 
-                        <div id="pnr_group" class="hidden">
-                            <p>Personnummer behöver bara fyllas i om man köper medlemsavgift.</p>
-
-                            <div class="form-group">
-                                <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
-                            </div>
+                        <div id="pnr_group" class="form-group hidden">
+                            <input id="item_tmp_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
                         </div>
 
-                        <div id="name_group" class="hidden">
-                            <p>Namn behöver bara fyllas i om man köper 10-kort.</p>
-
-                            <div class="form-group">
-                                <input id="item_name" class="form-control" type="text" placeholder="Namn" autocomplete="off">
-                            </div>
+                        <div id="name_group" class="form-group hidden">
+                            <input id="item_name" class="form-control" type="text" placeholder="Namn" autocomplete="off">
                         </div>
 
                         <div class="contained">
