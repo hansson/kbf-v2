@@ -52,7 +52,8 @@
                 $card = "";
                 if($table == "ten_card") {
                     $card = rand (1000000, 9999999);
-                    $sql = "INSERT INTO `$table` (pnr, card, signed, receipt) VALUES ('$pnr', '$card', '$signed', '$token')";
+                    $customerName = $input["name"];
+                    $sql = "INSERT INTO ten_card (pnr, card, signed, receipt, customer_name) VALUES ('$pnr', '$card', '$signed', '$token', '$customerName')";
                 } else if($table == "membership") {
                     $climbInfo = new ClimbInfo($pnr);
                     if($climbInfo->getMemberValid() != "-") {
