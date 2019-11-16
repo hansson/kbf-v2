@@ -69,8 +69,8 @@
                         if($climbInfo->getMemberValid() != "-" && $climbInfo->getFeeValid() != "-") {
                             $sql="INSERT INTO `open_person` (`open_id`, `pnr`, `name`) VALUES ($this->open_id,'$pnr',NULL)";
                             $result  = parent::getMysql()->real_query($sql);
-                            if(!$result) {
-                                error("Failed to insert row");
+                            if(!$result && parent::getMysql()->errno != parent::ER_DUP_ENTRY) {
+                                error("Failed to insert row (errno " + parent::getMysql()->errno + ")");
                                 return false;
                             }
 
