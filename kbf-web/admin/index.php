@@ -161,7 +161,7 @@
 
                         <div id="ten" class="card text-center hidden">
                             <div class="card-header">
-                                10-kort
+                                10-kort(<span id="personInfoTenCard"></span>)
                             </div>
                             <div class="card-block">
                                 <i id="personInfoTen" class="fa fa-check big-icon green hidden" aria-hidden="true"></i>
@@ -289,7 +289,7 @@
             {
                 "id": 7,
                 "name": "Klättringsavgift",
-                "price": 50,
+                "price": 60,
                 "price_member": 40,
                 "item_type": "checkbox"
             },

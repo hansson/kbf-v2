@@ -20,10 +20,12 @@
                 $member_valid = $climbInfo->getMemberValid();
                 $fee_valid = $climbInfo->getFeeValid();
                 $left = $climbInfo->getLeft();
+                $card = $climbInfo->getCard();
 
                 $json_result = "{";
                 $json_result .= "\"memberValid\":\"$member_valid\",";
                 $json_result .= "\"feeValid\":\"$fee_valid\",";
+                $json_result .= "\"card\":\"$card\",";
                 $json_result .= "\"left\":\"$left\"";
                 $json_result .= "}";
                 echo $json_result;
