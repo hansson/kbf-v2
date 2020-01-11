@@ -36,9 +36,10 @@
         error("Not implemented");
     }
 
-    function addFee($item, $pnr, $member, $tmp_pnr, $mysqli) {
+    function addFee($item, $pnr, $member, $tmp_pnr, $customer_name, $mysqli) {
         $name = cleanField($item["name"], $mysqli);
         $price = cleanField($item["price"], $mysqli);
+        $customer_name = cleanField($customer_name, $mysqli);
         $signed = $_SESSION["pnr"];
         $sql = "SELECT price, member_price, type, `table` FROM prices WHERE name = '$name' AND is_fee = 1";
         $result = $mysqli->query($sql);
@@ -52,7 +53,7 @@
                 $card = "";
                 if($table == "ten_card") {
                     $card = rand (1000000, 9999999);
-                    $sql = "INSERT INTO `$table` (pnr, card, signed, receipt) VALUES ('$pnr', '$card', '$signed', '$token')";
+                    $sql = "INSERT INTO ten_card (pnr, card, signed, receipt, customer_name) VALUES ('$pnr', '$card', '$signed', '$token', '$customer_name')";
                 } else if($table == "membership") {
                     $climbInfo = new ClimbInfo($pnr);
                     if($climbInfo->getMemberValid() != "-") {
@@ -134,7 +135,8 @@
                 if($row && $row[1] == "ten_card" && $price == $row[0]) {
                     $card = rand (1000000, 9999999);
                     $token = bin2hex(random_bytes(25));
-                    $sql = "INSERT INTO ten_card  (card, signed, receipt) VALUES ('$card', '$signed', '$token')";
+                    $customerName = $input["name"];
+                    $sql = "INSERT INTO ten_card  (card, signed, receipt, customer_name) VALUES ('$card', '$signed', '$token', '$customerName')";
                     $result = $mysqli->real_query($sql);
                     if($result) {
                         $sql = "INSERT INTO item  (name, price, signed) VALUES ('$name($card)', '$price', '$signed')";
@@ -191,7 +193,7 @@
         }
         $allOk = true;
         for ($i = 0; $i < sizeof($items); $i++) {
-            $allOk = addFee($items[$i], $pnr, $member, $tmp_pnr, $mysqli);
+            $allOk = addFee($items[$i], $pnr, $member, $tmp_pnr, $input["name"], $mysqli);
             if($allOk == false) {
                  break;
             }
