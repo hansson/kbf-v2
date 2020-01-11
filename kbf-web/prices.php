@@ -78,11 +78,7 @@
                         <tbody>
                             <tr class="sv">
                                 <td>Engångsavgift (2 barn gratis med betalande vuxen)</td>
-                                <td>50 kr</td>
-                            </tr>
-                            <tr class="sv">
-                                <td>10-kort</td>
-                                <td>400 kr</td>
+                                <td>60 kr</td>
                             </tr>
                             <tr class="sv">
                                 <td>Skohyra</td>
@@ -94,11 +90,7 @@
                             </tr>
                             <tr class="en hidden">
                                 <td>Single entry (2 children free with paying adult)</td>
-                                <td>50 SEK</td>
-                            </tr>
-                            <tr class="en hidden">
-                                <td>10-card</td>
-                                <td>400 SEK</td>
+                                <td>60 SEK</td>
                             </tr>
                             <tr class="en hidden">
                                 <td>Rent shoes</td>
