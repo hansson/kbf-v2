@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `ten_card` (
   `card` int(11) NOT NULL,
   `signed` varchar(15) NOT NULL,
   `receipt` varchar(50) DEFAULT '0',
+  `customer_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `card` (`card`),
   KEY `ten_card_signed` (`signed`),
