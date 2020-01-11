@@ -111,7 +111,7 @@
 
                         <div id="ten" class="card text-center hidden">
                             <div class="card-header">
-                                10-kort
+                                10-kort(<span id="personInfoTenCard"></span>)
                             </div>
                             <div class="card-block">
                                 <i id="personInfoTen" class="fa fa-check big-icon green hidden" aria-hidden="true"></i>

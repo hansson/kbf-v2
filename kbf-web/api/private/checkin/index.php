@@ -19,7 +19,7 @@
         } else {
             $pnr = checkPnr($input['pnr']);
             if($pnr == $_SESSION["pnr"]) {
-                $open = new CurrentOpen();
+                $open = new CurrentOpen(NULL);
                 $result = $open->add($input['pnr']);
                 if($result) {
                     echo "{\"status\":\"ok\"}";
@@ -30,7 +30,7 @@
         }
     } else if( $_SERVER['REQUEST_METHOD'] === 'GET' ) {
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/checkin/ - " . http_build_query($_GET));
-        $open = new CurrentOpen();
+        $open = new CurrentOpen(NULL);
         if($open->getOpenId()) {
             $open_id = $open->getOpenId();
             echo "{";

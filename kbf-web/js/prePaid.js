@@ -24,6 +24,8 @@ function handlePrePaid(response) {
             $("#personInfoTenUntil").html(cardValue(response.left));
             triggerNextStep = true;
         }
+
+        $("#personInfoTenCard").html(response.card);
     } else {
         show($("#climb"));
         show($("#personInfoNoClimb"));

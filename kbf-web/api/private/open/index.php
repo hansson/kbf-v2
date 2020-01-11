@@ -31,11 +31,9 @@
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         access_log($_SESSION["pnr"] . " - " . $_SERVER['REQUEST_METHOD'] ." - /api/private/open/ - " . http_build_query($_GET));
         //current open
-        $open = new CurrentOpen();
+        $open = new CurrentOpen($_SESSION["pnr"]);
         if(!$open->getOpenId())  {
             error("No open");
-        } else if($open->getResponsible() != $_SESSION["pnr"]) {
-            error("Wrong responsible, " . $open->getResponsible());
         } else {
             $open->print();
         }

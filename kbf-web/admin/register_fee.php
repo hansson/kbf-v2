@@ -92,7 +92,7 @@
                                 <label class="custom-control custom-checkbox" id="label_for_item_5">
                                     <input id="item_5" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">10-kort</span>
+                                    <span class="custom-control-description">10-kort (Endast medlemmar!)</span>
                                 </label>
                             </div>
                             <div class="form-check">
@@ -210,10 +210,9 @@
             {
                 "id": 5,
                 "name": "10-kort",
-                "price": 400,
-                "price_member": 300,
+                "price": 300,
                 "item_type": "checkbox",
-                show_name: true,
+                show_name: false,
             },
             {
                 "id": 9,
@@ -228,7 +227,7 @@
                 "item_type": "checkbox"
             }
         ];
-
+        
         items.forEach(item => {
             $("#label_for_item_" + item.id).click(e => {
                 e.preventDefault();
