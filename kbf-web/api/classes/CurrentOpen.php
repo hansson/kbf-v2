@@ -29,7 +29,7 @@
         function populateFields() {
             $sql = "";
             if($this->responsible == NULL) {
-                $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL LIMIT 1";
+                $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL ORDER BY o.date DESC LIMIT 1";
             } else {
                 $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL AND o.responsible = '$this->responsible' LIMIT 1";
             }
