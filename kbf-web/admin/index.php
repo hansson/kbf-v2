@@ -62,7 +62,7 @@
                     <div id="successfullyClosed" class="alert alert-success hidden" role="alert">
                         <strong>Kassabladet är nu stängt!</strong>
                     </div>
-                    <h5 class="heading">Hittade inget öppet kassablad!</h5>
+                    <h5 class="heading">Du har inget öppet kassablad!</h5>
                     <div>
                         <button id="open_btn" type="button" class="btn btn-primary">Öppna</button>
                     </div>
