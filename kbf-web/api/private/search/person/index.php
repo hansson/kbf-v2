@@ -25,7 +25,7 @@
                 $result = $mysqli->query($sql);
                 $json_result = "[";
                 while($row = $result->fetch_row()) {
-                    $person = new Person($pnr);
+                    $person = new Person($row[0]);
                     $json_result .= $person->print() . ",";
                 }
                 $json_result = endJsonList($json_result, 1);
