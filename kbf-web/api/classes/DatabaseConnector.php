@@ -2,6 +2,8 @@
     include_once (__DIR__ . '/../db.php');
 
     class DatabaseConnector {
+        const ER_DUP_ENTRY = 1062;
+
         var $mysqli;
 
         function __construct() {
