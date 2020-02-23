@@ -123,7 +123,7 @@
                     <h5 class="heading">Lägg till förbetald</h5>
                     <div>
                         <div class="form-group">
-                            <input id="prePaidNumber" class="form-control" type="text" placeholder="Medlemsnummer / kortnummer" autocomplete="off">
+                            <input id="prePaidNumber" class="form-control" type="text" placeholder="Medlemsnummer / kortnummer" inputmode="numeric" autocomplete="off">
                         </div>
                         <button id="addPrePaid" type="button" class="btn btn-primary form-control">Lägg till</button>
                     </div>
@@ -227,7 +227,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                                            <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" inputmode="email" autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="modal-footer">

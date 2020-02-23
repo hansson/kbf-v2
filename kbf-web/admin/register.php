@@ -42,9 +42,9 @@
         <div id="pnr_error" class="alert alert-danger hidden" role="alert">
             <strong>Felaktigt format.</strong>
         </div>
-        <input type="number" id="inputPnr" class="form-control" placeholder="YYMMDD" required autofocus>
+        <input type="number" id="inputPnr" class="form-control" placeholder="YYMMDD" inputmode="numeric" required autofocus>
         <label for="inputEmail">Epost</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Epost" required autofocus>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Epost" inputmode="email" required autofocus>
         <label for="inputPassword">Lösenord</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" required>
         <button id="registerBtn" class="btn btn-lg btn-primary btn-block" type="submit">Registrera</button>

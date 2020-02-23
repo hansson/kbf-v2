@@ -44,7 +44,7 @@
         <form id="loginForm" class="form-signin">
             <h2 class="form-signin-heading">Logga in</h2>
             <label for="inputEmail" class="sr-only">Epost</label>
-            <input type="text" id="inputEmail" class="form-control" placeholder="Epost" required autofocus>
+            <input type="text" id="inputEmail" class="form-control" placeholder="Epost" inputmode="email" required autofocus>
             <label for="inputPassword" class="sr-only">Lösenord</label>
             <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" required>
             <button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">Logga in</button>

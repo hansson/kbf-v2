@@ -62,10 +62,10 @@
                     <p>Klicka på en användare för att visa betalningar.</p>
                     <div>
                         <div class="form-group">
-                            <input id="card" class="form-control" type="text" placeholder="10-kort" autocomplete="off">
+                            <input id="card" class="form-control" type="text" placeholder="10-kort" inputmode="numeric" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input id="email" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                            <input id="email" class="form-control" type="text" placeholder="Epost" inputmode="email" autocomplete="off">
                         </div>
                         <button id="receiptTenCard" type="button" class="btn btn-primary form-control">Skicka kvitto</button>
                     </div>
@@ -78,7 +78,7 @@
                     <p>Klicka på en användare för att visa betalningar.</p>
                     <div>
                         <div class="form-group">
-                            <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" autocomplete="off">
+                            <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" inputmode="numeric" autocomplete="off">
                         </div>
                         <button id="search" type="button" class="btn btn-primary form-control">Sök</button>
                     </div>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                        <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" inputmode="email" autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer">
