@@ -35,7 +35,7 @@
       <form id="resetForm" class="form-signin">
         <h2 class="form-signin-heading">Glömt lösenord</h2>
         <label for="inputPassword">Nytt Lösenord</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Nytt Lösenord" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Nytt Lösenord" autocomplete="new-password" required autofocus>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Återställ</button>
       </form>
 

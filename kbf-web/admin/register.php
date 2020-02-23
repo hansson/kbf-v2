@@ -35,18 +35,18 @@
       <form id="registerForm" class="form-signin">
         <h2 class="form-signin-heading">Registrera</h2>
         <label for="inputFirstName">Förnamn</label>
-        <input type="text" id="inputFirstName" class="form-control" placeholder="Förnamn" required autofocus>
+        <input type="text" id="inputFirstName" class="form-control" placeholder="Förnamn" autocomplete="given-name" required autofocus>
         <label for="inputLastName">Efternamn</label>
-        <input type="text" id="inputLastName" class="form-control" placeholder="Efternamn" required autofocus>
+        <input type="text" id="inputLastName" class="form-control" placeholder="Efternamn" autocomplete="family-name" required autofocus>
         <label for="inputPnr">Födelsedatum</label>
         <div id="pnr_error" class="alert alert-danger hidden" role="alert">
             <strong>Felaktigt format.</strong>
         </div>
         <input type="number" id="inputPnr" class="form-control" placeholder="YYMMDD" inputmode="numeric" required autofocus>
         <label for="inputEmail">Epost</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Epost" inputmode="email" required autofocus>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Epost" autocomplete="email" inputmode="email" required autofocus>
         <label for="inputPassword">Lösenord</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" required>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Lösenord" autocomplete="new-password" required>
         <button id="registerBtn" class="btn btn-lg btn-primary btn-block" type="submit">Registrera</button>
         <p>När du registrerar dig hos oss accepterar du att vi sparar dina användaruppgifter. Du kan läsa mer om hur vi hanterar dina uppgifter <a href="#" data-toggle="modal" data-target="#handleInformationModal">här</a></p>
       </form>
