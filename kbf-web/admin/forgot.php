@@ -35,7 +35,7 @@
       <form id="forgotForm" class="form-signin">
         <h2 class="form-signin-heading">Glömt lösenord</h2>
         <label for="inputEmail">Epost</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Epost" required autofocus>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Epost" inputmode="email" required autofocus>
         <button id="resetBtn" class="btn btn-lg btn-primary btn-block" type="submit">Återställ</button>
         <p>En återställningslänk kommer att skickas till dig. Om du inte längre har tillgång till din epost får du kontakta kontakt@karlskronabergsport.se</p>
       </form>
