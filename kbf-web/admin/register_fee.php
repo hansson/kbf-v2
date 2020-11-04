@@ -114,11 +114,11 @@
 
 
                         <div class="form-group">
-                            <input id="item_mem_nr" class="form-control" type="text" placeholder="Medlemsnummer" autocomplete="off">
+                            <input id="item_mem_nr" class="form-control" type="text" placeholder="Medlemsnummer" inputmode="numeric" autocomplete="off">
                         </div>
 
                         <div id="pnr_group" class="form-group hidden">
-                            <input id="item_pnr" class="form-control" type="text" placeholder="Personnummer" autocomplete="off">
+                            <input id="item_pnr" class="form-control" type="text" placeholder="Personnummer" inputmode="numeric" autocomplete="off">
                         </div>
 
                         <div id="name_group" class="form-group hidden">

@@ -62,10 +62,10 @@
                     <p>Klicka på en användare för att visa betalningar.</p>
                     <div>
                         <div class="form-group">
-                            <input id="card" class="form-control" type="text" placeholder="10-kort" autocomplete="off">
+                            <input id="card" class="form-control" type="text" placeholder="10-kort" inputmode="numeric" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input id="email" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                            <input id="email" class="form-control" type="text" placeholder="Epost" inputmode="email" autocomplete="off">
                         </div>
                         <button id="receiptTenCard" type="button" class="btn btn-primary form-control">Skicka kvitto</button>
                     </div>
@@ -78,7 +78,7 @@
                     <p>Klicka på en användare för att visa betalningar.</p>
                     <div>
                         <div class="form-group">
-                            <input id="searchNumber" class="form-control" type="text" placeholder="Namn eller födelsedatum" autocomplete="off">
+                            <input id="searchNumber" class="form-control" type="text" placeholder="Namn eller födelsedatum" inputmode="text" autocomplete="off">
                         </div>
                         <button id="search" type="button" class="btn btn-primary form-control">Sök</button>
                     </div>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" autocomplete="off">
+                        <input id="receiptEmail" class="form-control" type="text" placeholder="Epost" inputmode="email" autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -250,14 +250,14 @@
                 paymentHtml += "<tr><td>" + 
                 payment.name + "</td><td>" + 
                 payment.paymentDate +  "</td><td>" +
-                "<button id=\"receipt-row-" + i + 
+                "<button id=\"receipt-row-" + person.pnr + "-" + i +
                 "\" type=\"button\" class=\"btn btn-success form-control\" data-toggle=\"modal\" data-target=\"#receiptModal\" data-receipt=\"" +
                 payment.receipt + "\"><i class=\"fa fa-file-o\"></i></button></td>" +
                 "</td></tr>";
 
                 $("#paymentTable").append(paymentHtml);
 
-                $("#receipt-row-" + i).click(function(evt) {
+                $("#receipt-row-" + person.pnr + "-" + i).click(function(evt) {
                     var pnr = evt.currentTarget.id.split("-")[2];
                     var receipt = evt.currentTarget.getAttribute("data-receipt");
                     $("#receiptName").html($("#name_" + pnr).html());
