@@ -160,7 +160,7 @@
         logoutIfNotSet(loggedInUser);
         $("#number").html(loggedInUser);
 
-        $.get("../api/private/search/person?pnr=" + loggedInUser + "&exact=1", function (response) {
+        $.get("../api/private/search/person?search=" + loggedInUser + "&exact=1", function (response) {
             $("#name").html(response[0].name);
         }, "json").fail(function (response) {
             show($("#unexpected_error"));

@@ -540,7 +540,7 @@
 
         function populateResponsibleName(error) {
             var pnr = error.substring(19, error.length);
-            $.get("../api/private/search/person?pnr=" + pnr + "&exact=1", function (response) {
+            $.get("../api/private/search/person?search=" + pnr + "&exact=1", function (response) {
                 $("#wrong_responsible_name").html(response[0].name);
             }, "json").fail(function (response) {
                 show($("#unexpected_error"));

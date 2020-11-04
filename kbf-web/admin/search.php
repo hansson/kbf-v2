@@ -78,7 +78,7 @@
                     <p>Klicka på en användare för att visa betalningar.</p>
                     <div>
                         <div class="form-group">
-                            <input id="searchNumber" class="form-control" type="text" placeholder="Födelsedatum" autocomplete="off">
+                            <input id="searchNumber" class="form-control" type="text" placeholder="Namn eller födelsedatum" autocomplete="off">
                         </div>
                         <button id="search" type="button" class="btn btn-primary form-control">Sök</button>
                     </div>
@@ -193,7 +193,7 @@
             $("#searchTable").html("");
             var pnr = $("#searchNumber").val();
             if(pnr && pnr.trim() != "") {
-                $.get( "../api/private/search/person?pnr=" + pnr, function(response) {
+                $.get( "../api/private/search/person?search=" + pnr, function(response) {
                     for(var i = 0 ; i < response.length ; i++) {
                         addSearchPerson(response[i]);
                     }
