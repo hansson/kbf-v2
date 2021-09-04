@@ -1,7 +1,17 @@
 function addAttendee(attendee) {
     var row = "<tr id=\"attendee_" + attendee.id + "\">";
+    var date =  new Date(attendee.created);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    if(hours < 10) {
+        hours = "0" + hours;
+    }
+    if(minutes < 10) {
+        minutes = "0" + minutes;
+    }
     row += "<td id=\"name_" + attendee.id + "\">" + attendee.nameOrPnr.split("+")[0] + "</td>";
     row += "<td>" + attendee.total + "</td>";
+    row += "<td>" + hours + ":" + minutes + "</td>";
     row += "<td><button id=\"receipt-row-" + attendee.id + "\" type=\"button\" class=\"btn btn-success form-control\" data-toggle=\"modal\" data-target=\"#receiptModal\" data-receipt=\"" + attendee.receipt + "\"><i class=\"fa fa-file-o\"></i></button></td>";
     row += "<td><button id=\"remove-row-" + attendee.id + "\" type=\"button\" class=\"btn btn-danger form-control\" data-toggle=\"modal\" data-target=\"#deleteModal\"><i class=\"fa fa-trash\"></i></button></td>";
     row += "</tr>";

@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `open_person` (
   `pnr` varchar(15) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `receipt` varchar(50) NOT NULL DEFAULT '0',
+  `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `all_fields` (`pnr`,`open_id`,`name`),
   UNIQUE KEY `pnr` (`pnr`,`open_id`),

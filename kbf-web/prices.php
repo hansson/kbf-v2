@@ -77,7 +77,7 @@
                     <table class="table">
                         <tbody>
                             <tr class="sv">
-                                <td>Engångsavgift (2 barn gratis med betalande vuxen)</td>
+                                <td>Engångsavgift (1 barn gratis med betalande vuxen)</td>
                                 <td>60 kr</td>
                             </tr>
                             <tr class="sv">
@@ -89,7 +89,7 @@
                                 <td>50 kr</td>
                             </tr>
                             <tr class="en hidden">
-                                <td>Single entry (2 children free with paying adult)</td>
+                                <td>Single entry (1 children free with paying adult)</td>
                                 <td>60 SEK</td>
                             </tr>
                             <tr class="en hidden">
@@ -108,7 +108,7 @@
                     <table class="table">
                         <tbody>
                             <tr class="sv">
-                                <td>Engångsavgift (2 barn gratis med betalande vuxen)</td>
+                                <td>Engångsavgift (1 barn gratis med betalande vuxen)</td>
                                 <td>40 kr</td>
                             </tr>
                             <tr class="sv">
@@ -132,7 +132,7 @@
                                 <td>250 kr</td>
                             </tr>
                             <tr class="en hidden">
-                                <td>Single entry (2 children free with paying adult)</td>
+                                <td>Single entry (1 children free with paying adult)</td>
                                 <td>40 SEK</td>
                             </tr>
                             <tr class="en hidden">
@@ -161,7 +161,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 ">
+            <div class="col-lg-6 hidden">
                 <div class="contained">
                 <div>
                     <h2 class="sv">Kurser</h2>

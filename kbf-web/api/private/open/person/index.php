@@ -72,7 +72,7 @@
             $mysqli = getDBConnection($config);
             $open_id = cleanField($_GET['openId'], $mysqli);
             
-            $sql = "SELECT op.id, op.pnr, op.name, p.name, op.receipt
+            $sql = "SELECT op.id, op.pnr, op.name, p.name, op.receipt, op.created
 	                    FROM `open_person` as op 
 	                    LEFT JOIN `person` as p on p.pnr = op.pnr
 	                    WHERE `open_id` = $open_id";
@@ -90,7 +90,8 @@
                     }
                     $open_person_result .= "\"pnr\":\"$pnr_row\",";
                     $open_person_result .= "\"name\":\"" . getStringcolumn($row, 2) . "\",";
-                    $open_person_result .= "\"items\":[" . getItems($row[0], $mysqli) . "]";
+                    $open_person_result .= "\"items\":[" . getItems($row[0], $mysqli) . "],";
+                    $open_person_result .= "\"created\":\"$row[5]\"";
                     $open_person_result .= "},";
                 }
                 $open_person_result = endJsonList($open_person_result, 1);

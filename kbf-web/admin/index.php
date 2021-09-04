@@ -188,6 +188,7 @@
                             <tr>
                                 <th>Namn</th>
                                 <th>Totalt</th>
+                                <th>Tid</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -359,7 +360,8 @@
                     id: response.id,
                     receipt: response.receipt,
                     nameOrPnr: nameOrPnr,
-                    total: 0
+                    total: 0,
+                    created: new Date().toISOString()
                 };
                 for(var i = 0 ; i < request.items.length  ; i++ ) {
                     attendee.total += request.items[i].price;
@@ -476,10 +478,12 @@
                         id: -1,
                         receipt: "",
                         nameOrPnr: "",
-                        total: 0
+                        total: 0,
+                        created: ""
                     };
                     attendee.id = response[i].id;
                     attendee.receipt = response[i].receipt;
+                    attendee.created = response[i].created;
                     if(response[i].name && response[i].name != "") {
                         attendee.nameOrPnr = response[i].name;
                     } else {
@@ -493,8 +497,8 @@
 
                     addAttendee(attendee);
                 }
-            }, "json").fail(function(response) {
-                alert("14" + JSON.stringify(response));
+            }, "json").fail(function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
             });
         }
 
@@ -558,7 +562,8 @@
                     id: response.id,
                     receipt: "",
                     nameOrPnr: prePaidNumber,
-                    total: 0
+                    total: 0,
+                    created: new Date().toISOString()
                 };                    
                 addAttendee(attendee);
             }, "json").fail(function(response){

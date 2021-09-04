@@ -105,6 +105,7 @@
                     <li>Registrera dig <a href="admin/register.php">här</a> på vår hemsida</li>
                     <li>Betala in medlemsavgiften till PlusGiro, 835 43 78-5, skriv ditt personnummer och namn som meddelande</li>
                     <li>Om du ska köpa träningskort går detta också bra att betala in på vårt PlusGiro. Märk även detta med personnummer och namn</li>
+                    <li>Om du har gjort din betalning via PlusGiro, ta med bevis på betalningen vid nästa öppettillfälle eller skicka ett mail till kontakt@karlskronabergsport.se</li>
                 </ul>
 
                 <h4 class="en hidden">How do I become a member?</h4>
@@ -113,6 +114,7 @@
                     <li>Register <a href="admin/register.php">here</a> on our website</li>
                     <li>Pay the membership fee to PlusGiro, 835 43 78-5, write your civic number and name as the message</li>
                     <li>If you want to buy a training fee, this can be paid to the PlusGiro account as well. Mark it with civic number and name</li>
+                    <li>If your payment was made with PlusGiro,  bring proof of payment to the next open session or send an email to kontakt@karlskronabergsport.se</li>
                 </ul>
             </div>
         
