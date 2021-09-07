@@ -75,11 +75,13 @@
                     drop-in tider har vi en bra blandning av nybörjare och mer erfarna klättrare.</li>
                     <li><b>Har ni några åldersgräner?</b> På vår drop-in är det 10 år och uppåt som gäller, är man under 15 måste man ha en en vuxen med sig. Vi har i dagsläget brist på frivilliga som 
                     kan hålla öppet och vi har därför inte något tillfälle för barn under 10 år</li>
+                    <li><b>Vilka betalsätt har ni?</b> När du ska klättra hos oss tar vi emot betlning via kontater eller Swish</li>
                 </ul>
                  <ul class="en hidden">
                     <li><b>I've never climbed before, what do I do?</b> In our club we aminly focus on bouldering. Bouldering is climbing on low walls with mattresses as protection. This means that you
                     do not need to have any previous knowledge to be able to climb with us. If you want to try climbing then you are welcome to our drop-in, times can be found in the calendar as "Öppet".</li>
                     <li><b>Do you have any age restrictions?</b> On our drop-in you need to be 10 years or older to climb, if you are under 15 you need to be in company with an adult.</li>
+                    <li><b>Which payment methods do you have?</b> When climbing at our club you can pay with cash or Swish</li>
                 </ul>
             </div>
         

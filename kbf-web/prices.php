@@ -70,6 +70,8 @@
                 <div class="contained">
                 <div>
                     <h2>Drop-in</h2>
+                    <p class="sv">Vänligen notera att på klubben kan du betala med kontanter eller Swish</p>
+                    <p class="en hidden">Please not that we allow payments with cash or Swish only</p>
                 </div>
                 <div>
                     <h4 class="sv">Avgifter</h4>
