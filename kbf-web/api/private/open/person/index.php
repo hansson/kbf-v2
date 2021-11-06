@@ -71,12 +71,12 @@
             //get persons for open-id
             $mysqli = getDBConnection($config);
             $open_id = cleanField($_GET['openId'], $mysqli);
-            
-            $sql = "SELECT op.id, op.pnr, op.name, p.name, op.receipt, op.created
-	                    FROM `open_person` as op 
-	                    LEFT JOIN `person` as p on p.pnr = op.pnr
-	                    WHERE `open_id` = $open_id";
-                        
+
+            $sql = "SELECT op.id, op.pnr, op.name, p.name, op.receipt, DATE_FORMAT(op.created, '%Y-%m-%dT%TZ') as created
+                        FROM `open_person` as op
+                        LEFT JOIN `person` as p on p.pnr = op.pnr
+                        WHERE `open_id` = $open_id";
+
             $result = $mysqli->query($sql);
             if($result && $result->num_rows > 0) {
                 $open_person_result = "[";
