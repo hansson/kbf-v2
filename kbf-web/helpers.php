@@ -74,7 +74,7 @@ function error($error) {
 
 function forceHttps($config) {
 	if($config["environment"] === "prod") {
-		if($_SERVER["HTTPS"] != "on") {
+		if(!array_key_exists("HTTPS", $_SERVER) || $_SERVER["HTTPS"] != "on") {
 			header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 			exit();
 		}
