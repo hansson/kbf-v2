@@ -1,5 +1,7 @@
 <?php
-    require '../../../classes/PHPMailer/PHPMailerAutoload.php';
+    require '../../../classes/PHPMailer/src/PHPMailer.php';
+    require '../../../classes/PHPMailer/src/SMTP.php';
+    require '../../../classes/PHPMailer/src/Exception.php';
     require '../../../classes/Receipt.php';
     include_once '../../../../helpers.php';
 
@@ -40,7 +42,7 @@
         } else {
             $url = $receipt->getUrl();
             
-            $mail = new PHPMailer;
+            $mail = new PHPMailer\PHPMailer\PHPMailer;
     
             $mail->isSMTP();      
             $mail->Host = $config['smtp_server'];  

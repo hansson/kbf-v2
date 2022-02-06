@@ -1,5 +1,7 @@
 <?php
-    require '../../classes/PHPMailer/PHPMailerAutoload.php';
+    require '../../classes/PHPMailer/src/PHPMailer.php';
+    require '../../classes/PHPMailer/src/SMTP.php';
+    require '../../../classes/PHPMailer/src/Exception.php';
     include '../../db.php';
     include '../../../helpers.php';
     
@@ -61,7 +63,7 @@
 
 
     function mailto($email, $token, $config) {
-        $mail = new PHPMailer;
+        $mail = new PHPMailer\PHPMailer\PHPMailer;
 
         //$mail->SMTPDebug = 3;
         $mail->isSMTP();      
