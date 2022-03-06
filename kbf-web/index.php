@@ -82,7 +82,7 @@
         </div>
 
         <footer class="footer">
-            <p>&copy; Karlskrona Bergsportsförening 2017</p>
+            <p>&copy; Karlskrona Bergsportsförening <?php echo date("Y"); ?></p>
         </footer>
         
     </div>
