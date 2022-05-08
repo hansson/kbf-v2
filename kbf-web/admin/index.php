@@ -177,6 +177,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="contained">
+                    <h5 class="heading">Justera antal incheckade</h5>
+                    <div class="row">
+                        <div class="col-3">
+                            <button id="decrementSlots" type="button" class="btn btn-primary form-control btn-lg">-</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h1 id="currentCheckedIn" class="heading">0</h1>
+                        </div>
+                        <div class="col-3">
+                            <button id="incrementSlots" type="button" class="btn btn-primary form-control btn-lg">+</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-6">
