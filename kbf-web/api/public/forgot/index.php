@@ -1,7 +1,7 @@
 <?php
     require '../../classes/PHPMailer/src/PHPMailer.php';
     require '../../classes/PHPMailer/src/SMTP.php';
-    require '../../../classes/PHPMailer/src/Exception.php';
+    require '../../classes/PHPMailer/src/Exception.php';
     include '../../db.php';
     include '../../../helpers.php';
     
