@@ -75,7 +75,7 @@
             hide($("#notActive"));
             hide($("#badPassword"));
             var request = {
-                email: $("#inputEmail").val(),
+                email: $("#inputEmail").val().toLowerCase(),
                 password: $("#inputPassword").val()
             }
             $.post( "../api/public/login/", JSON.stringify(request), function(response) {

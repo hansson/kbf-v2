@@ -165,66 +165,78 @@
 
             <div class="col-lg-6">
                 <div class="contained">
-                <div>
-                    <h2 class="sv">Kurser</h2>
-                    <h2 class="en hidden">Courses </h2>
-                </div>
-                <div class="hidden">
-                    <h3 class="sv">Barn- och ungdomsgrupper</h3>
-                    <p class="sv">Vi har flera grupper för barn och ungdomar upp till 15-års ålder. För frågor och anmälan kontakta kontakt@karlskronabergsport.se.</p>
-                    <h3 class="en hidden">Youth groups</h3>
-                    <p class="en hidden">We have several groups for children up to the age of 15. To sign up or if you have any questions, please contact kontakt@karlskronabergsport.se.</p>
-                    <table class="table">
-                        <tbody>
-                            <tr class="sv">
-                                <td>Medlemsavgift</td>
-                                <td>150 kr</td>
-                            </tr>
-                            <tr class="sv">
-                                <td>Terminsavgift</td>
-                                <td>400 kr</td>
-                            </tr>
-                            <tr class="sv">
-                                <td>Årsavgift</td>
-                                <td>600 kr</td>
-                            </tr>
-                            <tr class="en hidden">
-                                <td>Membership fee</td>
-                                <td>150 SEK</td>
-                            </tr>
-                            <tr class="en hidden">
-                                <td>One semester</td>
-                                <td>400 SEK</td>
-                            </tr>
-                            <tr class="en hidden">
-                                <td>Yearly fee</td>
-                                <td>600 SEK</td>
-                            </tr>
+                    <div>
+                        <h2 class="sv">Kurser</h2>
+                        <h2 class="en hidden">Courses </h2>
+                    </div>
+                    <div>
+                        <p class="sv">
+                            Skulle ni vilja ha er klättring instruktörsledd så kan vi erbjuda detta vid förfrågan. Rekommenderad storlek på grupper är 5-10 men vi kan ofta lösa större grupper med. Kontakta kontakt@karlskronabergsport.se för frågor och bokning.
+                        </p>
+                        <p class="en hidden">
+                            If you would like an instructor with you while climbing then we can offer you instructor led climbing in our climbing hall or on one of Blekinges many
+                            cliffs. Recommended size of groups are 5-10 persons, but we can often solve bigger groups as well. Please contact kontakt@karlskronabergsport.se for questions and booking.
+                        </p>
+                        <table class="table">
+                            <tbody>
+                                <tr class="sv">
+                                    <td>Inomhus</td>
+                                    <td>150 kr/person</td>
+                                </tr>
+                                <tr class="en hidden">
+                                    <td>Indoor</td>
+                                    <td>150 SEK/person</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h2 class="sv">Prova på klippklättring</h2>
+                        <h2 class="en hidden">Try outdoors rock climbing </h2>
+                    </div>
+                    <div>
+                        <p class="sv">
+                        Vill ni prova på topprepsklättring så kan vi erbjuda den möjligheten på en av våra klippor i Karlskrona. 
+                        Riktar sig till er som aldrig har klättrat och vill prova på, eller er som klättrat inomhus och vill testa på repklättring 
+                        utomhus. Maila kontakt@karlskronabergsport.se för frågor och bokning.
+                        </p>
+                        
+                        <p class="en hidden">
+                            If you would like to try top-rope climbing outdoors we can provide this on one if our cliffs in Karlskrona. 
+                            This is primarily for people that have never climbed before or if you have never tried to climb outdoors on a clif.
+                            Send an e-mail to kontakt@karlskronabergsport.se for any questions and booking.
+                        </p>
+                        <table class="table">
+                            <tbody>
+                                <tr class="sv">
+                                    <td>Max storlek</td>
+                                    <td>10 personer</td>
+                                </tr>
+                                <tr class="en hidden">
+                                    <td>Max size</td>
+                                    <td>10 persons</td>
+                                </tr>
 
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    <p class="sv">
-                        Skulle ni vilja ha er klättring instruktörsledd så kan vi erbjuda detta vid förfrågan. Rekommenderad storlek på grupper är 5-10 men vi kan ofta lösa större grupper med. Kontakta kontakt@karlskronabergsport.se för frågor och bokning.
-                    </p>
-                    <p class="en hidden">
-                        If you would like an instructor with you while climbing then we can offer you instructor led climbing in our climbing hall or on one of Blekinges many
-                        cliffs. Recommended size of groups are 5-10 persons, but we can often solve bigger groups as well. Please contact kontakt@karlskronabergsport.se for questions and booking.
-                    </p>
-                    <table class="table">
-                        <tbody>
-                            <tr class="sv">
-                                <td>Inomhus</td>
-                                <td>150 kr/person</td>
-                            </tr>
-                            <tr class="en hidden">
-                                <td>Indoor</td>
-                                <td>150 SEK/person</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                <tr class="sv">
+                                    <td>Åldersgräns</td>
+                                    <td>Året ni fyller 11. Vuxet sällskap behövs om ni är under 18.</td>
+                                </tr>
+                                <tr class="en hidden">
+                                    <td>Age limit</td>
+                                    <td>The year you become 11. Adult suppervision required until the age of 18.</td>
+                                </tr>
+
+                                <tr class="sv">
+                                    <td>Pris</td>
+                                    <td>300kr/person</td>
+                                </tr>
+                                <tr class="en hidden">
+                                    <td>Price</td>
+                                    <td>300kr/person</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

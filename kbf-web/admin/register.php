@@ -95,7 +95,7 @@
                 password: $("#inputPassword").val(),
                 firstname: $("#inputFirstName").val(),
                 lastname: $("#inputLastName").val(),
-                email: $("#inputEmail").val()     
+                email: $("#inputEmail").val().toLowerCase()     
             }
             $.post( "../api/public/register/", JSON.stringify(request), function(response) {
                 window.location = "login.php?registered=1";

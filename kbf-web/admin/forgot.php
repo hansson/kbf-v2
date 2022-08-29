@@ -55,7 +55,7 @@
             e.preventDefault();
             hide($("#unexpected_error"));
             var request = {
-                email: $("#inputEmail").val()     
+                email: $("#inputEmail").val().toLowerCase()     
             }
             $.post( "../api/public/forgot/", JSON.stringify(request), function(response) {
                 window.location = "login.php";
