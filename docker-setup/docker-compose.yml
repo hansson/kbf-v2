@@ -1,0 +1,27 @@
+version: '3'
+services: 
+    web:
+        image: nginx:latest
+        ports: 
+            - "80:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ../kbf-web:/app
+    php:
+        build:
+            context: .
+            dockerfile: PHP.Dockerfile
+        volumes:
+            - ../kbf-web:/app
+    mysql:
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: 'secret'
+            MYSQL_USER: 'testuser'
+            MYSQL_PASSWORD: 'password'
+            MYSQL_DATABASE: 'kbf'
+        volumes:
+            - ./mysqldata:/var/lib/mysql
+            - ../kbf-web/kbf.sql:/kbf.sql
+        ports:
+            - 3306:3306 

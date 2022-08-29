@@ -8,6 +8,9 @@
 * Goto `http://127.0.0.1/admin/login.php`
 * Login with user `admin@test.com` and password `test`
 
+## Installing using docker
+See docker-setup folder.
+
 ## Add user to mariadb
 * Connect to mariadb with a admin user
 * `CREATE DATABASE `db`;`

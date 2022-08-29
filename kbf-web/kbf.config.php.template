@@ -5,8 +5,8 @@ return array(
     'mysql_database' => "db",
     'mysql_address' => "127.0.0.1",
     'environment' => "dev",
-    'smtp_server' => "127.0.0.1"
-    'smtp_email' => "usr@usr"
+    'smtp_server' => "127.0.0.1",
+    'smtp_email' => "usr@usr",
     'smtp_password' => "pwd"
 );
 ?>
