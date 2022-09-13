@@ -88,7 +88,7 @@
                             </tr>
                             <tr class="sv">
                                 <td>Kritboll</td>
-                                <td>50 kr</td>
+                                <td>40 kr</td>
                             </tr>
                             <tr class="en hidden">
                                 <td>Single entry (1 children free with paying adult)</td>
@@ -100,7 +100,7 @@
                             </tr>
                             <tr class="en hidden">
                                 <td>Chalk ball</td>
-                                <td>50 SEK</td>
+                                <td>40 SEK</td>
                             </tr>
                         </tbody>
                     </table>

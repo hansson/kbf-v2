@@ -311,7 +311,7 @@
             {
                 "id": 8,
                 "name": "Kritboll",
-                "price": 50,
+                "price": 40,
                 "item_type": "checkbox"
             }
         ];
