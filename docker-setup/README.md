@@ -29,8 +29,8 @@ source /kbf.sql
 ## PHP config
 For 'mysql_address' use the container name for the mysql instance. 
 
-´´´
+```
 ...
 'mysql_address' => "docker-setup_mysql_1",
 ...
-´´´
+```
