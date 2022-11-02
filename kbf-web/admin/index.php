@@ -325,10 +325,11 @@
             var responsible = -1;
             var openDate = undefined;
             openId = -1;
-            checkOpen(function(id, responsibleId, date) {
+            checkOpen(function(id, responsibleId, date, currentCheckedIn) {
                 openId = id;
                 responsible = responsibleId;
                 openDate = date;
+                $("#currentCheckedIn").text(currentCheckedIn);
                 populateOpenTable();
             });
             var successfullyClosed = getUrlParameter("closed");
@@ -435,11 +436,13 @@
             var prePaidNumber = $("#prePaidNumber").val();
             var request;
             if(checkPersonalNumber(prePaidNumber)) {
-                $.get( "../api/private/search/person/lite?pnr=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
+                $.get( "../api/private/search/person/lite?pnr=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json")
+                .fail(function(response){
                     $("#prePaidNumber").val("");
                 });
             } else {
-                $.get( "../api/private/search/card?card=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json").fail(function(response){
+                $.get( "../api/private/search/card?card=" + prePaidNumber, JSON.stringify(request), handlePrePaid, "json")
+                .fail(function(response){
                     $("#prePaidNumber").val("");
                     show($("#tenNotFound"));
                 });
@@ -481,6 +484,14 @@
                     alert("13" + response.responseText);
                 }
             });
+        });
+
+        $("#incrementSlots").click(function() {
+            incrementSlots();
+        });
+
+        $("#decrementSlots").click(function() {
+            decrementSlots();
         });
 
         function populateOpenTable() {
@@ -538,7 +549,7 @@
                 hide($("#closed"));
                 hide($("#wrong_responsible"));
                 $("#responsible").html("Öppetansvarig: " + response.responsible_name);
-                callback(response.id, response.responsible, response.date);                
+                callback(response.id, response.responsible, response.date, response.current_checked_in);                
             }, "json").fail(function(response) {
                 var error = JSON.parse(response.responseText).error;
                 if(response.responseText && error === "No open") {
@@ -588,6 +599,34 @@
         function cardValue(value){
             return value - 1;
         };
+
+        function incrementSlots() {
+            $.ajax({
+                url: '../api/private/open/checkedin/increment/',
+                type: 'POST',
+                data: undefined,
+                success: function(response) {
+                    $("#currentCheckedIn").text(response)
+                },
+                error: function(response) {
+                    alert("13" + response.responseText);
+                }
+            });
+        }
+
+        function decrementSlots() {
+            $.ajax({
+                url: '../api/private/open/checkedin/decrement/',
+                type: 'POST',
+                data: undefined,
+                success: function(response) {
+                    $("#currentCheckedIn").text(response)
+                },
+                error: function(response) {
+                    alert("13" + response.responseText);
+                }
+            });
+        }
     </script>
 </body>
 

@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `open` (
   `responsible` varchar(15) NOT NULL,
   `signed` varchar(15) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `currentCheckedIn` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `fk_open_responsible` (`responsible`),
   KEY `fk_open_signed` (`signed`),

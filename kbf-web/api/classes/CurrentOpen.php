@@ -8,6 +8,7 @@
         var $responsible;
         var $date;
         var $name;
+        var $current_checked_in;
 
         function __construct($responsible) {		
             parent::__construct();
@@ -15,6 +16,7 @@
             $this->responsible = parent::cleanField($responsible);
             $this->date  = NULL;
             $this->name  = NULL;
+            $this->current_checked_in = NULL;
             $this->populateFields();
 		}
 
@@ -26,12 +28,34 @@
             return $this->responsible;
         }
 
+        function getCurrentCheckedIn() {
+            return $this->current_checked_in;
+        }
+
+        function incrementCurrentCheckedIn() {
+            $sql = "UPDATE `open` SET `currentCheckedIn`=`currentCheckedIn` + 1 WHERE `id`=$this->open_id";
+            parent::getMysql()->real_query($sql);
+            $this->current_checked_in++;
+            return $this->current_checked_in;
+        }
+
+        function decrementCurrentCheckedIn() {
+            if($this->current_checked_in == 0) {
+                return 0;
+            }
+            
+            $sql = "UPDATE `open` SET `currentCheckedIn`=`currentCheckedIn` - 1 WHERE `id`=$this->open_id";
+            parent::getMysql()->real_query($sql);
+            $this->current_checked_in--;
+            return $this->current_checked_in;
+        }
+
         function populateFields() {
             $sql = "";
             if($this->responsible == NULL) {
-                $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL ORDER BY o.date DESC LIMIT 1";
+                $sql = "SELECT o.id, o.responsible, o.date, p.name, o.currentCheckedIn FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL ORDER BY o.date DESC LIMIT 1";
             } else {
-                $sql = "SELECT o.id, o.responsible, o.date, p.name FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL AND o.responsible = '$this->responsible' LIMIT 1";
+                $sql = "SELECT o.id, o.responsible, o.date, p.name, o.currentCheckedIn FROM `open` as o INNER JOIN `person` as p ON p.pnr = o.responsible WHERE o.`signed` IS NULL AND o.responsible = '$this->responsible' LIMIT 1";
             }
             $result = parent::getMysql()->query($sql);
             while($row = $result->fetch_row()) {
@@ -39,6 +63,7 @@
                 $this->responsible = $row[1];
                 $this->date  = $row[2];
                 $this->name  = getStringcolumn($row, 3);
+                $this->current_checked_in = $row[4];
             }
             $result->close();
         }
@@ -48,7 +73,8 @@
             echo "\"id\":$this->open_id,";
             echo "\"responsible\":\"$this->responsible\",";
             echo "\"date\":\"$this->date\",";
-            echo "\"responsible_name\":\"$this->name\"";
+            echo "\"responsible_name\":\"$this->name\",";
+            echo "\"current_checked_in\":$this->current_checked_in";
             echo "}";
         }
 
