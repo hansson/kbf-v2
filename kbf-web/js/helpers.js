@@ -29,12 +29,12 @@ function getUrlParameter(sParam) {
 };
 
 function checkPersonalNumber(pnr) {
-    var pnrIncludesDash = pnr.indexOf("-")
-    if ((pnrIncludesDash > -1 && pnr.length > 8) || (!pnrIncludesDash > -1 && pnr.length > 6)) {
-        pnr = pnr.substring(2, pnr.length);
+    //If 7 digits then it is a 10-card
+    if(pnr.length != 7 && pnr.match("[-0-9]+")) {
+        return true;
     }
 
-    return new RegExp(/[0-9]{6}(-[0-9]){0,1}/).test(pnr) && (pnr.length == 6 || (pnrIncludesDash && pnr.length == 8));
+    return false;
 };
 
 function runningOutDate(valid) {
