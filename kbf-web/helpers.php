@@ -191,6 +191,14 @@ function getHeader($active) {
 		echo '</li>';
 
 		echo '<li class="nav-item">';
+		if($active == "lend") {
+			echo '<a class="nav-link active" href="#">Låna</a>';
+		} else {
+			echo '<a class="nav-link" href="lend.php">Låna</a>';
+		}
+		echo '</li>';
+
+		echo '<li class="nav-item">';
 		if($active == "search") {
 			echo '<a class="nav-link active" href="#">Sök</a>';
 		} else {

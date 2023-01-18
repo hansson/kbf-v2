@@ -129,6 +129,20 @@ CREATE TABLE IF NOT EXISTS `misc` (
   `text` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `lending` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `responsible` varchar(15) NOT NULL,
+  `member` varchar(15) NOT NULL,
+  `lended` varchar(255) NOT NULL,
+  `lended_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `returned_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_open_responsible` (`responsible`),
+  KEY `fk_member_lend` (`member`),
+  CONSTRAINT `fk_lend_responsible` FOREIGN KEY (`responsible`) REFERENCES `person` (`pnr`),
+  CONSTRAINT `fk_member_lend` FOREIGN KEY (`member`) REFERENCES `person` (`pnr`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `person` (`pnr`, `name`, `address`, `email`, `responsible`, `password`, `active`, `forgotToken`) VALUES
 	('901102', 'Test Testsson 2', 'Street 20B', '901102', 3, '$2y$10$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL),
 	('901103', 'Test Testsson', 'Street 22B', 'admin@test.com', 3, '$2y$10$dcO7xrogI72vpGabuNleC.KjsmzUoLBIrj.xVYTBA58LfxAyNHzMm', 1, NULL),

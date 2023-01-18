@@ -79,7 +79,7 @@
                     <table class="table">
                         <tbody>
                             <tr class="sv">
-                                <td>Engångsavgift (1 barn gratis med betalande vuxen)</td>
+                                <td>Engångsavgift (1 barn under 10 år gratis med betalande vuxen)</td>
                                 <td>60 kr</td>
                             </tr>
                             <tr class="sv">
@@ -91,7 +91,7 @@
                                 <td>40 kr</td>
                             </tr>
                             <tr class="en hidden">
-                                <td>Single entry (1 children free with paying adult)</td>
+                                <td>Single entry (1 child under 10 free with paying adult)</td>
                                 <td>60 SEK</td>
                             </tr>
                             <tr class="en hidden">
@@ -110,7 +110,7 @@
                     <table class="table">
                         <tbody>
                             <tr class="sv">
-                                <td>Engångsavgift (1 barn gratis med betalande vuxen)</td>
+                                <td>Engångsavgift (1 barn under 10 år gratis med betalande vuxen)</td>
                                 <td>40 kr</td>
                             </tr>
                             <tr class="sv">
@@ -134,7 +134,7 @@
                                 <td>250 kr</td>
                             </tr>
                             <tr class="en hidden">
-                                <td>Single entry (1 children free with paying adult)</td>
+                                <td>Single entry (1 child under 10 free with paying adult)</td>
                                 <td>40 SEK</td>
                             </tr>
                             <tr class="en hidden">
