@@ -100,7 +100,7 @@
                                 return false;
                             }
 
-                            $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `pnr` = $pnr";
+                            $sql = "SELECT id FROM `open_person` WHERE open_id = $this->open_id AND `pnr` = '$pnr'";
                             if($result = parent::getMysql()->query($sql)) {
                                 if($result->num_rows > 0) {
                                     $row = $result->fetch_row();
