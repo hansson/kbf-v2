@@ -30,7 +30,7 @@ function getUrlParameter(sParam) {
 
 function checkPersonalNumber(pnr) {
     //If 7 digits then it is a 10-card
-    if(pnr.length != 7 && pnr.match("[-0-9]+")) {
+    if(pnr.length != 7 && pnr.match("^[-0-9]+$")) {
         return true;
     }
 
