@@ -90,6 +90,10 @@
                                 <td>Kritboll</td>
                                 <td>40 kr</td>
                             </tr>
+                            <tr class="sv">
+                                <td>T-shirt</td>
+                                <td>325 kr</td>
+                            </tr>
                             <tr class="en hidden">
                                 <td>Single entry (1 child under 10 free with paying adult)</td>
                                 <td>60 SEK</td>
@@ -101,6 +105,10 @@
                             <tr class="en hidden">
                                 <td>Chalk ball</td>
                                 <td>40 SEK</td>
+                            </tr>
+                            <tr class="en hidden">
+                                <td>T-shirt</td>
+                                <td>325 SEK</td>
                             </tr>
                         </tbody>
                     </table>

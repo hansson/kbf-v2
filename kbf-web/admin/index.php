@@ -107,6 +107,14 @@
                                     <span class="custom-control-description">Kritboll</span>
                                 </label>
                             </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox">
+                                    <input id="item_11" type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">T-shirt</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="contained">
                             <div>
@@ -312,6 +320,12 @@
                 "id": 8,
                 "name": "Kritboll",
                 "price": 40,
+                "item_type": "checkbox"
+            },
+            {
+                "id": 11,
+                "name": "T-shirt",
+                "price": 325,
                 "item_type": "checkbox"
             }
         ];
