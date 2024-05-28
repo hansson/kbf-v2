@@ -176,7 +176,8 @@ INSERT INTO `prices` (`id`, `name`, `table`, `type`, `price`, `member_price`, `i
 	(7, 'Klättringsavgift', 'open_item', NULL, 50, 40, 0, 'checkbox'),
 	(8, 'Kritboll', 'open_item', NULL, 50, NULL, 0, 'checkbox'),
 	(9, 'Årskort(barn)', 'climbing_fee', 2, NULL, 600, 1, 'checkbox'),
-	(10, 'Terminskort(barn)', 'climbing_fee', 1, NULL, 400, 1, 'checkbox');
+	(10, 'Terminskort(barn)', 'climbing_fee', 1, NULL, 400, 1, 'checkbox'),
+  (11, 'T-shirt', 'open_item', NULL, 325, NULL, 0, 'checkbox');
 
 INSERT INTO `receipt` (`id`, `date`) VALUES
 	('0c0a12c1bf5fb3107caa8cdcd4d95b1ad3d4dc844ffbb534d1', '2018-02-18 15:12:56'),
