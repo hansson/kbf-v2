@@ -2,6 +2,7 @@
     include_once '../../db.php';
     include_once '../../../helpers.php';
     include_once (__DIR__ . '/../../classes/ClimbInfo.php');
+    include_once (__DIR__ . '/../../classes/TagInfo.php');
     
     $config = require "../../../kbf.config.php";
     session_start([
@@ -69,6 +70,13 @@
                     $climbInfo = new ClimbInfo($pnr);
                     if($climbInfo->getFeeValid() != "-") {
                         error("Duplicate fee");
+                        return false;
+                    }
+                    $sql = "INSERT INTO `$table` (pnr, `type`, signed, receipt) VALUES ('$pnr', $type ,'$signed', '$token')";
+                } else if($table == "tag") {
+                    $tagInfo = new TagInfo($pnr);
+                    if($tagInfo->getTagValid() != "-") {
+                        error("Duplicate tag");
                         return false;
                     }
                     $sql = "INSERT INTO `$table` (pnr, `type`, signed, receipt) VALUES ('$pnr', $type ,'$signed', '$token')";

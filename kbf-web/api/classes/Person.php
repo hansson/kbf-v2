@@ -69,6 +69,13 @@
                     WHERE cf.pnr = '$this->pnr' AND p.`table` = 'climbing_fee' AND (i.pnr IS NULL OR i.pnr = '$this->pnr') ORDER BY cf.paymentDate DESC";
             $this->populatePaymentsFromSql($sql);
 
+            $sql = "SELECT i.name, t.paymentDate, t.receipt
+                        FROM tag AS t
+                        INNER JOIN item AS i on i.paymentDate = t.paymentDate
+                        INNER JOIN prices AS p ON p.name = i.name
+                    WHERE t.pnr = '$this->pnr' AND p.`table` = 'tag' AND (i.pnr IS NULL OR i.pnr = '$this->pnr') ORDER BY t.paymentDate DESC";
+            $this->populatePaymentsFromSql($sql);
+
             $sql = "SELECT i.name, m.paymentDate, m.receipt
 	                    FROM membership AS m
 	                    INNER JOIN item AS i on i.paymentDate = m.paymentDate
