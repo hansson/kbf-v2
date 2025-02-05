@@ -110,6 +110,13 @@
                                     <span class="custom-control-description">Terminskort (barn)</span>
                                 </label>
                             </div>
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox" id="label_for_item_12">
+                                    <input id="item_12" type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Utökad tillgång</span>
+                                </label>
+                            </div>
                         </div>
 
 
@@ -224,6 +231,12 @@
                 "id": 10,
                 "name": "Terminskort (barn)",
                 "price": 400,
+                "item_type": "checkbox"
+            },
+            {
+                "id": 12,
+                "name": "Utökad tillgång",
+                "price": 500,
                 "item_type": "checkbox"
             }
         ];

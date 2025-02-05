@@ -25,6 +25,20 @@ CREATE TABLE IF NOT EXISTS `climbing_fee` (
   CONSTRAINT `climbing_fee_signed` FOREIGN KEY (`signed`) REFERENCES `person` (`pnr`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pnr` varchar(15) NOT NULL,
+  `paymentDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` varchar(10) NOT NULL COMMENT '1=semester, 2=year',
+  `signed` varchar(15) NOT NULL,
+  `receipt` varchar(50) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `tag_person_fk` (`pnr`),
+  KEY `tag_signed` (`signed`),
+  CONSTRAINT `tag_person_fk` FOREIGN KEY (`pnr`) REFERENCES `person` (`pnr`),
+  CONSTRAINT `tag_signed` FOREIGN KEY (`signed`) REFERENCES `person` (`pnr`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
 CREATE TABLE IF NOT EXISTS `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -178,6 +192,7 @@ INSERT INTO `prices` (`id`, `name`, `table`, `type`, `price`, `member_price`, `i
 	(9, 'Årskort(barn)', 'climbing_fee', 2, NULL, 600, 1, 'checkbox'),
 	(10, 'Terminskort(barn)', 'climbing_fee', 1, NULL, 400, 1, 'checkbox'),
   (11, 'T-shirt', 'open_item', NULL, 325, NULL, 0, 'checkbox');
+  (12, 'Utökad tillgång', 'tag', 2, NULL, 500, 1, 'checkbox');
 
 INSERT INTO `receipt` (`id`, `date`) VALUES
 	('0c0a12c1bf5fb3107caa8cdcd4d95b1ad3d4dc844ffbb534d1', '2018-02-18 15:12:56'),
@@ -197,5 +212,6 @@ INSERT INTO `ten_card` (`id`, `pnr`, `left`, `card`, `signed`, `receipt`) VALUES
 INSERT INTO `misc` (`type`, `text`) VALUES
 	(1, '<ul>    <li>Kod dörr: XXXX</li>    <li>Kod skåp: XXX</li>    <li>Lösenord kalender: XXXX</li></ul><p> <b>2018-01-08</b>: Nu finns blanka tider upplagda i kalendern. Logga in på karlskronabergsport@gmail.com och välj tider för terminen.    Varje öppetansvarig ska ha minst 5 tider.</p>'),
 	(2, 'https://drive.google.com/open?id=1ifePduIJikGqA_ztWF2TPFhIFA159-G1'),
-	(3, 'https://drive.google.com/open?id=1HNnv9X-DfRtbuiTD-ce53MFdBDmWvf04');
+	(3, 'https://drive.google.com/open?id=1HNnv9X-DfRtbuiTD-ce53MFdBDmWvf04'),
+  (4, '<ul>    <li>Kod dörr: XXXX</li>    </ul>');
 

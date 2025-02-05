@@ -67,6 +67,14 @@
                         $info->print();
                         echo '</div>';
                         echo '</div>';
+                    } else {
+                        echo '<div id="tagInfo" class="contained hidden">';
+                        echo '<div>';
+                        echo '<h4 class="text-center">Information till tagg</h4>';
+                        $info = new MiscInfo(4);
+                        $info->print();
+                        echo '</div>';
+                        echo '</div>';
                     }
                 ?>
                 <div id="open" class="contained hidden">
@@ -174,6 +182,12 @@
             show($("#open"));   
         }, "json").fail(function(response) {
             hide($("#open"));
+        });
+
+        $.get( "../api/private/tag", function(response) {
+            show($("#tagInfo"));   
+        }, "json").fail(function(response) {
+            hide($("#tagInfo"));
         });
 
         $("#checkin").click(function(){
