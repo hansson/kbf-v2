@@ -102,6 +102,13 @@
                                     <span class="custom-control-description">Årskort (barn)</span>
                                 </label>
                             </div>
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox" id="label_for_item_13">
+                                    <input id="item_13" type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Barngrupp</span>
+                                </label>
+                            </div>
 
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox" id="label_for_item_10">
@@ -115,6 +122,13 @@
                                     <input id="item_12" type="checkbox" class="custom-control-input">
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description">Utökad tillgång</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox" id="label_for_item_14">
+                                    <input id="item_14" type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Utökad tillgång (student)</span>
                                 </label>
                             </div>
                         </div>
@@ -237,6 +251,18 @@
                 "id": 12,
                 "name": "Utökad tillgång",
                 "price": 500,
+                "item_type": "checkbox"
+            },
+            {
+                "id": 13,
+                "name": "Barngrupp",
+                "price": 800,
+                "item_type": "checkbox"
+            },
+            {
+                "id": 14,
+                "name": "Utökad tillgång (student)",
+                "price": 300,
                 "item_type": "checkbox"
             }
         ];
