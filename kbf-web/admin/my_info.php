@@ -202,6 +202,7 @@
             };
             $.post( "../api/private/checkin/", JSON.stringify(request), function() {
                 show($("#checked_in"));
+                hide($("#checkin"));
             }, "json").fail(function(response) {
                 show($("#checkin_error"));
             });
