@@ -306,7 +306,7 @@
             {
                 "id": 6,
                 "name": "Skor",
-                "price": 20,
+                "price": 40,
                 "item_type": "amount"
             },
             {
