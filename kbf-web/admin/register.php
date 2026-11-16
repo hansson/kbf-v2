@@ -39,10 +39,10 @@
         <label for="inputLastName">Efternamn</label>
         <input type="text" id="inputLastName" class="form-control" placeholder="Efternamn" autocomplete="family-name" required autofocus>
         <label for="inputPnr">Födelsedatum</label>
+        <input type="number" id="inputPnr" class="form-control" placeholder="YYYYMMDD" inputmode="numeric" required autofocus>
         <div id="pnr_error" class="alert alert-danger hidden" role="alert">
-            <strong>Felaktigt format.</strong>
+            <strong>Felaktigt format, använd födelsedatum med formatet YYYYMMDD.</strong>
         </div>
-        <input type="number" id="inputPnr" class="form-control" placeholder="YYMMDD" inputmode="numeric" required autofocus>
         <label for="inputEmail">Epost</label>
         <input type="email" id="inputEmail" class="form-control" placeholder="Epost" autocomplete="email" inputmode="email" required autofocus>
         <label for="inputPassword">Lösenord</label>
@@ -100,6 +100,7 @@
             $.post( "../api/public/register/", JSON.stringify(request), function(response) {
                 window.location = "login.php?registered=1";
             }, "json").fail(function(response){
+                console.log(response)
                 if(response.responseText && JSON.parse(response.responseText).error === "Bad personal number") {
                     show($("#pnr_error"));
                 } else {
